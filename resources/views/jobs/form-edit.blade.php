@@ -144,12 +144,6 @@
 
                                     </div>
 
-                                    {{-- <input type="hidden" name="job_order_income" id="income"
-                                        value="{{ $jobOrder->job_order_income }}">
-                                    <input type="hidden" name="job_order_expenses" id="expenses"
-                                        value="{{ $jobOrder->job_order_expenses }}">
-                                    <input type="hidden" name="job_order_profit" id="profit"
-                                        value="{{ $jobOrder->job_order_profit }}"> --}}
 
                                 </div>
 
@@ -164,12 +158,13 @@
 
                             <div class="col-md-6">
 
-                                <label for="">Customer Information</label>
+                                <label for="">Customer Information <a href="#"  data-bs-toggle="modal" data-bs-target="#bs-example-modal-lg"> แก้ไขข้อมูล</a></label>
 
                                 <div class="input-group mb-3">
                                     <span class="input-group-text bg-primary text-white">Choose Customer</span>
                                     <select name="job_order_customer" id="customer-id" class="form-select customer-id"
-                                        @if (Auth::user()->isAdmin === 'Operator' && $jobOrder->job_order_status === 'close') disabled @endif required style="width: 75%">
+                                        @if (Auth::user()->isAdmin === 'Operator' && $jobOrder->job_order_status === 'close') disabled @endif required style="width: 75%"
+                                        disabled>
                                         <option value="" disabled selected>Select by Customer</option>
 
                                         @forelse ($customers as $item)
@@ -180,14 +175,13 @@
                                         @endforelse
                                     </select>
                                 </div>
+                            </div>
 
-
+                            <hr>
+                            <div class="col-md-3">
 
                             </div>
 
-
-                            <div class="col-md-9">
-                            </div>
                             <div class="col-md-3 float-end">
                                 <br>
                                 @if ($jobOrder->job_order_status === 'close')
@@ -232,7 +226,7 @@
                                     <input type="text" class="form-control" id="cusntomer-contact" disabled>
                                 </div>
                                 <div class="col-md-12">
-                                    <label>Note</label>
+                                    <label>Note Job</label>
                                     <textarea name="job_order_note" class="form-control" id="" cols="30" rows="2"
                                         @if (Auth::user()->isAdmin === 'Operator' && $jobOrder->job_order_status === 'close') disabled @endif placeholder="Note..">{{ $jobOrder->job_order_note }}</textarea>
                                 </div>
@@ -442,7 +436,7 @@
 
                     @if (Auth::user()->isAdmin === 'Operator' && $jobOrder->job_order_status === 'close')
                     @else
-                        <button type="submit" class="btn btn-success float-end"> <i class="fa fa-save"></i> Seve Job
+                        <button type="submit" class="btn btn-success float-end"> <i class="fa fa-save"></i> Save Job
                             Order</button>
                     @endif
 
@@ -452,6 +446,80 @@
             </div>
         </div>
     </div>
+
+    
+    <!--modal content Edit Customer -->
+    <div class="modal fade" id="bs-example-modal-lg" tabindex="-1" aria-labelledby="bs-example-modal-lg"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header d-flex align-items-center">
+                    <h4 class="modal-title" id="myLargeModalLabel">
+                        Customer Edit
+                    </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <hr>
+
+                <div class="modal-body">
+                    <form action="{{route('joborder.customerUpdate',$customer->customer_id)}}" id="customerUpdate" method="post">
+                        @csrf
+                        @method('PUT')
+                    <div class="row">
+                        <div class="col-md-12 mb-2">
+                            <label>Name</label>
+                            <input type="text" class="form-control" name="customer_name" placeholder="Name" value="{{$customer->customer_name}}">
+                        </div>
+                        <div class="col-md-12 mb-2">
+                            <label>Nationality</label>
+                            <select class="select2 form-control custom-select " id="mySelect2" 
+                            name="customer_nationality" style="width: 100%; height: 36px">
+                            <option>None</option>
+                            @forelse ($nationality as $item)
+                                <option @if ($customer->customer_nationality === $item->nationality_id) selected @endif value="{{ $item->nationality_id }}">{{ $item->nationality_code }} : {{ $item->nationality_name }}
+                                </option>
+                            @empty
+                                No data nationality
+                            @endforelse
+                        </select>
+                        </div>
+
+                        <div class="col-md-12 mb-2">
+                            <label>Passport No</label>
+                            <input type="text" class="form-control" name="customer_passport" placeholder="Passport No." value="{{$customer->customer_passport}}">
+                        </div>
+                        <div class="col-md-12 mb-2">
+                            <label>Tel, Line , WhatsApp</label>
+                            <input type="text" class="form-control" name="customer_contact_media" placeholder="Tel, Line , WhatsApp" value="{{$customer->customer_contact_media}}">
+                        </div>
+                        <div class="col-md-12 mb-2">
+                            <label>Email</label>
+                            <input type="text" class="form-control" name="customer_email" placeholder="Email" value="{{$customer->customer_email}}">
+                        </div>
+                        <div class="col-md-12 mb-2">
+                            <label>Residence in Thailand</label>
+                            <textarea name="customer_address_thailand" class="form-control" id="" cols="30" rows="3" placeholder="Residence in Thailand">{{$customer->customer_address_thailand}}</textarea>
+                        </div>
+                        <div class="col-md-12 mb-2">
+                            <label>Note</label>
+                            <textarea name="customer_note" class="form-control" id="" cols="30" rows="3" placeholder="Note..">{{$customer->customer_note}}</textarea>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" form="customerUpdate"  class="btn btn-light-success text-success font-weight-medium  waves-effect  text-start" data-bs-dismiss="modal">
+                        Save
+                    </button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
 
     {{-- modal add add-transaction" --}}
     <div class="modal fade custom-modal  " id="add-transaction" tabindex="-1"
@@ -499,6 +567,12 @@
             $(document).on('click', '.removeRow', function() {
                 $(this).closest('tr').remove();
             });
+
+            $('#mySelect2').select2({
+                dropdownParent: $('#bs-example-modal-lg')
+            });
+
+
         });
     </script>
 

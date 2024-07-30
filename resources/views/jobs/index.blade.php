@@ -62,7 +62,7 @@
                                         <option value="" disabled selected>Search by Nationality</option>
                                         <option value="">None</option>
                                         @forelse ($nationality as $item)
-                                            <option value="{{ $item->nationality_id }}">{{ $item->nationality_name }}
+                                            <option value="{{ $item->nationality_id }}">{{ $item->nationality_code }} : {{ $item->nationality_name }}
                                             </option>
                                         @empty
                                             No Data Nationality

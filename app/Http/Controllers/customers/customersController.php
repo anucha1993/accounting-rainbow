@@ -111,7 +111,7 @@ class customersController extends Controller
                                     ELSE customer_visa_date_expiry_0
                                 END AS latest_expiry_date');
     
-        $customers = $customers->get();
+        $customers = $customers->orderBy('customer_id','DESC')->get();
     
        
     
@@ -241,6 +241,10 @@ class customersController extends Controller
         if ($selectedFormType === "ed") {
             $formContent = View::make('customers.form-ed-edit', compact('nationality', 'visaType', 'cus', 'files'))->render();
         }
+        if($selectedFormType === NULL){
+            $formContent = View::make('customers.form-null-edit', compact('nationality', 'visaType', 'cus', 'files'))->render();
+        }
+
 
         return response()->json($formContent);
     }

@@ -46,7 +46,7 @@
                         @forelse ($nationality as $item)
                             <option @if ($cus->customer_nationality === $item->nationality_id) selected @endif
                                 value="{{ $item->nationality_id }}">
-                                {{ $item->nationality_name }}</option>
+                                {{ $item->nationality_code }} : {{ $item->nationality_name }}</option>
                         @empty
                             No data nationality
                         @endforelse

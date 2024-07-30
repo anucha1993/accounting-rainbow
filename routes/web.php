@@ -91,6 +91,8 @@ Route::post('job/order/store',[jobOrderController::class,'store'])->name('jobord
 Route::post('job/order/close',[jobOrderController::class,'close'])->name('joborder.close'); 
 Route::post('job/order/reOpen',[jobOrderController::class,'reOpen'])->name('joborder.reOpen'); 
 Route::post('job/select/customer',[jobOrderController::class,'selectCustomer'])->name('joborder.select.selectCustomer'); 
+
+Route::put('job/update/customer/{customersModel}',[jobOrderController::class,'CustomerUpdate'])->name('joborder.customerUpdate'); 
 //vue
 Route::get('job/order/edit/vue/{jobOrder}',[jobOrderControllerVue::class,'editVue'])->name('joborder.edit.vue'); 
 

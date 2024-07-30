@@ -7,12 +7,12 @@
 
                 <div class="modal-header d-flex align-items-center">
                     <h4 class="modal-title line" id="myLargeModalLabel">
-                        Create Job Order 
+                        Create Job Order
                     </h4>
 
                 </div>
                 <br>
-                <form action="{{route('joborder.store')}}" method="POST">
+                <form action="{{ route('joborder.store') }}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-md-3">
@@ -41,26 +41,26 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="input-group mb-3">
-                                        <span class="input-group-text  bg-light-dark" id="basic-addon2">Job Type <label class="text-danger"> *</label></span>
-                                        <select name="job_order_type" id="job-order-type" class="form-select job-order-type">
+                                        <span class="input-group-text  bg-light-dark" id="basic-addon2">Job Type <label
+                                                class="text-danger"> *</label></span>
+                                        <select name="job_order_type" id="job-order-type"
+                                            class="form-select job-order-type">
                                             <option value="service" selected disabled>Other Service</option>
-                                            
+
                                             @forelse ($services as $item)
-                                            <option  value="{{$item->service_group}}">{{$item->service_group}}</option>
+                                                <option value="{{ $item->service_group }}">{{ $item->service_group }}
+                                                </option>
                                             @empty
                                                 No Data Services
                                             @endforelse
-                                           
+
                                         </select>
                                     </div>
                                 </div>
-                                <script>
-                                    
- 
-                                </script>
+                                <script></script>
                                 <div class="col-md-6">
                                     <div class="input-group mb-3">
-                                      
+
                                         <select name="job_order_service" id="service" class="form-select">
                                             <option value="service">Service</option>
                                         </select>
@@ -78,7 +78,8 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="input-group mb-3">
-                                        <span class="input-group-text  bg-light-dark" id="basic-addon2">Source Channel</span>
+                                        <span class="input-group-text  bg-light-dark" id="basic-addon2">Source
+                                            Channel</span>
                                         <select name="job_order_source_channel" class="form-select" required>
                                             <option value="" selected disabled>none</option>
                                             <option value="Walk-in">Walk-In</option>
@@ -106,14 +107,16 @@
                                 <div class="col-md-6">
                                     <div class="input-group mb-3">
                                         <span class="input-group-text">Finish Date :</span>
-                                        <input type="date" class="form-control" name="job_order_finish_date" readonly style="background-color: antiquewhite">
+                                        <input type="date" class="form-control" name="job_order_finish_date" readonly
+                                            style="background-color: antiquewhite">
                                     </div>
                                 </div>
                                 <div class="col-md-6"></div>
                                 <div class="col-md-6 mb-3">
                                     <div class="input-group mb-3">
                                         <span class="input-group-text">Profit :</span>
-                                        <input type="number" class="form-control" name="job_order_profit" placeholder="00.00" readonly style="background-color: antiquewhite">
+                                        <input type="number" class="form-control" name="job_order_profit"
+                                            placeholder="00.00" readonly style="background-color: antiquewhite">
                                     </div>
 
                                     <input type="hidden" name="job_order_income" id="income">
@@ -137,13 +140,14 @@
 
                                 <div class="input-group mb-3">
                                     <span class="input-group-text bg-primary text-white">Choose Customer</span>
-                                    <select name="job_order_customer" id="customer-id" class="form-select customer-id customer" required
-                                        style="width: 75%">
+                                    <select name="job_order_customer" id="customer-id"
+                                        class="form-select customer-id customer" required style="width: 75%">
                                         <option value="CustomerNew">เพิ่มใหม่</option>
                                         <option value="" disabled selected>Select by Customer</option>
 
                                         @forelse ($customers as $item)
-                                            <option @if($customer === $item->customer_id) selected @endif  value="{{ $item->customer_id }}"> {{ $item->customer_name }} </option>
+                                            <option @if ($customer === $item->customer_id) selected @endif
+                                                value="{{ $item->customer_id }}"> {{ $item->customer_name }} </option>
                                         @empty
                                             No Data Customer
                                         @endforelse
@@ -153,10 +157,11 @@
 
 
                             </div>
-                           
+
                             <div class="col-md-6" style="display: none" id="customerNew">
                                 <label>Customer Name</label>
-                                <input type="text" class="form-control" name="customer_name" placeholder="Customer Name">
+                                <input type="text" class="form-control" name="customer_name"
+                                    placeholder="Customer Name">
                             </div>
 
 
@@ -180,52 +185,56 @@
                             <div class="row">
                                 <div class="col-md-4" style="display: none" id="prefixNone">
                                     <label for="">Prefix</label>
-                                 <select name="customer_prefix" class="form-select">
-                                    <option value="MR">MR.</option>
-                                    <option value="MS">MS.</option>
-                                 </select>
-                                   
+                                    <select name="customer_prefix" class="form-select">
+                                        <option value="MR">MR.</option>
+                                        <option value="MS">MS.</option>
+                                    </select>
+
                                 </div>
-                                <div class="col-md-4"  style="display: block" id="prefixBlock">
+                                <div class="col-md-4" style="display: block" id="prefixBlock">
                                     <label for="">Prefix</label>
                                     <input type="text" id="customer-prefix" class="form-control" disabled>
                                 </div>
                                 <div class="col-md-8">
                                     <label>Name</label>
-                                    <input type="text" class="form-control" name="customer_name" id="cusntomer-name" disabled>
+                                    <input type="text" class="form-control" name="customer_name" id="cusntomer-name"
+                                        placeholder="Name" disabled>
                                 </div>
- 
+
                                 <div class="col-md-12" id="div-nationality-show">
                                     <label>Nationality</label>
-                                    <input type="text" class="form-control" name="customer_nationality" id="cusntomer-nationality" disabled>
+                                    <input type="text" class="form-control" name="customer_nationality"
+                                        id="cusntomer-nationality" disabled>
 
-                                    
+
                                 </div>
 
                                 <div class="col-md-12" id="div-nationality" style="display: none">
                                     <label>Nationality</label>
-                                    <select class="select2 form-control custom-select " id="nationality" 
-                                    name="customer_nationality" style="width: 100%; height: 36px">
-
-                                    <option value=""></option>
-                                    @forelse ($nationality as $item)
-                                        <option value="{{ $item->nationality_id }}">{{ $item->nationality_name }}
-                                        </option>
-                                    @empty
-                                        No data nationality
-                                    @endforelse
-                                </select>
+                                    <select class="select2 form-control custom-select " id="nationality"
+                                        name="customer_nationality" style="width: 100%; height: 36px">
+                                        <option>None</option>
+                                        @forelse ($nationality as $item)
+                                            <option value="{{ $item->nationality_id }}">{{ $item->nationality_code }} :
+                                                {{ $item->nationality_name }}
+                                            </option>
+                                        @empty
+                                            No data nationality
+                                        @endforelse
+                                    </select>
 
                                 </div>
 
                                 <div class="col-md-12">
                                     <label>Passport No </label>
-                                    <input type="text" class="form-control" name="customer_passport" id="cusntomer-passport" disabled>
+                                    <input type="text" class="form-control" name="customer_passport"
+                                        id="cusntomer-passport" placeholder="Passport Number" disabled>
                                 </div>
 
                                 <div class="col-md-12">
                                     <label>Tel, Line , WhatsApp</label>
-                                    <input type="text" class="form-control" name="customer_contact_media" id="cusntomer-contact" disabled>
+                                    <input type="text" class="form-control" name="customer_contact_media"
+                                        id="cusntomer-contact" placeholder="contact" disabled>
                                 </div>
 
 
@@ -236,13 +245,14 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <label>Residence in Thailand</label>
-                                    <textarea name="customer_address_thailand" class="form-control" id="customer-address-th" cols="30" rows="7"
-                                        disabled></textarea>
+                                    <textarea name="customer_address_thailand" class="form-control" id="customer-address-th"
+                                        placeholder="Residence in Thailand" cols="30" rows="7" disabled></textarea>
                                 </div>
 
                                 <div class="col-md-12">
                                     <label>Email</label>
-                                    <input type="text" name="customer_email" class="form-control" id="customer-email" disabled>
+                                    <input type="text" name="customer_email" class="form-control" id="customer-email"
+                                        placeholder="Email" disabled>
                                 </div>
                             </div>
 
@@ -256,8 +266,8 @@
                             <h6>Statement Transaction </h6>
                         </div>
                         <div class="col-md-6">
-                            <a href="{{ route('transaction.create') }}"
-                                class="btn btn-primary btn-add-transaction"><i class="far fa-plus-square"></i> New
+                            <a href="{{ route('transaction.create') }}" class="btn btn-primary btn-add-transaction"><i
+                                    class="far fa-plus-square"></i> New
                                 Transaction</a>
                             {{-- <a href="#" class="btn btn-danger"><i class="far fas fa-print"></i> Print ใบเสร็จ</a> --}}
 
@@ -322,9 +332,8 @@
 
     {{-- modal add customer --}}
 
-
-    <div class="modal fade custom-modal  transaction-modal" id="add-transaction" tabindex="-1" aria-labelledby="vertical-center-transaction"
-        aria-hidden="true">
+    <div class="modal fade custom-modal  transaction-modal" id="add-transaction" tabindex="-1"
+        aria-labelledby="vertical-center-transaction" aria-hidden="true">
 
 
         <div class="modal-dialog modal-dialog-centered">
@@ -363,46 +372,45 @@
     <input type="hidden" name="_token" id="_token" value="{{ csrf_token() }}" />
 
     <script>
-      const _token = $('#_token').val();
-      const customerRoute = "{{ route('joborder.select.selectCustomer') }}";
-      const  serviceRouter =  "{{ route('joborder.service')}}";
-
+        const _token = $('#_token').val();
+        const customerRoute = "{{ route('joborder.select.selectCustomer') }}";
+        const serviceRouter = "{{ route('joborder.service') }}";
     </script>
-    
-    <script src="{{URL::asset('js/jobs/job-create.js')}}"></script>
+
+    <script src="{{ URL::asset('js/jobs/job-create.js') }}"></script>
 
     <script>
-        $(document).ready(function () {
-            $('.customer').on('change', function(){
-               var customerNew = $(this).val();
-    
-                if(customerNew === 'CustomerNew'){
+        $(document).ready(function() {
+            $('.customer').on('change', function() {
+                var customerNew = $(this).val();
+
+                if (customerNew === 'CustomerNew') {
                     $('#customerNew').css("display", "block");
-                    $('#cusntomer-name').prop('disabled',false)
+                    $('#cusntomer-name').prop('disabled', false)
                     $('#cusntomer-name').val('');
-                    $('#cusntomer-nationality').prop('disabled',false)
+                    $('#cusntomer-nationality').prop('disabled', false)
                     $('#cusntomer-nationality').val('');
-                    $('#cusntomer-passport').prop('disabled',false)
+                    $('#cusntomer-passport').prop('disabled', false)
                     $('#cusntomer-passport').val('');
-                    $('#cusntomer-contact').prop('disabled',false)
+                    $('#cusntomer-contact').prop('disabled', false)
                     $('#cusntomer-contact').val('');
-                    $('#customer-address-th').prop('disabled',false)
+                    $('#customer-address-th').prop('disabled', false)
                     $('#customer-address-th').val('');
-                    $('#customer-email').prop('disabled',false)
+                    $('#customer-email').prop('disabled', false)
                     $('#customer-email').val('');
 
                     $('#prefixNone').css("display", "block");
                     $('#prefixBlock').css("display", "none");
                     $('#div-nationality').css("display", "block");
                     $('#div-nationality-show').css("display", "none");
-                }else{
+                } else {
                     $('#customerNew').css("display", "none");
-                    $('#cusntomer-name').prop('disabled',true)
-                    $('#cusntomer-nationality').prop('disabled',true)
-                    $('#cusntomer-passport').prop('disabled',true)
-                    $('#cusntomer-contact').prop('disabled',true)
-                    $('#customer-address-th').prop('disabled',true)
-                    $('#customer-email').prop('disabled',true)
+                    $('#cusntomer-name').prop('disabled', true)
+                    $('#cusntomer-nationality').prop('disabled', true)
+                    $('#cusntomer-passport').prop('disabled', true)
+                    $('#cusntomer-contact').prop('disabled', true)
+                    $('#customer-address-th').prop('disabled', true)
+                    $('#customer-email').prop('disabled', true)
 
                     $('#prefixBlock').css("display", "block");
                     $('#prefixNone').css("display", "none");
@@ -410,6 +418,8 @@
                     $('#div-nationality-show').css("display", "block");
                 }
             });
+
+          
         })
     </script>
 @endsection

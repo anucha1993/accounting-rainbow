@@ -45,7 +45,7 @@
 
                         <option value="" ></option>
                         @forelse ($nationality as $item)
-                            <option value="{{ $item->nationality_id }}">{{ $item->nationality_name }}</option>
+                            <option value="{{ $item->nationality_id }}">{{ $item->nationality_code }} : {{ $item->nationality_name }}</option>
                         @empty
                             No data nationality
                         @endforelse

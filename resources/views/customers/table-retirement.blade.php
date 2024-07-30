@@ -24,7 +24,7 @@
                     <td>{{ $item->customer_prefix }}</td>
                     <td>{{ $item->customer_name }}</td>
                     <td>{{ $item->nationality_name }}</td>
-                    <td>{{ $item->customer_passport }}</td>
+                    <td>{{ $item->customer_passport ? : '-' }}</td>
                     <td>{{ $item->customer_birthday ? date('d-m-Y', strtotime($item->customer_birthday)) : '-' }}
                     </td>
                     <td>{{ $item->customer_passport_expire_date ? date('d-m-Y', strtotime($item->customer_passport_expire_date)) : '-' }}
@@ -44,7 +44,7 @@
                                 id="hide-{{ $key }}">Hide</a>
                         </p>
                     </td>
-                    <td>{{ $item->customer_email }}</td>
+                    <td>{{ $item->customer_email ? : '-' }}</td>
                     <td style="width: 10%">
                         <span id="span-note-show-{{ $key }}">{{ substr($item->customer_note, 0, 15) }}
                             <a href="#" data-id="{{ $key }}" class="btn-show-note"

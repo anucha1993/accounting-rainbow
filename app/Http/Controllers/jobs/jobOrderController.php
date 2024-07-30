@@ -165,6 +165,7 @@ class jobOrderController extends Controller
 
     public function edit(Request $request, JobOrderModel $jobOrder)
     {
+        $nationality  = DB::table('nationality')->get();
         $services = DB::table('services')->select('service_group')->distinct()->get();
         $transaction = transactionModel::where('transaction_job', $jobOrder->job_order_id)
             ->leftjoin('transaction_group', 'transaction_group.transaction_group_id', 'transactions.transaction_group')
@@ -172,6 +173,7 @@ class jobOrderController extends Controller
             ->orderBy('transaction_id', 'desc')->get();
 
         $customers = customersModel::orderBy('customer_id', 'desc')->get();
+        $customer = customersModel::where('customer_id',$jobOrder->job_order_customer)->first();
         $jobOrder = JobOrderModel::where('job_order_id', $jobOrder->job_order_id)->leftjoin('services', 'services.service_id', 'job_order.job_order_service')->first();
 
 
@@ -179,7 +181,7 @@ class jobOrderController extends Controller
         $transactionGroup = DB::table('transaction_group')->orderBy('transaction_group_id', 'desc')->get();
 
 
-        return view('jobs.form-edit', compact('customers', 'jobOrder', 'transaction', 'services', 'transactionGroup', 'walletType'));
+        return view('jobs.form-edit', compact('nationality','customer','customers', 'jobOrder', 'transaction', 'services', 'transactionGroup', 'walletType'));
     }
 
 
@@ -297,5 +299,11 @@ class jobOrderController extends Controller
         } else {
             return response()->json(['success' => false, 'message' => 'Invalid Job ID']);
         }
+    }
+
+    public function CustomerUpdate(customersModel $customersModel, Request $request)
+    {
+        $customersModel->update($request->all());
+        return redirect()->back();
     }
 }

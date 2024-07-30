@@ -23,7 +23,7 @@
                 <tr  data-id="{{$item->customer_id}}">
                     <td>{{ $item->customer_name }}</td>
                     <td>{{ $item->customer_code }}</td>
-                    <td>{{ $item->nationality_name }}</td>
+                    <td>{{ $item->nationality_name ? : '-' }}</td>
                     <td>{{ $item->customer_passport }}</td>
                     <td>{{  date('d-m-Y', strtotime($item->customer_passport_expire_date ))}}</td>
                     <td>{{ ($item->customer_visa_date_expiry_0 !== NULL ?  date('d-m-Y', strtotime($item->customer_visa_date_expiry_0)) : '-' )}}</td>
