@@ -52,10 +52,6 @@
                             Select Visa Type 
                         </div>
 
-
-
-                       
-
                     </form>
                 </div>
             </div>

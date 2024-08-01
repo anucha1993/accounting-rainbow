@@ -7,10 +7,10 @@
 
                 <div class="modal-header d-flex align-items-center">
                     <h4 class="modal-title line" id="myLargeModalLabel">
-                        Create Job Order
+                        Create Job Order 
                     </h4>
-
                 </div>
+               
                 <br>
                 <form action="{{ route('joborder.store') }}" method="POST">
                     @csrf
@@ -128,8 +128,9 @@
                             </div>
                         </div>
                     </div>
-
-
+                     @php
+                      $customer = request()->get('customerID');
+                      @endphp
 
                     <div class="row">
                         <div class="input-group mb-3">
@@ -146,7 +147,7 @@
                                         <option value="" disabled selected>Select by Customer</option>
 
                                         @forelse ($customers as $item)
-                                            <option @if ($customer === $item->customer_id) selected @endif
+                                            <option @if ($customer == $item->customer_id) selected @endif 
                                                 value="{{ $item->customer_id }}"> {{ $item->customer_name }} </option>
                                         @empty
                                             No Data Customer

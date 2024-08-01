@@ -133,6 +133,8 @@ class jobOrderController extends Controller
     public function store(Request $request)
     {
 
+      
+
         if($request->job_order_customer === 'CustomerNew') {
             $customer = customersModel::create($request->all());
             $request->merge(['job_order_customer' => $customer->customer_id]);
@@ -160,6 +162,7 @@ class jobOrderController extends Controller
                 ]);
             }
         }
+
         return redirect()->route('joborder.edit', $jobOrder->job_order_id)->with('success', 'Created Job Order Successfully');
     }
 

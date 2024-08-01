@@ -163,6 +163,7 @@ class customersController extends Controller
      */
     public function store(Request $request)
     {
+        //dd($request);
         //
         $request->merge(['created_by' => Auth::user()->name . ' ' . Auth::user()->lastname]);
         $lastestID = customersModel::create($request->all());
@@ -191,11 +192,18 @@ class customersController extends Controller
                 }
             }
         }
+        
+         $customerID = $lastestID->customer_id;
+        if($request->addJobOrder) {
+            return redirect()->route('joborder.craete',compact('customerID'));
+        }else{
+            return redirect()->route('customer.index')->with('success', 'Create Customer Successfully');
+        }
 
 
 
 
-        return redirect()->route('customer.index')->with('success', 'Create Customer Successfully');
+      
     }
 
     /**
@@ -276,7 +284,6 @@ class customersController extends Controller
     public function update(Request $request, customersModel $customersModel)
     {
         //
-       //dd($request);
 
         $request->merge(['updated_by' => Auth::user()->name . ' ' . Auth::user()->lastname]);
 
@@ -310,14 +317,14 @@ class customersController extends Controller
             }
         }
 
-        $customer = $customersModel->customer_id;
+        $customerID = $customersModel->customer_id;
 
 
         if($request->addJob === 'addJob') {
-            $services = DB::table('services')->select('service_group')->distinct()->get();
-            $customers = customersModel::orderBy('customer_id', 'desc')->get();
+            // $services = DB::table('services')->select('service_group')->distinct()->get();
+            // $customers = customersModel::orderBy('customer_id', 'desc')->get();
             
-            return view('jobs.form-create', compact('customers', 'services','customer'));
+            return redirect()->route('joborder.craete',compact('customerID'));
         }else{
             return redirect()->back()->with('success', 'Update Customer Successfully');
         }
