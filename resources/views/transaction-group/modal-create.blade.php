@@ -58,9 +58,9 @@
 
         var transactionName = $('#transaction-name').val();
   
-        var transactionStatus =  $('input[name="transaction_groupp_status"]:checked').val();
+        var transactionStatus =  $('input[name="transaction_group_status"]:checked').val();
 
-        var transactionType = $('input[name="transaction_groupp_type"]:checked').val();
+        var transactionType = $('input[name="transaction_group_type"]:checked').val();
    
 
 

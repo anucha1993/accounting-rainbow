@@ -90,7 +90,10 @@ class jobOrderController extends Controller
         $nationality  = DB::table('nationality')->get();
         $services = DB::table('services')->select('service_group')->distinct()->get();
         $customers = customersModel::orderBy('customer_id', 'desc')->get();
-        return view('jobs.form-create', compact('customers', 'services','customer','nationality'));
+        $transactionGroup = DB::table('transaction_group')->orderBy('transaction_group_id', 'desc')->get();
+        $walletType = DB::table('wallet_type')->orderBy('wallet_type_id', 'desc')->get();
+
+        return view('jobs.form-create', compact('customers', 'services','customer','nationality','transactionGroup','walletType'));
     }
 
 
@@ -149,19 +152,43 @@ class jobOrderController extends Controller
 
         $jobOrder = JobOrderModel::create($request->all());
 
-        if ($request->transaction_date) {
-            foreach ($request->transaction_date as $key => $value) {
-                transactionModel::create([
-                    'transaction_type' => $request->transaction_type[$key],
-                    'transaction_date' => $request->transaction_date[$key],
-                    'transaction_wallet' => $request->transaction_wallet[$key],
-                    'transaction_amount' => $request->transaction_amount[$key],
-                    'transaction_job' => $jobOrder->job_order_id,
-                    'transaction_group' => $request->transaction_group[$key],
-                    'transaction_job_number' => $jobOrder->job_order_number,
-                ]);
+        if ($request->transaction_typeNew) {
+            foreach ($request->transaction_typeNew as $key => $value) {
+                if (!empty($request->transaction_typeNew[$key])) {
+                    transactionModel::create([
+                        'transaction_type' => $request->transaction_typeNew[$key],
+                        'transaction_date' => $request->transaction_dateNew[$key],
+                        'transaction_wallet' => $request->transaction_walletNew[$key],
+                        'transaction_amount' => $request->transaction_amountNew[$key],
+                        'transaction_job' => $jobOrder->job_order_id,
+                        'transaction_group' => $request->transaction_groupNew[$key],
+                        'transaction_job_number' => $jobOrder->job_order_number,
+                    ]);
+                }
+
             }
+
         }
+
+        //คำนวนค่าใช้จ่าย
+        $income = 0;
+        $expenses = 0;
+
+        $transactionProfit = transactionModel::where('transaction_job',$jobOrder->job_order_id)->get();
+        foreach ($transactionProfit as  $key => $value ) {
+              if($value->transaction_type === 'income') {
+                 $income += $value->transaction_amount;
+              }else{
+                $expenses += $value->transaction_amount;
+              }
+        }
+
+        $jobOrder->update([
+            'job_order_income' => $income,
+            'job_order_expenses' => $expenses,
+            'job_order_profit' => $income - $expenses // กำไรควรเป็นรายรับลบด้วยรายจ่าย
+        ]);
+
 
         return redirect()->route('joborder.edit', $jobOrder->job_order_id)->with('success', 'Created Job Order Successfully');
     }

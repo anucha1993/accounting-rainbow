@@ -284,7 +284,7 @@ class customersController extends Controller
     public function update(Request $request, customersModel $customersModel)
     {
         //
-
+    
         $request->merge(['updated_by' => Auth::user()->name . ' ' . Auth::user()->lastname]);
 
         $customersModel->update($request->all());
@@ -320,10 +320,7 @@ class customersController extends Controller
         $customerID = $customersModel->customer_id;
 
 
-        if($request->addJob === 'addJob') {
-            // $services = DB::table('services')->select('service_group')->distinct()->get();
-            // $customers = customersModel::orderBy('customer_id', 'desc')->get();
-            
+        if($request->addJobOrder) {
             return redirect()->route('joborder.craete',compact('customerID'));
         }else{
             return redirect()->back()->with('success', 'Update Customer Successfully');

@@ -158,7 +158,8 @@
 
                             <div class="col-md-6">
 
-                                <label for="">Customer Information <a href="#"  data-bs-toggle="modal" data-bs-target="#bs-example-modal-lg"> แก้ไขข้อมูล</a></label>
+                                <label for="">Customer Information <a href="#" data-bs-toggle="modal"
+                                        data-bs-target="#bs-example-modal-lg"> แก้ไขข้อมูล</a></label>
 
                                 <div class="input-group mb-3">
                                     <span class="input-group-text bg-primary text-white">Choose Customer</span>
@@ -377,7 +378,6 @@
                                             </td>
                                         </tr>
 
-
                                     @empty
                                         No Data Transaction found
                                     @endforelse
@@ -447,7 +447,7 @@
         </div>
     </div>
 
-    
+
     <!--modal content Edit Customer -->
     <div class="modal fade" id="bs-example-modal-lg" tabindex="-1" aria-labelledby="bs-example-modal-lg"
         aria-hidden="true">
@@ -462,54 +462,65 @@
                 <hr>
 
                 <div class="modal-body">
-                    <form action="{{route('joborder.customerUpdate',$customer->customer_id)}}" id="customerUpdate" method="post">
+                    <form action="{{ route('joborder.customerUpdate', $customer->customer_id) }}" id="customerUpdate"
+                        method="post">
                         @csrf
                         @method('PUT')
-                    <div class="row">
-                        <div class="col-md-12 mb-2">
-                            <label>Name</label>
-                            <input type="text" class="form-control" name="customer_name" placeholder="Name" value="{{$customer->customer_name}}">
-                        </div>
-                        <div class="col-md-12 mb-2">
-                            <label>Nationality</label>
-                            <select class="select2 form-control custom-select " id="mySelect2" 
-                            name="customer_nationality" style="width: 100%; height: 36px">
-                            <option>None</option>
-                            @forelse ($nationality as $item)
-                                <option @if ($customer->customer_nationality === $item->nationality_id) selected @endif value="{{ $item->nationality_id }}">{{ $item->nationality_code }} : {{ $item->nationality_name }}
-                                </option>
-                            @empty
-                                No data nationality
-                            @endforelse
-                        </select>
-                        </div>
+                        <div class="row">
+                            <div class="col-md-12 mb-2">
+                                <label>Name</label>
+                                <input type="text" class="form-control" name="customer_name" placeholder="Name"
+                                    value="{{ $customer->customer_name }}">
+                            </div>
+                            <div class="col-md-12 mb-2">
+                                <label>Nationality</label>
+                                <select class="select2 form-control custom-select " id="mySelect2"
+                                    name="customer_nationality" style="width: 100%; height: 36px">
+                                    <option>None</option>
+                                    @forelse ($nationality as $item)
+                                        <option @if ($customer->customer_nationality === $item->nationality_id) selected @endif
+                                            value="{{ $item->nationality_id }}">{{ $item->nationality_code }} :
+                                            {{ $item->nationality_name }}
+                                        </option>
+                                    @empty
+                                        No data nationality
+                                    @endforelse
+                                </select>
+                            </div>
 
-                        <div class="col-md-12 mb-2">
-                            <label>Passport No</label>
-                            <input type="text" class="form-control" name="customer_passport" placeholder="Passport No." value="{{$customer->customer_passport}}">
-                        </div>
-                        <div class="col-md-12 mb-2">
-                            <label>Tel, Line , WhatsApp</label>
-                            <input type="text" class="form-control" name="customer_contact_media" placeholder="Tel, Line , WhatsApp" value="{{$customer->customer_contact_media}}">
-                        </div>
-                        <div class="col-md-12 mb-2">
-                            <label>Email</label>
-                            <input type="text" class="form-control" name="customer_email" placeholder="Email" value="{{$customer->customer_email}}">
-                        </div>
-                        <div class="col-md-12 mb-2">
-                            <label>Residence in Thailand</label>
-                            <textarea name="customer_address_thailand" class="form-control" id="" cols="30" rows="3" placeholder="Residence in Thailand">{{$customer->customer_address_thailand}}</textarea>
-                        </div>
-                        <div class="col-md-12 mb-2">
-                            <label>Note</label>
-                            <textarea name="customer_note" class="form-control" id="" cols="30" rows="3" placeholder="Note..">{{$customer->customer_note}}</textarea>
-                        </div>
+                            <div class="col-md-12 mb-2">
+                                <label>Passport No</label>
+                                <input type="text" class="form-control" name="customer_passport"
+                                    placeholder="Passport No." value="{{ $customer->customer_passport }}">
+                            </div>
+                            <div class="col-md-12 mb-2">
+                                <label>Tel, Line , WhatsApp</label>
+                                <input type="text" class="form-control" name="customer_contact_media"
+                                    placeholder="Tel, Line , WhatsApp" value="{{ $customer->customer_contact_media }}">
+                            </div>
+                            <div class="col-md-12 mb-2">
+                                <label>Email</label>
+                                <input type="text" class="form-control" name="customer_email" placeholder="Email"
+                                    value="{{ $customer->customer_email }}">
+                            </div>
+                            <div class="col-md-12 mb-2">
+                                <label>Residence in Thailand</label>
+                                <textarea name="customer_address_thailand" class="form-control" id="" cols="30" rows="3"
+                                    placeholder="Residence in Thailand">{{ $customer->customer_address_thailand }}</textarea>
+                            </div>
+                            <div class="col-md-12 mb-2">
+                                <label>Note</label>
+                                <textarea name="customer_note" class="form-control" id="" cols="30" rows="3"
+                                    placeholder="Note..">{{ $customer->customer_note }}</textarea>
+                            </div>
 
-                    </div>
+                        </div>
                 </div>
 
                 <div class="modal-footer">
-                    <button type="submit" form="customerUpdate"  class="btn btn-light-success text-success font-weight-medium  waves-effect  text-start" data-bs-dismiss="modal">
+                    <button type="submit" form="customerUpdate"
+                        class="btn btn-light-success text-success font-weight-medium  waves-effect  text-start"
+                        data-bs-dismiss="modal">
                         Save
                     </button>
                 </div>
@@ -552,7 +563,30 @@
 
 
     <script>
+        function updateRowColor(row) {
+            var type = row.find('select[name="transaction_typeEdit[]"]').val();
+            if (type === 'income') {
+                row.find('input, select').css('background-color', '#26ff8042');
+            } else if (type === 'expenses') {
+                row.find('input, select').css('background-color', '#ff0a2a3d');
+            } else {
+                row.find('input, select').css('background-color', '');
+            }
+        }
+
         $(document).ready(function() {
+
+            // อัปเดตสีสำหรับแถวที่มีอยู่แล้ว
+            $('tr[id^="row-template-edit"]').each(function() {
+                updateRowColor($(this));
+            });
+
+            // ฟังการเปลี่ยนแปลงของ select ที่ชื่อว่า transaction_typeEdit[]
+            $('select[name="transaction_typeEdit[]"]').change(function() {
+                updateRowColor($(this).closest('tr'));
+            });
+
+
             $('#addRow').click(function(event) {
                 event.preventDefault();
                 var newRow = $('#row-template').clone().removeAttr('id').removeAttr('style');
@@ -561,7 +595,23 @@
                 newRow.find('select[name="transaction_typeNew[]"]').attr('required', true);
                 newRow.find('select[name="transaction_walletNew[]"]').attr('required', true);
                 newRow.find('select[name="transaction_amountNew[]"]').attr('required', true);
-                $('table tbody').append(newRow);
+               
+                  // ฟังการเปลี่ยนแปลงของ select ที่ชื่อว่า transaction_typeNew
+                  newRow.find('select[name="transaction_typeNew[]"]').change(function() {
+                    var type = $(this).val();
+                    if (type === 'income') {
+                        // newRow.css('background-color', '#26ff8042');
+                        newRow.find('input, select').css('background-color', '#26ff8042');
+                    } else if (type === 'expenses') {
+                        // newRow.css('background-color', '#ff0a2a3d');
+                        newRow.find('input, select').css('background-color', '#ff0a2a3d');
+                    } else {
+                        // newRow.css('background-color', '');
+                        newRow.find('input, select').css('background-color', '');
+                    }
+                });
+                
+                $('table tbody').prepend(newRow);
             });
 
             $(document).on('click', '.removeRow', function() {

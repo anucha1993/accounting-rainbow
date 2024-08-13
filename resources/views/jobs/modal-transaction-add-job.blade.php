@@ -114,7 +114,6 @@
         function handleFormSubmit() {
             $('#addTransactionForm').off('submit').on('submit', function(e) {
                 e.preventDefault();
-
                 var transactionDate = $('#transaction-date').val();
                 var formattedDate = formatDate(transactionDate);
                 var transactionType = $('#transaction-type').val();

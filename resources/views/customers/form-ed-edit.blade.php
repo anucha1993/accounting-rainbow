@@ -261,7 +261,7 @@
 
     <div class="modal-footer">
 
-        <button type="submit" class="btn btn-primary">Save and Add Job Order</button> &nbsp; &nbsp;
+        <button type="submit" name="addJobOrder" value="addJobOrder" class="btn btn-primary">Save and Add Job Order</button> &nbsp; &nbsp;
         &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
         <button type="submit" class="btn btn-success">Save</button>
         &nbsp;

@@ -34,7 +34,7 @@
                                         <td class="transation-status">{{ $item->transaction_group_status }}</td>
                                         <td>
                                             <a href="{{ route('transactionGroup.edit', $item->transaction_group_id) }}"class="text-info btn-transaction-edit">แก้ไข</a> |
-                                            <a href="#" class="text-danger delete-btn">ลบ</a>
+                                            <a href="#" class="text-danger delete-btn" data-id="{{$item->transaction_group_id}}">ลบ</a>
                                         </td>
                                     </tr>
                                 @empty
@@ -113,10 +113,10 @@
             var walletId = row.attr('data-id');
             console.log(walletId);
             $.ajax({
-                url: '{{ route('wallet.delete') }}',
+                url: '{{ route('transactionGroup.delete') }}',
                 method: 'POST',
                 data: {
-                    id: walletId,
+                    walletId: walletId,
                     _token: '{{ csrf_token() }}'
                 },
                 success: function(response) {

@@ -11,11 +11,13 @@ use App\Http\Controllers\customers\fileController;
 use App\Http\Controllers\selects\selectsController;
 use App\Http\Controllers\customers\ninetyController;
 use App\Http\Controllers\jobs\transactionController;
-use App\Http\Controllers\customers\visaTypeController;
+
+use App\Http\Controllers\visaType\visaTypeController;
 use App\Http\Controllers\customers\customersController;
 use App\Http\Controllers\dashboards\dashbordController;
 use App\Http\Controllers\jobs\vue\jobOrderControllerVue;
 use App\Http\Controllers\jobs\transactionGroupController;
+use App\Http\Controllers\services\serviceController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -126,9 +128,26 @@ Route::middleware(['IsAdmin'])->group(function () {
 //Transaction
 Route::get('transaction/create',[transactionController::class, 'create'])->name('transaction.create');
 Route::get('transaction/edit/{transaction}',[transactionController::class, 'edit'])->name('transaction.edit');
+
+Route::middleware(['IsAdmin'])->group(function () {
 Route::post('transaction/delete',[transactionController::class, 'delete'])->name('transaction.delete');
+});
+
+// Visa Type
+
+Route::get('visa/type',[visaTypeController::class,'index'])->name('visaType.index');
+Route::get('visa/modal/edit/{visaTypeModel}',[visaTypeController::class,'edit'])->name('visaType.edit');
+Route::post('visa/store',[visaTypeController::class,'store'])->name('visaType.store');
+Route::middleware(['IsAdmin'])->group(function () {
+
+Route::get('visa/delete/{visaTypeModel}',[visaTypeController::class,'delete'])->name('visaType.delete');
+});
+Route::put('visa/update/{visaTypeModel}',[visaTypeController::class,'update'])->name('visaType.update');
 
 
-
-
-
+// Services
+Route::get('services',[serviceController::class,'index'])->name('service.index');
+Route::post('service/store',[serviceController::class,'store'])->name('service.store');
+Route::get('service/edit/{serviceModel}',[serviceController::class,'edit'])->name('service.edit');
+Route::get('service/delete/{serviceModel}',[serviceController::class,'delete'])->name('service.delete');
+Route::put('service/update/{serviceModel}',[serviceController::class,'update'])->name('service.update');

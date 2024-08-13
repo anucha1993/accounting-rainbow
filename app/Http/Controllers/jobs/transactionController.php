@@ -23,4 +23,6 @@ class transactionController extends Controller
         $transactionGroup = DB::table('transaction_group')->orderBy('transaction_group_id', 'desc')->get();
         return view('transaction.modal-edit', compact('walletType', 'transactionGroup','transaction'));
     }
+
+   
 }

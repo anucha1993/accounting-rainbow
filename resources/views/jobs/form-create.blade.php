@@ -7,10 +7,10 @@
 
                 <div class="modal-header d-flex align-items-center">
                     <h4 class="modal-title line" id="myLargeModalLabel">
-                        Create Job Order 
+                        Create Job Order
                     </h4>
                 </div>
-               
+
                 <br>
                 <form action="{{ route('joborder.store') }}" method="POST">
                     @csrf
@@ -128,9 +128,9 @@
                             </div>
                         </div>
                     </div>
-                     @php
-                      $customer = request()->get('customerID');
-                      @endphp
+                    @php
+                        $customer = request()->get('customerID');
+                    @endphp
 
                     <div class="row">
                         <div class="input-group mb-3">
@@ -147,7 +147,7 @@
                                         <option value="" disabled selected>Select by Customer</option>
 
                                         @forelse ($customers as $item)
-                                            <option @if ($customer == $item->customer_id) selected @endif 
+                                            <option @if ($customer == $item->customer_id) selected @endif
                                                 value="{{ $item->customer_id }}"> {{ $item->customer_name }} </option>
                                         @empty
                                             No Data Customer
@@ -267,7 +267,7 @@
                             <h6>Statement Transaction </h6>
                         </div>
                         <div class="col-md-6">
-                            <a href="{{ route('transaction.create') }}" class="btn btn-primary btn-add-transaction"><i
+                            <a href="{{ route('transaction.create') }}" class="btn btn-primary" id="addRow"><i
                                     class="far fa-plus-square"></i> New
                                 Transaction</a>
                             {{-- <a href="#" class="btn btn-danger"><i class="far fas fa-print"></i> Print ใบเสร็จ</a> --}}
@@ -301,17 +301,47 @@
 
                                 <tbody id="transactionTableBody">
 
-                                    {{-- <tr class="text-center">
-                                            <td>24-Mar-2024</td>
-                                            <td>TM.30 +</td>
-                                            <td>700.00฿</td>
-                                            <td>300.00</td>
-                                            <td>เครื่องรูดบัตรออมสิน / ออมสิน Fon</td>
-                                            <td>
-                                                <a href="#" class="text-info edit-btn"> แก้ไข</a> |
-                                                <a href="#" class="text-danger delete-btn"> ลบ</a>
-                                            </td>
-                                        </tr> --}}
+                                    <tr id="row-template" style="display: none;">
+                                        <td><input type="date" name="transaction_dateNew[]" class="form-control" />
+                                        </td>
+                                        <td>
+                                            <select name="transaction_groupNew[]" class="form-select">
+                                                <option value="">None</option>
+                                                @forelse ($transactionGroup as $item)
+                                                    <option data-transaction="{{ $item->transaction_group_name }}"
+                                                        value="{{ $item->transaction_group_id }}">
+                                                        {{ $item->transaction_group_name }}</option>
+                                                @empty
+                                                    No Data
+                                                @endforelse
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="transaction_typeNew[]" id="transaction-type"
+                                                class="form-select transaction-type">
+                                                <option value="">None</option>
+                                                <option value="income">รายรับ</option>
+                                                <option value="expenses">รายจ่าย</option>
+                                            </select>
+                                        </td>
+                                        <td><input type="number" name="transaction_amountNew[]" class="form-control" />
+                                        </td>
+                                        <td>
+                                            <select name="transaction_walletNew[]" class="form-select">
+                                                <option value="">None</option>
+                                                @forelse ($walletType as $item)
+                                                    <option data-wallet="{{ $item->wallet_type_name }}"
+                                                        value="{{ $item->wallet_type_id }}">
+                                                        {{ $item->wallet_type_name }}</option>
+                                                @empty
+                                                    No Data
+                                                @endforelse
+                                            </select>
+                                        </td>
+                                        <td class="text-center">
+                                            <button class="btn btn-danger btn-sm removeRow">Remove</button>
+                                        </td>
+                                    </tr>
 
                                 </tbody>
 
@@ -370,7 +400,7 @@
 
 
 
-    <input type="hidden" name="_token" id="_token" value="{{ csrf_token() }}" />
+    <input type="hidden" name="_token" id="_token" value="{{ csrf_token() }}" style="background-color: #ff0a2a3d" />
 
     <script>
         const _token = $('#_token').val();
@@ -382,6 +412,41 @@
 
     <script>
         $(document).ready(function() {
+            $('#addRow').click(function(event) {
+                event.preventDefault();
+                var newRow = $('#row-template').clone().removeAttr('id').removeAttr('style');
+                newRow.find('select[name="transaction_dateNew[]"]').attr('required', true);
+                newRow.find('select[name="transaction_groupNew[]"]').attr('required', true);
+                newRow.find('select[name="transaction_typeNew[]"]').attr('required', true);
+                newRow.find('select[name="transaction_walletNew[]"]').attr('required', true);
+                newRow.find('select[name="transaction_amountNew[]"]').attr('required', true);
+
+                // ฟังการเปลี่ยนแปลงของ select ที่ชื่อว่า transaction_typeNew
+                newRow.find('select[name="transaction_typeNew[]"]').change(function() {
+                    var type = $(this).val();
+                    if (type === 'income') {
+                        // newRow.css('background-color', '#26ff8042');
+                        newRow.find('input, select').css('background-color', '#26ff8042');
+                    } else if (type === 'expenses') {
+                        // newRow.css('background-color', '#ff0a2a3d');
+                        newRow.find('input, select').css('background-color', '#ff0a2a3d');
+                    } else {
+                        // newRow.css('background-color', '');
+                        newRow.find('input, select').css('background-color', '');
+                    }
+                });
+
+                $('table tbody').prepend(newRow);
+            });
+
+
+            $(document).on('click', '.removeRow', function() {
+                $(this).closest('tr').remove();
+            });
+            $('#mySelect2').select2({
+                dropdownParent: $('#bs-example-modal-lg')
+            });
+
             $('.customer').on('change', function() {
                 var customerNew = $(this).val();
 
@@ -420,7 +485,7 @@
                 }
             });
 
-          
+
         })
     </script>
 @endsection

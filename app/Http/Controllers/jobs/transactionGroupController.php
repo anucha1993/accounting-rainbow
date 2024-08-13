@@ -66,13 +66,14 @@ class transactionGroupController extends Controller
         return response()->json(['status' => 'success', 'transactionGroupModel' => $transactionGroupModel]);
     }
 
+
     public function delete(Request $request)
     {
-        $id = $request->id;
-
-        // ลบรายการจากฐานข้อมูล
-        transactionGroupModel::where('transaction_group_id', $id)->delete();
-
-        return response()->json(['status' => 'success', 'message' => 'transaction Group deleted successfully']);
+        if($request->walletId) {
+            transactionGroupModel::where('transaction_group_id',$request->walletId)->delete();
+            return response()->json(['status' => 'success', 'message' => 'transaction Group deleted successfully']);
+        }
     }
+
+ 
 }

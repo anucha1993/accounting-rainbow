@@ -848,7 +848,6 @@
                               
                             </ul>
                         </li>
-                     
 
                         <li class="sidebar-item">
                             <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
@@ -878,6 +877,19 @@
                                           <span class="hide-menu"> Transactions </span>
                                       </a>
                                   </li>
+                                  <li class="sidebar-item">
+                                    <a href="{{ route('visaType.index') }}" class="sidebar-link">
+                                        <i class="mdi mdi-credit-card"></i>
+                                        <span class="hide-menu"> Visa Type </span>
+                                    </a>
+                                </li>
+
+                                <li class="sidebar-item">
+                                    <a href="{{ route('service.index') }}" class="sidebar-link">
+                                        <i class="mdi mdi-credit-card"></i>
+                                        <span class="hide-menu">Services</span>
+                                    </a>
+                                </li>
                               </ul>
                         </li>
                         
