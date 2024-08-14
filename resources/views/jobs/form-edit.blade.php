@@ -7,7 +7,7 @@
 
                 <div class="modal-header d-flex align-items-center">
                     <h4 class="modal-title line" id="myLargeModalLabel">
-                        Create Job Order
+                        Edit Job Order
                     </h4>
                 </div>
 
@@ -72,17 +72,30 @@
                                         <select name="job_order_service" id="service" class="form-select service"
                                             @if (Auth::user()->isAdmin === 'Operator' && $jobOrder->job_order_status === 'close') disabled @endif>
                                             @if ($jobOrder->service_id)
-                                                <option value="{{ $jobOrder->service_id }}">{{ $jobOrder->service_name }}
+                                                <option data-other="{{ $jobOrder->service_other }}"
+                                                    value="{{ $jobOrder->service_id }}">{{ $jobOrder->service_name }}
                                                 </option>
                                             @else
-                                                <option value="service">Service</option>
                                             @endif
 
                                         </select>
                                     </div>
                                 </div>
+
+                               
+
+                            </div>
+                            
+                        </div>
+
+                        <div class="col-md-6 service-other" style="display: none">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text  bg-light-dark" id="basic-addon2">Other Note <label
+                                        class="text-danger"> </label></span>
+                                <input type="text" class="form-control" name="job_order_service_other" value="{{$jobOrder->job_order_service_other}}">
                             </div>
                         </div>
+
                     </div>
 
 
@@ -574,7 +587,26 @@
             }
         }
 
+
+        function serviceOther()
+        {
+            var selectedOption = $('.service').find('option:selected');
+                var serviceType = selectedOption.data('other');
+                if(serviceType === 'Y') {
+                    $('.service-other').css("display","block");
+                }else{
+                    $('.service-other').css("display","none");
+                }
+        }
+
         $(document).ready(function() {
+
+            serviceOther()
+            $(".service").on("change", function() {
+                serviceOther()
+            });
+
+
 
             // อัปเดตสีสำหรับแถวที่มีอยู่แล้ว
             $('tr[id^="row-template-edit"]').each(function() {
@@ -595,9 +627,9 @@
                 newRow.find('select[name="transaction_typeNew[]"]').attr('required', true);
                 newRow.find('select[name="transaction_walletNew[]"]').attr('required', true);
                 newRow.find('select[name="transaction_amountNew[]"]').attr('required', true);
-               
-                  // ฟังการเปลี่ยนแปลงของ select ที่ชื่อว่า transaction_typeNew
-                  newRow.find('select[name="transaction_typeNew[]"]').change(function() {
+
+                // ฟังการเปลี่ยนแปลงของ select ที่ชื่อว่า transaction_typeNew
+                newRow.find('select[name="transaction_typeNew[]"]').change(function() {
                     var type = $(this).val();
                     if (type === 'income') {
                         // newRow.css('background-color', '#26ff8042');
@@ -610,7 +642,7 @@
                         newRow.find('input, select').css('background-color', '');
                     }
                 });
-                
+
                 $('table tbody').prepend(newRow);
             });
 

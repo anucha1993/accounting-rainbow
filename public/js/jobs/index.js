@@ -38,6 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
             url: tableIndex,
             type: "GET",
             data: {
+                receipt: receipt,
                 passport: passport,
                 channel: channel,
                 Nationality: Nationality,

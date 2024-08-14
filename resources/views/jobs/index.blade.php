@@ -58,7 +58,7 @@
                                 <div class="input-group">
                                     <span class="input-group-text  bg-light-info">Nationality</span>
                                     <select class="select2 form-control custom-select Nationality-customer" id="Nationality"
-                                        style="width: 70%; height: 36px" name="Nationality">
+                                        style="width: 75%; height: 36px" name="Nationality">
                                         <option value="" disabled selected>Search by Nationality</option>
                                         <option value="">None</option>
                                         @forelse ($nationality as $item)
@@ -97,6 +97,17 @@
                                     <span class="input-group-text  bg-light-info">Passport Number</span>
                                     <input type="text" class="form-control" id="passport"
                                         placeholder="Search by Passport No.">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="col mb-3">
+                                <div class="input-group">
+                                    <span class="input-group-text  bg-light-info">Receipt No.</span>
+                                    <input type="text" class="form-control" id="receipt"
+                                        placeholder="Search by receipt No.">
 
                                 </div>
                             </div>

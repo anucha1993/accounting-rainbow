@@ -1,17 +1,18 @@
 $(document).ready(function () {
 
     //services Type
-    var serviceSelect =   $(".job-order-type").val();
+    // var serviceSelect =   $(".job-order-type").val();
 
-    $(".service").on("click", function (e) {
-     $(this).off("click"); 
-    service(serviceSelect);
-    });
+    // $(".service").on("click", function (e) {
+    //  $(this).off("click"); 
+    // service(serviceSelect);
+    // });
 
     $(".job-order-type").on("change", function () {
         service($(this).val());
+        
     });
-    
+
 
     function service(service) {
         $.ajax({
@@ -25,7 +26,7 @@ $(document).ready(function () {
                 var options ;
                 response.forEach(function (services) {
                     if (services.service_name !== null) {
-                        options += '<option value="' + services.service_id + '">' + services.service_name + '</option>';
+                        options += '<option data-other="' + services.service_other + '" value="' + services.service_id + '">' + services.service_name + '</option>';
                     } else {
                         options = '<option selected value="" disabled>NULL</option>';
                     }

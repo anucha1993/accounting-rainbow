@@ -14,7 +14,6 @@ use App\Models\customers\customersModel;
 class jobOrderController extends Controller
 {
     //
-
     public function __construct()
     {
         $this->middleware('auth');
@@ -23,7 +22,6 @@ class jobOrderController extends Controller
     public function index()
     {
         $nationality  = DB::table('nationality')->get();
-
         $jobs = JobOrderModel::leftjoin('customer', 'customer.customer_id', 'job_order.job_order_customer')
             ->leftJoin('nationality', 'nationality.nationality_id', 'customer.customer_nationality')
             ->orderBy('job_order.job_order_id', 'desc')->get();
@@ -67,9 +65,15 @@ class jobOrderController extends Controller
             $jobs->where('job_order_source_channel', 'LIKE', "%$request->channel%");
         }
 
+        if ($request->receipt) {
+            $jobs->where('job_order_receipt', 'LIKE', "%$request->receipt%");
+        }
+
         if ($request->passport) {
             $jobs->where('customer_passport', 'LIKE', "%$request->passport%");
         }
+
+
 
 
 

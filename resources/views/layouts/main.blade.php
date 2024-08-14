@@ -877,6 +877,7 @@
                                           <span class="hide-menu"> Transactions </span>
                                       </a>
                                   </li>
+                                  
                                   <li class="sidebar-item">
                                     <a href="{{ route('visaType.index') }}" class="sidebar-link">
                                         <i class="mdi mdi-credit-card"></i>
