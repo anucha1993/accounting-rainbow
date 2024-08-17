@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use App\Models\jobs\transactionModel;
 use App\Models\customers\customersModel;
+use App\Models\jobType\jobDetailModel;
 
 class jobOrderController extends Controller
 {
@@ -92,12 +93,13 @@ class jobOrderController extends Controller
     {
         $customer = NULL;
         $nationality  = DB::table('nationality')->get();
-        $services = DB::table('services')->select('service_group')->distinct()->get();
+
+        $jobType = DB::table('job_type')->latest()->get();
+
         $customers = customersModel::orderBy('customer_id', 'desc')->get();
-        $transactionGroup = DB::table('transaction_group')->orderBy('transaction_group_id', 'desc')->get();
         $walletType = DB::table('wallet_type')->orderBy('wallet_type_id', 'desc')->get();
 
-        return view('jobs.form-create', compact('customers', 'services','customer','nationality','transactionGroup','walletType'));
+        return view('jobs.form-create', compact('customers','customer','nationality','walletType','jobType'));
     }
 
 
@@ -339,5 +341,11 @@ class jobOrderController extends Controller
     {
         $customersModel->update($request->all());
         return redirect()->back();
+    }
+
+    public function jobType(Request $request)
+    {
+        $jobDetail = jobDetailModel::where('job_type',$request->jobType)->get(); 
+        return response()->json($jobDetail);
     }
 }

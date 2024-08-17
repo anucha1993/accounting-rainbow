@@ -1,41 +1,41 @@
 $(document).ready(function () {
     //services Type
 
-    $(".job-order-type").on("change", function () {
-        var service = $(this).val();
-       // console.log(service);
-        $.ajax({
-            url: serviceRouter,
-            method: "POST",
-            data: {
-                _token,
-                service: service,
-            },
-            success: function (response) {
-                var options =
-                    '<option value="">' + "Select a " + service + "</option>";
-                response.forEach(function (services) {
-                    if (services.service_name !== null) {
-                        options +=
-                            '<option value="' +
-                            services.service_id +
-                            '">' +
-                            services.service_name +
-                            "</option>";
-                    } else {
-                        options =
-                            '<option selected value="" disabled >NULL</option>';
-                    }
-                });
-                $("#service").html(options);
-            },
-            error: function (xhr) {
-                console.log(
-                    "An error occurred: " + xhr.status + " " + xhr.statusText
-                );
-            },
-        });
-    });
+    // $(".job-order-type").on("change", function () {
+    //     var service = $(this).val();
+    //    // console.log(service);
+    //     $.ajax({
+    //         url: serviceRouter,
+    //         method: "POST",
+    //         data: {
+    //             _token,
+    //             service: service,
+    //         },
+    //         success: function (response) {
+    //             var options =
+    //                 '<option value="">' + "Select a " + service + "</option>";
+    //             response.forEach(function (services) {
+    //                 if (services.service_name !== null) {
+    //                     options +=
+    //                         '<option value="' +
+    //                         services.service_id +
+    //                         '">' +
+    //                         services.service_name +
+    //                         "</option>";
+    //                 } else {
+    //                     options =
+    //                         '<option selected value="" disabled >NULL</option>';
+    //                 }
+    //             });
+    //             $("#service").html(options);
+    //         },
+    //         error: function (xhr) {
+    //             console.log(
+    //                 "An error occurred: " + xhr.status + " " + xhr.statusText
+    //             );
+    //         },
+    //     });
+    // });
 
     
 

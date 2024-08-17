@@ -42,7 +42,8 @@
 
         <div class="row">
             <div class="card">
-                <table class="table table">
+                <div class="card-body">
+                <table class="table table table-visa-type">
                     <thead>
                         <tr>
                             <th>No.</th>
@@ -72,9 +73,10 @@
                         @endforelse
                     </tbody>
                 </table>
-                {!! $visaType->withQueryString()->links('pagination::bootstrap-5') !!}
+                {{-- {!! $visaType->withQueryString()->links('pagination::bootstrap-5') !!} --}}
             </div>
         </div>
+    </div>
     </div>
 
        {{-- modal edit add-transaction" --}}
@@ -99,5 +101,13 @@
                     .load($(this).attr("href"));
             });
         });
+
+        $(document).ready(function() {
+            $('.table-visa-type').DataTable({
+                ordering: false,
+                order: []
+            });
+        });
+
     </script>
 @endsection

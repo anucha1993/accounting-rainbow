@@ -872,7 +872,7 @@
                                     </li>
   
                                   <li class="sidebar-item">
-                                      <a href="{{ route('transactionGroup.index') }}" class="sidebar-link">
+                                      <a href="{{ route('jobtrasaction.index') }}" class="sidebar-link">
                                           <i class="mdi mdi-credit-card"></i>
                                           <span class="hide-menu"> Transactions </span>
                                       </a>
@@ -886,9 +886,9 @@
                                 </li>
 
                                 <li class="sidebar-item">
-                                    <a href="{{ route('service.index') }}" class="sidebar-link">
+                                    <a href="{{ route('jobdetail.index') }}" class="sidebar-link">
                                         <i class="mdi mdi-credit-card"></i>
-                                        <span class="hide-menu">Services</span>
+                                        <span class="hide-menu">Job Detail</span>
                                     </a>
                                 </li>
                               </ul>

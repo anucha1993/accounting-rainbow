@@ -12,7 +12,7 @@ class visaTypeController extends Controller
 
     public function index()
     {
-        $visaType = visaTypeModel::latest()->paginate(13);
+        $visaType = visaTypeModel::latest()->get();
         return view('visaType.index', compact('visaType'));
     }
 

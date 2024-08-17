@@ -1,9 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Auth;
-use App\Models\customers\ninetyModel;
 use Illuminate\Support\Facades\Route;
-use App\Models\jobs\transactionGroupModel;
 use App\Http\Controllers\jobs\walletController;
 use App\Http\Controllers\Auth\AuthNewController;
 use App\Http\Controllers\jobs\jobOrderController;
@@ -17,7 +15,8 @@ use App\Http\Controllers\customers\customersController;
 use App\Http\Controllers\dashboards\dashbordController;
 use App\Http\Controllers\jobs\vue\jobOrderControllerVue;
 use App\Http\Controllers\jobs\transactionGroupController;
-use App\Http\Controllers\services\serviceController;
+use App\Http\Controllers\jobTransaction\jobTransactionController;
+use App\Http\Controllers\jobType\jobDetailController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -88,18 +87,17 @@ Route::get('jobs',[jobOrderController::class,'index'])->name('joborder.index');
 Route::get('jobs/searchIndex',[jobOrderController::class,'searchIndex'])->name('joborder.searchIndex'); 
 Route::get('job/order/create',[jobOrderController::class,'create'])->name('joborder.craete'); 
 Route::get('job/order/edit/{jobOrder}',[jobOrderController::class,'edit'])->name('joborder.edit'); 
-
 Route::post('job/order/store',[jobOrderController::class,'store'])->name('joborder.store'); 
 Route::post('job/order/close',[jobOrderController::class,'close'])->name('joborder.close'); 
 Route::post('job/order/reOpen',[jobOrderController::class,'reOpen'])->name('joborder.reOpen'); 
 Route::post('job/select/customer',[jobOrderController::class,'selectCustomer'])->name('joborder.select.selectCustomer'); 
-
 Route::put('job/update/customer/{customersModel}',[jobOrderController::class,'CustomerUpdate'])->name('joborder.customerUpdate'); 
-//vue
-Route::get('job/order/edit/vue/{jobOrder}',[jobOrderControllerVue::class,'editVue'])->name('joborder.edit.vue'); 
+
+Route::get('jobs/select/jobtype',[jobOrderController::class,'jobType'])->name('joborder.jobType'); 
+
 
 Route::put('job/order/update/{jobOrder}',[jobOrderController::class,'update'])->name('joborder.update'); 
-Route::post('jobs/service/select',[jobOrderController::class,'service'])->name('joborder.service'); 
+// Route::post('jobs/service/select',[jobOrderController::class,'service'])->name('joborder.service'); 
 
 Route::middleware(['IsAdmin'])->group(function () {
    Route::get('job/order/delete',[jobOrderController::class,'delete'])->name('joborder.delete');
@@ -146,8 +144,15 @@ Route::put('visa/update/{visaTypeModel}',[visaTypeController::class,'update'])->
 
 
 // Services
-Route::get('services',[serviceController::class,'index'])->name('service.index');
-Route::post('service/store',[serviceController::class,'store'])->name('service.store');
-Route::get('service/edit/{serviceModel}',[serviceController::class,'edit'])->name('service.edit');
-Route::get('service/delete/{serviceModel}',[serviceController::class,'delete'])->name('service.delete');
-Route::put('service/update/{serviceModel}',[serviceController::class,'update'])->name('service.update');
+Route::get('jobdetail',[jobDetailController::class,'index'])->name('jobdetail.index');
+Route::post('jobdetail/store',[jobDetailController::class,'store'])->name('jobdetail.store');
+Route::get('jobdetail/edit/{jobDetailModel}',[jobDetailController::class,'edit'])->name('jobdetail.edit');
+Route::get('jobdetail/delete/{jobDetailModel}',[jobDetailController::class,'delete'])->name('jobdetail.delete');
+Route::put('jobdetail/update/{jobDetailModel}',[jobDetailController::class,'update'])->name('jobdetail.update');
+
+// job Trasaction
+Route::get('jobtrasactions',[jobTransactionController::class,'index'])->name('jobtrasaction.index');
+Route::post('jobtrasaction/store',[jobTransactionController::class,'store'])->name('jobtrasaction.store');
+Route::get('jobtrasaction/edit/{jobTrasactionModel}',[jobTransactionController::class,'edit'])->name('jobtrasaction.edit');
+Route::put('jobtrasaction/update/{jobTrasactionModel}',[jobTransactionController::class,'update'])->name('jobtrasaction.update');
+Route::get('jobtrasaction/delete/{jobTrasactionModel}',[jobTransactionController::class,'delete'])->name('jobtrasaction.delete');

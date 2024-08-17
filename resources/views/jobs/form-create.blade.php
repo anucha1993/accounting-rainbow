@@ -45,10 +45,10 @@
                                                 class="text-danger"> *</label></span>
                                         <select name="job_order_type" id="job-order-type"
                                             class="form-select job-order-type">
-                                            <option value="service" selected disabled>Other Service</option>
+                                            <option value="" selected disabled>-None-</option>
 
-                                            @forelse ($services as $item)
-                                                <option value="{{ $item->service_group }}">{{ $item->service_group }}
+                                            @forelse ($jobType as $item)
+                                                <option value="{{ $item->job_type_id }}">{{ $item->job_type_name }}
                                                 </option>
                                             @empty
                                                 No Data Services
@@ -289,15 +289,16 @@
 
                             <table class="table ">
                                 <thead>
-                                    <tr class="text-center">
+                                    <thead class="text-center bg-inverse text-white">
                                         <th>Date</th>
                                         <th>Transaction</th>
-                                        <th>รายรับ</th>
-                                        <th>รายจ่าย</th>
+                                        <th>รายรับ/รายจ่าย</th>
+                                        <th>จำนวนเงิน</th>
+
                                         <th>บัญชีกระเป๋ารับเงิน-ถอนเงิน</th>
                                         <th>Actions</th>
-                                    </tr>
-                                </thead>
+                                        </tr>
+                                    </thead>
 
                                 <tbody id="transactionTableBody">
 
@@ -307,13 +308,13 @@
                                         <td>
                                             <select name="transaction_groupNew[]" class="form-select">
                                                 <option value="">None</option>
-                                                @forelse ($transactionGroup as $item)
+                                                {{-- @forelse ($transactionGroup as $item)
                                                     <option data-transaction="{{ $item->transaction_group_name }}"
                                                         value="{{ $item->transaction_group_id }}">
                                                         {{ $item->transaction_group_name }}</option>
                                                 @empty
                                                     No Data
-                                                @endforelse
+                                                @endforelse --}}
                                             </select>
                                         </td>
                                         <td>
@@ -352,7 +353,7 @@
 
                     <br>
 
-                    <button type="submit" class="btn btn-success float-end"> <i class="fa fa-save"></i> Seve Job
+                    <button type="submit" class="btn btn-success float-end"> <i class="fa fa-save"></i> Save Job
                         Order</button>
                 </form>
 
@@ -400,18 +401,39 @@
 
 
 
-    <input type="hidden" name="_token" id="_token" value="{{ csrf_token() }}" style="background-color: #ff0a2a3d" />
+    <input type="hidden" name="_token" id="_token" value="{{ csrf_token() }}"
+        style="background-color: #ff0a2a3d" />
 
     <script>
         const _token = $('#_token').val();
         const customerRoute = "{{ route('joborder.select.selectCustomer') }}";
-        const serviceRouter = "{{ route('joborder.service') }}";
     </script>
 
     <script src="{{ URL::asset('js/jobs/job-create.js') }}"></script>
 
     <script>
         $(document).ready(function() {
+
+            // select job type
+            $('.job-order-type').on('change', function() {
+                var jobType = $(this).val();
+                $.ajax({
+                    url: "{{ route('joborder.jobType') }}",
+                    method: 'GET',
+                    data: {
+                        jobType: jobType
+                    },
+                    success: function(response) {
+                        var options = '<option value="">' + "Select job Type" +"</option>";
+                        response.forEach(function (jobDetail) {
+                            options += '<option value="'+ jobDetail.job_detail_id +'">' + jobDetail.job_detail_name +"</option>";
+                        });
+                        $("#service").html(options);
+                    }
+                });
+            });
+
+
             $('#addRow').click(function(event) {
                 event.preventDefault();
                 var newRow = $('#row-template').clone().removeAttr('id').removeAttr('style');
