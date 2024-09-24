@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use App\Models\jobs\transactionModel;
 use App\Models\customers\customersModel;
+use App\Models\jobTrasaction\jobTrasactionModel;
 use App\Models\jobType\jobDetailModel;
 
 class jobOrderController extends Controller
@@ -201,23 +202,24 @@ class jobOrderController extends Controller
 
     public function edit(Request $request, JobOrderModel $jobOrder)
     {
-        $nationality  = DB::table('nationality')->get();
-        $services = DB::table('services')->select('service_group')->distinct()->get();
-        $transaction = transactionModel::where('transaction_job', $jobOrder->job_order_id)
-            ->leftjoin('transaction_group', 'transaction_group.transaction_group_id', 'transactions.transaction_group')
-            ->leftjoin('wallet_type', 'wallet_type.wallet_type_id', 'transactions.transaction_wallet')
-            ->orderBy('transaction_id', 'desc')->get();
+       
+        // $services = DB::table('services')->select('service_group')->distinct()->get();
+        // $transaction = transactionModel::where('transaction_job', $jobOrder->job_order_id)
+        //     ->leftjoin('transaction_group', 'transaction_group.transaction_group_id', 'transactions.transaction_group')
+        //     ->leftjoin('wallet_type', 'wallet_type.wallet_type_id', 'transactions.transaction_wallet')
+        //     ->orderBy('transaction_id', 'desc')->get();
 
-        $customers = customersModel::orderBy('customer_id', 'desc')->get();
+        // 
+        // $jobOrder = JobOrderModel::where('job_order_id', $jobOrder->job_order_id)->leftjoin('services.service_id', 'job_order.job_order_service')->first();
         $customer = customersModel::where('customer_id',$jobOrder->job_order_customer)->first();
-        $jobOrder = JobOrderModel::where('job_order_id', $jobOrder->job_order_id)->leftjoin('services', 'services.service_id', 'job_order.job_order_service')->first();
-
-
+        $nationality  = DB::table('nationality')->get();
+        $customers = customersModel::orderBy('customer_id', 'desc')->get();
         $walletType = DB::table('wallet_type')->orderBy('wallet_type_id', 'desc')->get();
-        $transactionGroup = DB::table('transaction_group')->orderBy('transaction_group_id', 'desc')->get();
+        
+        // $transactionGroup = DB::table('transaction_group')->orderBy('transaction_group_id', 'desc')->get();
 
 
-        return view('jobs.form-edit', compact('nationality','customer','customers', 'jobOrder', 'transaction', 'services', 'transactionGroup', 'walletType'));
+        return view('jobs.form-edit', compact('nationality','customer','customers', 'jobOrder', 'walletType'));
     }
 
 
@@ -343,9 +345,22 @@ class jobOrderController extends Controller
         return redirect()->back();
     }
 
+
+    
     public function jobType(Request $request)
     {
         $jobDetail = jobDetailModel::where('job_type',$request->jobType)->get(); 
-        return response()->json($jobDetail);
+       // $jobTrasaction = jobTrasactionModel::where('job_type',$request->jobType)->get();
+
+
+        return response()->json(['jobDetail' => $jobDetail]);
+    }
+
+    public function serviceTrasaction(Request $request)
+    {
+
+        $jobTrasaction = jobTrasactionModel::where('job_detail',$request->serviceTrasaction)->get();
+
+        return response()->json(['jobTrasaction' => $jobTrasaction]);
     }
 }

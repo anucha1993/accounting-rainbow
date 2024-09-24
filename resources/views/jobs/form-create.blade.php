@@ -60,7 +60,8 @@
                                 <script></script>
                                 <div class="col-md-6">
                                     <div class="input-group mb-3">
-
+                                        <span class="input-group-text  bg-light-dark" id="basic-addon2">Job detail <label
+                                            class="text-danger"> *</label></span>
                                         <select name="job_order_service" id="service" class="form-select">
                                             <option value="service">Service</option>
                                         </select>
@@ -306,7 +307,7 @@
                                         <td><input type="date" name="transaction_dateNew[]" class="form-control" />
                                         </td>
                                         <td>
-                                            <select name="transaction_groupNew[]" class="form-select">
+                                            <select name="transaction_groupNew[]" class="form-select job-trasaction" >
                                                 <option value="">None</option>
                                                 {{-- @forelse ($transactionGroup as $item)
                                                     <option data-transaction="{{ $item->transaction_group_name }}"
@@ -414,9 +415,12 @@
     <script>
         $(document).ready(function() {
 
+    
             // select job type
             $('.job-order-type').on('change', function() {
                 var jobType = $(this).val();
+                // console.log('jobType: '+jobType);
+                
                 $.ajax({
                     url: "{{ route('joborder.jobType') }}",
                     method: 'GET',
@@ -424,15 +428,41 @@
                         jobType: jobType
                     },
                     success: function(response) {
+                        //console.log(response.jobTrasaction);
+                        
                         var options = '<option value="">' + "Select job Type" +"</option>";
-                        response.forEach(function (jobDetail) {
+                        response.jobDetail.forEach(function (jobDetail) {
                             options += '<option value="'+ jobDetail.job_detail_id +'">' + jobDetail.job_detail_name +"</option>";
                         });
                         $("#service").html(options);
+
                     }
                 });
             });
 
+
+               // select job type
+               $('#service').on('change', function() {
+                var serviceTrasaction = $(this).val();
+                // console.log('jobType: '+jobType);
+                $.ajax({
+                    url: "{{ route('joborder.serviceTrasaction') }}",
+                    method: 'GET',
+                    data: {
+                        serviceTrasaction: serviceTrasaction
+                    },
+                    success: function(response) {
+                        //console.log(response.jobTrasaction);
+                        
+                        var optionsjobTrasaction = '<option selected value="" disabled>' + "Select job trasaction " +"</option>";
+                        response.jobTrasaction.forEach(function (jobTrasaction) {
+                            optionsjobTrasaction += '<option value="'+ jobTrasaction.job_trasaction_id  +'">' + jobTrasaction.job_trasaction_name +"</option>";
+                        });
+                        
+                        $(".job-trasaction").html(optionsjobTrasaction);
+                    }
+                });
+            });
 
             $('#addRow').click(function(event) {
                 event.preventDefault();

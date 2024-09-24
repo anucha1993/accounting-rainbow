@@ -55,12 +55,12 @@
                                             @if (Auth::user()->isAdmin === 'Operator' && $jobOrder->job_order_status === 'close') disabled @endif
                                             class="form-select job-order-type">
                                             <option value="service" selected disabled>Other Service</option>
-                                            @forelse ($services as $item)
+                                            {{-- @forelse ($services as $item)
                                                 <option @if ($item->service_group === $jobOrder->service_group) selected @endif
                                                     value="{{ $item->service_group }}">{{ $item->service_group }}</option>
                                             @empty
                                                 No Data Services
-                                            @endforelse
+                                            @endforelse --}}
 
                                         </select>
                                     </div>
@@ -329,7 +329,7 @@
                                     </thead>
 
                                 <tbody>
-                                    @forelse ($transaction as $value)
+                                    {{-- @forelse ($transaction as $value)
                                         <tr id="row-template-edit">
                                             <td style="display: none"><input type="hidden" name="transaction_idEdit[]"
                                                     value="{{ $value->transaction_id }}"></td>
@@ -393,20 +393,20 @@
 
                                     @empty
                                         No Data Transaction found
-                                    @endforelse
+                                    @endforelse --}}
                                     <tr id="row-template" style="display: none;">
                                         <td><input type="date" name="transaction_dateNew[]" class="form-control" />
                                         </td>
                                         <td>
                                             <select name="transaction_groupNew[]" class="form-select">
                                                 <option value="">None</option>
-                                                @forelse ($transactionGroup as $item)
+                                                {{-- @forelse ($transactionGroup as $item)
                                                     <option data-transaction="{{ $item->transaction_group_name }}"
                                                         value="{{ $item->transaction_group_id }}">
                                                         {{ $item->transaction_group_name }}</option>
                                                 @empty
                                                     No Data
-                                                @endforelse
+                                                @endforelse --}}
                                             </select>
                                         </td>
                                         <td>
@@ -569,7 +569,7 @@
         const jobCloseRouter = "{{ route('joborder.close') }}";
         const reJobouter = "{{ route('joborder.reOpen') }}";
         const _token = $('#_token').val();
-        const serviceRouter = "{{ route('joborder.service') }}";
+        const serviceRouter = "";
     </script>
 
     <script src="{{ URL::asset('js/jobs/job-edit.js') }}"></script>

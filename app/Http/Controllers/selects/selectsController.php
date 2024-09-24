@@ -37,6 +37,11 @@ class selectsController extends Controller
         }
     
         // คืนค่าข้อมูลในรูปแบบ JSON กลับไปยังหน้าเว็บ
-        return response()->json($visaType);
+        return response()->json(['visaType'=>$visaType]);
     }
+
+
+
 }
+
+

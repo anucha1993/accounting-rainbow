@@ -94,6 +94,7 @@ Route::post('job/select/customer',[jobOrderController::class,'selectCustomer'])-
 Route::put('job/update/customer/{customersModel}',[jobOrderController::class,'CustomerUpdate'])->name('joborder.customerUpdate'); 
 
 Route::get('jobs/select/jobtype',[jobOrderController::class,'jobType'])->name('joborder.jobType'); 
+Route::get('jobs/select/serviceTrasaction',[jobOrderController::class,'serviceTrasaction'])->name('joborder.serviceTrasaction'); 
 
 
 Route::put('job/order/update/{jobOrder}',[jobOrderController::class,'update'])->name('joborder.update'); 
