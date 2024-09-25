@@ -44,10 +44,10 @@
                     <br>
 
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="input-group mb-3">
+                                <div class="col-md-3">
+                                    <div class="input-group mb-6">
 
                                         <span class="input-group-text  bg-light-dark" id="basic-addon2">Job Type <label
                                                 class="text-danger"> *</label></span>
@@ -55,44 +55,62 @@
                                             @if (Auth::user()->isAdmin === 'Operator' && $jobOrder->job_order_status === 'close') disabled @endif
                                             class="form-select job-order-type">
                                             <option value="service" selected disabled>Other Service</option>
-                                            {{-- @forelse ($services as $item)
-                                                <option @if ($item->service_group === $jobOrder->service_group) selected @endif
-                                                    value="{{ $item->service_group }}">{{ $item->service_group }}</option>
+                                            @forelse ($jobType as $item)
+                                                <option @if ($item->job_type_id === $jobOrder->job_order_type) selected @endif
+                                                    value="{{ $item->job_type_id }}">{{ $item->job_type_name }}
+                                                </option>
                                             @empty
                                                 No Data Services
-                                            @endforelse --}}
+                                            @endforelse
 
                                         </select>
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-3">
                                     <div class="input-group mb-3">
-
-                                        <select name="job_order_service" id="service" class="form-select service"
+                                        <span class="input-group-text  bg-light-dark" id="basic-addon2">Job detail <label
+                                                class="text-danger"> *</label></span>
+                                        <select name="job_order_detail" id="service" class="form-select service"
                                             @if (Auth::user()->isAdmin === 'Operator' && $jobOrder->job_order_status === 'close') disabled @endif>
-                                            @if ($jobOrder->service_id)
-                                                <option data-other="{{ $jobOrder->service_other }}"
-                                                    value="{{ $jobOrder->service_id }}">{{ $jobOrder->service_name }}
+
+
+                                            @forelse ($jobDetail as $item)
+                                                <option @if ($item->job_detail_id === $jobOrder->job_order_detail) selected @endif
+                                                    value="{{ $item->job_detail_id }}">{{ $item->job_detail_name }}
                                                 </option>
-                                            @else
-                                            @endif
+                                            @empty
+                                                No Data Services
+                                            @endforelse
+
 
                                         </select>
                                     </div>
+                                    
                                 </div>
 
-                               
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <span class="input-group-text  bg-light-dark" id="basic-addon2">Receipt No.</span>
+                                        <input type="text" name="job_order_receipt" class="form-control"
+                                            @if (Auth::user()->isAdmin === 'Operator' && $jobOrder->job_order_status === 'close') disabled @endif
+                                            value="{{ $jobOrder->job_order_receipt }}" placeholder="Receipt No..">
+        
+                                    </div>
+        
+                                </div>
+
 
                             </div>
-                            
+
                         </div>
 
                         <div class="col-md-6 service-other" style="display: none">
                             <div class="input-group mb-3">
                                 <span class="input-group-text  bg-light-dark" id="basic-addon2">Other Note <label
                                         class="text-danger"> </label></span>
-                                <input type="text" class="form-control" name="job_order_service_other" value="{{$jobOrder->job_order_service_other}}">
+                                <input type="text" class="form-control" name="job_order_service_other"
+                                    value="{{ $jobOrder->job_order_service_other }}">
                             </div>
                         </div>
 
@@ -129,7 +147,10 @@
                                     </div>
                                 </div>
 
+                                
+
                             </div>
+                            
                         </div>
 
 
@@ -172,7 +193,7 @@
                             <div class="col-md-6">
 
                                 <label for="">Customer Information <a href="#" data-bs-toggle="modal"
-                                        data-bs-target="#bs-example-modal-lg"> แก้ไขข้อมูล</a></label>
+                                        data-bs-target="#bs-example-modal-lg">แก้ไขข้อมูล</a></label>
 
                                 <div class="input-group mb-3">
                                     <span class="input-group-text bg-primary text-white">Choose Customer</span>
@@ -296,17 +317,7 @@
                         </div>
 
 
-                        <div class="col-md-3">
-                            <div class="input-group">
-                                <span class="input-group-text  bg-light-dark" id="basic-addon2">Receipt No.</span>
-                                <input type="text" name="job_order_receipt" class="form-control"
-                                    @if (Auth::user()->isAdmin === 'Operator' && $jobOrder->job_order_status === 'close') disabled @endif
-                                    value="{{ $jobOrder->job_order_receipt }}" placeholder="Receipt No..">
-
-                            </div>
-
-
-                        </div>
+                     
                     </div>
                     <br>
 
@@ -329,51 +340,42 @@
                                     </thead>
 
                                 <tbody>
-                                    {{-- @forelse ($transaction as $value)
-                                        <tr id="row-template-edit">
-                                            <td style="display: none"><input type="hidden" name="transaction_idEdit[]"
-                                                    value="{{ $value->transaction_id }}"></td>
-                                            <td><input type="date" name="transaction_dateEdit[]" class="form-control"
-                                                    value="{{ date('Y-m-d', strtotime($value->transaction_date)) }}"
-                                                    @if (Auth::user()->isAdmin === 'Operator' && $jobOrder->job_order_status === 'close') disabled @endif />
+                                    @forelse ($transactions as $itemTransaction)
+                                        <tr>
+                                            <td><input type="date" name="transaction_date[]" class="form-control"
+                                                    value="{{ $itemTransaction->transaction_date }}" />
                                             </td>
                                             <td>
-
-                                                <select name="transaction_groupEdit[]" class="form-select"
-                                                    @if (Auth::user()->isAdmin === 'Operator' && $jobOrder->job_order_status === 'close') disabled @endif>
+                                                <select name="transaction_group[]" class="form-select job-trasaction">
                                                     <option value="">None</option>
-                                                    @forelse ($transactionGroup as $item)
-                                                        <option @if ($value->transaction_group_id === $item->transaction_group_id) selected @endif
-                                                            value="{{ $item->transaction_group_id }}">
-                                                            {{ $item->transaction_group_name }}</option>
+                                                    @forelse ($Jobtransactions as $item)
+                                                        <option @if ($item->job_trasaction_id === $itemTransaction->transaction_group) selected @endif
+                                                            value="{{ $item->job_trasaction_id }}">
+                                                            {{ $item->job_trasaction_name }}</option>
                                                     @empty
-                                                        No Data
                                                     @endforelse
                                                 </select>
                                             </td>
                                             <td>
-                                                <select name="transaction_typeEdit[]" id="transaction-type"
-                                                    @if (Auth::user()->isAdmin === 'Operator' && $jobOrder->job_order_status === 'close') disabled @endif
+                                                <select name="transaction_type[]" id="transaction-type"
                                                     class="form-select transaction-type">
                                                     <option value="">None</option>
-                                                    <option @if ($value->transaction_type === 'income') selected @endif
+                                                    <option @if ($itemTransaction->transaction_type === 'income') selected @endif
                                                         value="income">รายรับ</option>
-                                                    <option @if ($value->transaction_type === 'expenses') selected @endif
+                                                    <option @if ($itemTransaction->transaction_type === 'expenses') selected @endif
                                                         value="expenses">รายจ่าย</option>
                                                 </select>
                                             </td>
-                                            <td>
-                                                <input type="number" name="transaction_amountEdit[]"
-                                                    value="{{ $value->transaction_amount }}"
+                                            <td class="text-end"><input type="number" name="transaction_amount[]"
                                                     class="form-control text-end"
-                                                    @if (Auth::user()->isAdmin === 'Operator' && $jobOrder->job_order_status === 'close') disabled @endif />
+                                                    value="{{ $itemTransaction->transaction_amount }}" />
                                             </td>
                                             <td>
-                                                <select name="transaction_walletEdit[]" class="form-select"
-                                                    @if (Auth::user()->isAdmin === 'Operator' && $jobOrder->job_order_status === 'close') disabled @endif>
+                                                <select name="transaction_wallet[]" class="form-select">
                                                     <option value="">None</option>
                                                     @forelse ($walletType as $item)
-                                                        <option @if ($value->wallet_type_id === $item->wallet_type_id) selected @endif
+                                                        <option @if ($itemTransaction->transaction_wallet === $item->wallet_type_id) selected @endif
+                                                            data-wallet="{{ $item->wallet_type_name }}"
                                                             value="{{ $item->wallet_type_id }}">
                                                             {{ $item->wallet_type_name }}</option>
                                                     @empty
@@ -382,45 +384,41 @@
                                                 </select>
                                             </td>
                                             <td class="text-center">
-                                                @if (Auth::user()->isAdmin === 'Operator' && $jobOrder->job_order_status === 'close')
-                                                    close
-                                                @else
-                                                    <button class="btn btn-danger btn-sm removeRow">Remove</button>
-                                                @endif
-
+                                                <button class="btn btn-danger btn-sm removeRow">Remove</button>
                                             </td>
                                         </tr>
 
                                     @empty
-                                        No Data Transaction found
-                                    @endforelse --}}
+                                    @endforelse
+
+                                   
+
+
                                     <tr id="row-template" style="display: none;">
-                                        <td><input type="date" name="transaction_dateNew[]" class="form-control" />
+                                        <td><input type="date" name="transaction_date[]" class="form-control" />
                                         </td>
                                         <td>
-                                            <select name="transaction_groupNew[]" class="form-select">
+                                            <select name="transaction_group[]" class="form-select job-trasaction">
                                                 <option value="">None</option>
-                                                {{-- @forelse ($transactionGroup as $item)
-                                                    <option data-transaction="{{ $item->transaction_group_name }}"
-                                                        value="{{ $item->transaction_group_id }}">
-                                                        {{ $item->transaction_group_name }}</option>
+                                                @forelse ($Jobtransactions as $item)
+                                                    <option value="{{ $item->job_trasaction_id }}">
+                                                        {{ $item->job_trasaction_name }}</option>
                                                 @empty
-                                                    No Data
-                                                @endforelse --}}
+                                                @endforelse
                                             </select>
                                         </td>
                                         <td>
-                                            <select name="transaction_typeNew[]" id="transaction-type"
+                                            <select name="transaction_type[]" id="transaction-type"
                                                 class="form-select transaction-type">
                                                 <option value="">None</option>
                                                 <option value="income">รายรับ</option>
                                                 <option value="expenses">รายจ่าย</option>
                                             </select>
                                         </td>
-                                        <td><input type="number" name="transaction_amountNew[]" class="form-control" />
+                                        <td><input type="number" name="transaction_amount[]" class="form-control text-end" />
                                         </td>
                                         <td>
-                                            <select name="transaction_walletNew[]" class="form-select">
+                                            <select name="transaction_wallet[]" class="form-select">
                                                 <option value="">None</option>
                                                 @forelse ($walletType as $item)
                                                     <option data-wallet="{{ $item->wallet_type_name }}"
@@ -435,6 +433,7 @@
                                             <button class="btn btn-danger btn-sm removeRow">Remove</button>
                                         </td>
                                     </tr>
+
                                 </tbody>
 
                             </table>
@@ -569,34 +568,113 @@
         const jobCloseRouter = "{{ route('joborder.close') }}";
         const reJobouter = "{{ route('joborder.reOpen') }}";
         const _token = $('#_token').val();
-        const serviceRouter = "";
     </script>
 
     <script src="{{ URL::asset('js/jobs/job-edit.js') }}"></script>
 
 
     <script>
-        function updateRowColor(row) {
-            var type = row.find('select[name="transaction_typeEdit[]"]').val();
-            if (type === 'income') {
-                row.find('input, select').css('background-color', '#26ff8042');
-            } else if (type === 'expenses') {
-                row.find('input, select').css('background-color', '#ff0a2a3d');
-            } else {
-                row.find('input, select').css('background-color', '');
-            }
-        }
+        // ใส่สี Input
+        $(document).ready(function() {
+            // ฟังก์ชันตรวจสอบและเปลี่ยนสี
+            function updateRowColor(row) {
+                var transactionType = row.find('.transaction-type').val();
 
-
-        function serviceOther()
-        {
-            var selectedOption = $('.service').find('option:selected');
-                var serviceType = selectedOption.data('other');
-                if(serviceType === 'Y') {
-                    $('.service-other').css("display","block");
-                }else{
-                    $('.service-other').css("display","none");
+                if (transactionType === 'income') {
+                    row.find('input, select').css('background-color', '#26ff8042'); // สีเขียว
+                } else if (transactionType === 'expenses') {
+                    row.find('input, select').css('background-color', '#ff0a2a3d'); // สีแดง
+                } else {
+                    row.find('input, select').css('background-color', ''); // คืนค่าสีเดิม
                 }
+            }
+            // ตรวจสอบการเปลี่ยนแปลงค่า transaction_type[]
+            $(document).on('change', '.transaction-type', function() {
+                var row = $(this).closest('tr'); // หาแถวที่เลือก
+                updateRowColor(row); // เรียกฟังก์ชันเปลี่ยนสี
+            });
+
+            // เรียกใช้ฟังก์ชันเพื่อเปลี่ยนสีตอนโหลดหน้า
+            $('tr').each(function() {
+                updateRowColor($(this));
+            });
+        });
+    </script>
+
+
+    <script>
+        // select job type
+        $('.job-order-type').on('change', function() {
+            var jobType = $(this).val();
+            // console.log('jobType: '+jobType);
+
+            $.ajax({
+                url: "{{ route('joborder.jobType') }}",
+                method: 'GET',
+                data: {
+                    jobType: jobType
+                },
+                success: function(response) {
+                    //console.log(response.jobTrasaction);
+
+                    var options = '<option value="">' + "Select job Type" + "</option>";
+                    response.jobDetail.forEach(function(jobDetail) {
+                        options += '<option value="' + jobDetail.job_detail_id + '">' +
+                            jobDetail.job_detail_name + "</option>";
+                    });
+                    $("#service").html(options);
+
+                }
+            });
+        });
+
+        // select job type
+        $('#service').on('change', function() {
+            var serviceTrasaction = $(this).val();
+            // console.log('jobType: '+jobType);
+            $.ajax({
+                url: "{{ route('joborder.serviceTrasaction') }}",
+                method: 'GET',
+                data: {
+                    serviceTrasaction: serviceTrasaction
+                },
+                success: function(response) {
+                    //console.log(response.jobTrasaction);
+
+                    var optionsjobTrasaction = '<option selected value="" disabled>' +
+                        "Select job trasaction " + "</option>";
+                    response.jobTrasaction.forEach(function(jobTrasaction) {
+                        optionsjobTrasaction += '<option value="' + jobTrasaction
+                            .job_trasaction_id + '">' + jobTrasaction.job_trasaction_name +
+                            "</option>";
+                    });
+
+                    $(".job-trasaction").html(optionsjobTrasaction);
+                }
+            });
+        });
+
+
+        // function updateRowColor(row) {
+        //     var type = row.find('select[name="transaction_typeEdit[]"]').val();
+        //     if (type === 'income') {
+        //         row.find('input, select').css('background-color', '#26ff8042');
+        //     } else if (type === 'expenses') {
+        //         row.find('input, select').css('background-color', '#ff0a2a3d');
+        //     } else {
+        //         row.find('input, select').css('background-color', '');
+        //     }
+        // }
+
+
+        function serviceOther() {
+            var selectedOption = $('.service').find('option:selected');
+            var serviceType = selectedOption.data('other');
+            if (serviceType === 'Y') {
+                $('.service-other').css("display", "block");
+            } else {
+                $('.service-other').css("display", "none");
+            }
         }
 
         $(document).ready(function() {
@@ -608,28 +686,28 @@
 
 
 
-            // อัปเดตสีสำหรับแถวที่มีอยู่แล้ว
-            $('tr[id^="row-template-edit"]').each(function() {
-                updateRowColor($(this));
-            });
+            // // อัปเดตสีสำหรับแถวที่มีอยู่แล้ว
+            // $('tr[id^="row-template-edit"]').each(function() {
+            //     updateRowColor($(this));
+            // });
 
-            // ฟังการเปลี่ยนแปลงของ select ที่ชื่อว่า transaction_typeEdit[]
-            $('select[name="transaction_typeEdit[]"]').change(function() {
-                updateRowColor($(this).closest('tr'));
-            });
+            // // ฟังการเปลี่ยนแปลงของ select ที่ชื่อว่า transaction_typeEdit[]
+            // $('select[name="transaction_typeEdit[]"]').change(function() {
+            //     updateRowColor($(this).closest('tr'));
+            // });
 
 
             $('#addRow').click(function(event) {
                 event.preventDefault();
                 var newRow = $('#row-template').clone().removeAttr('id').removeAttr('style');
-                newRow.find('select[name="transaction_dateNew[]"]').attr('required', true);
-                newRow.find('select[name="transaction_groupNew[]"]').attr('required', true);
-                newRow.find('select[name="transaction_typeNew[]"]').attr('required', true);
-                newRow.find('select[name="transaction_walletNew[]"]').attr('required', true);
-                newRow.find('select[name="transaction_amountNew[]"]').attr('required', true);
+                newRow.find('select[name="transaction_date[]"]').attr('required', true);
+                newRow.find('select[name="transaction_group[]"]').attr('required', true);
+                newRow.find('select[name="transaction_type[]"]').attr('required', true);
+                newRow.find('select[name="transaction_wallet[]"]').attr('required', true);
+                newRow.find('select[name="transaction_amount[]"]').attr('required', true);
 
                 // ฟังการเปลี่ยนแปลงของ select ที่ชื่อว่า transaction_typeNew
-                newRow.find('select[name="transaction_typeNew[]"]').change(function() {
+                newRow.find('select[name="transaction_type[]"]').change(function() {
                     var type = $(this).val();
                     if (type === 'income') {
                         // newRow.css('background-color', '#26ff8042');

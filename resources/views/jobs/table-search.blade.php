@@ -1,7 +1,7 @@
 
 {{$startDate}}
 <div class="table-responsive">
-    <table class="table table table-job dt-responsive display" cellspacing="0" id="table-content" style="width:100%"
+    <table class="table table table-job dt-responsive display " cellspacing="0" id="table-content" style="width:100%"
         style="font-size: 10px">
         <thead class="bg-inverse text-white">
             <tr class="text-center">
@@ -12,6 +12,7 @@
                 <th>Nationality</th>
                 <th>Passport No</th>
                 <th>Source Channel</th>
+                <th>Receipt No.</th>
                 <th>Close Job Date</th>
                 <th>Control</th>
             </tr>
@@ -41,6 +42,8 @@
                            @if ($item->job_order_source_channel === 'Agent') bg-danger @endif">{{ $item->job_order_source_channel }}</span>
                     </td>
 
+                    <td>{{ $item->job_order_receipt ? $item->job_order_receipt : '-' }}</td>
+
                     <td> 
                         @if ($item->job_order_status === 'close')
                         <i class=" fas fa-calendar-alt"></i>
@@ -68,9 +71,50 @@
             });
         });
 
-        const jobOrderDeleteRoute = "{{route('joborder.delete')}}";
+
 </script>
 
-<script src="{{URL::asset('js/jobs/table-search.js')}}"></script>
+<script>
+
+    
+$(document).ready(function () {
+               $(".btn-delete-job").on("click", function (e) {
+                   var JobId = $(this).attr('data-id');
+   
+                   console.log(JobId);
+                   e.preventDefault();
+                   Swal.fire({
+                       title: "Do you want to Delete Job?",
+                       showCancelButton: true,
+                       confirmButtonText: "Confirm",
+                       denyButtonText: `Don't Delete`,
+                   }).then((result) => {
+                       if (result.isConfirmed) {
+                           $.ajax({
+                               url: "{{route('joborder.delete')}}",
+                               method: "GET",
+                               data: {
+                                   JobId: JobId,
+                               },
+                               success: function (response) {
+                                   if(response.success){
+                                     $('tr[data-id="' + JobId + '"]').remove();
+                                     alert('Delete Job Successfully!');
+                                   }else{
+                                     alert('Delete Job Error!');
+                                   }
+                                  
+                               },
+                               error: function (xhr) {
+                                   console.log("Error retrieving customer data");
+                               },
+                           });
+                       } else if (result.isDenied) {
+                           Swal.fire("Changes are not saved", "", "info");
+                       }
+                   });
+               });
+           });
+</script>
 
 

@@ -60,11 +60,13 @@
                         <a href="{{ route('customer.show', $item->customer_id) }}" class="sads"><i
                                 class="fa fa-eye text-dark"></i></a> |
                         <a href="{{ route('customer.edit', $item->customer_id) }}" class=""><i
-                                class="fa fa-edit text-primary"></i></a> |
-                        @if (Auth::user()->isAdmin === 'Admin')
+                                class="fa fa-edit text-primary"></i></a> | 
+                                <a href="#" class="btn-delete-customer" data-id="{{ $item->customer_id }}"><i
+                                    class="fa fa-trash text-danger"></i></a>
+                        {{-- @if (Auth::user()->isAdmin === 'Admin')
                             <a href="#" class="btn-delete-customer" data-id="{{ $item->customer_id }}"><i
                                     class="fa fa-trash text-danger"></i></a>
-                        @endif
+                        @endif --}}
                     </td>
                 </tr>
             @endforeach

@@ -37,9 +37,9 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-3">
                                     <div class="input-group mb-3">
                                         <span class="input-group-text  bg-light-dark" id="basic-addon2">Job Type <label
                                                 class="text-danger"> *</label></span>
@@ -58,16 +58,26 @@
                                     </div>
                                 </div>
                                 <script></script>
-                                <div class="col-md-6">
+                                <div class="col-md-3">
                                     <div class="input-group mb-3">
                                         <span class="input-group-text  bg-light-dark" id="basic-addon2">Job detail <label
                                             class="text-danger"> *</label></span>
-                                        <select name="job_order_service" id="service" class="form-select">
+                                        <select name="job_order_detail" id="service" class="form-select">
                                             <option value="service">Service</option>
                                         </select>
 
                                     </div>
                                 </div>
+
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <span class="input-group-text  bg-light-dark" id="basic-addon2">Receipt No.</span>
+                                        <input type="text" name="job_order_receipt" class="form-control" placeholder="Receipt No..">
+        
+                                    </div>
+        
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -160,11 +170,11 @@
 
                             </div>
 
-                            <div class="col-md-6" style="display: none" id="customerNew">
+                            {{-- <div class="col-md-6" style="display: none" id="customerNew">
                                 <label>Customer Name</label>
                                 <input type="text" class="form-control" name="customer_name"
                                     placeholder="Customer Name">
-                            </div>
+                            </div> --}}
 
 
                             <div class="col-md-9">
@@ -304,32 +314,26 @@
                                 <tbody id="transactionTableBody">
 
                                     <tr id="row-template" style="display: none;">
-                                        <td><input type="date" name="transaction_dateNew[]" class="form-control" />
+                                        <td><input type="date" name="transaction_date[]" class="form-control" />
                                         </td>
                                         <td>
-                                            <select name="transaction_groupNew[]" class="form-select job-trasaction" >
+                                            <select name="transaction_group[]" class="form-select job-trasaction" >
                                                 <option value="">None</option>
-                                                {{-- @forelse ($transactionGroup as $item)
-                                                    <option data-transaction="{{ $item->transaction_group_name }}"
-                                                        value="{{ $item->transaction_group_id }}">
-                                                        {{ $item->transaction_group_name }}</option>
-                                                @empty
-                                                    No Data
-                                                @endforelse --}}
+                                               
                                             </select>
                                         </td>
                                         <td>
-                                            <select name="transaction_typeNew[]" id="transaction-type"
+                                            <select name="transaction_type[]" id="transaction-type"
                                                 class="form-select transaction-type">
                                                 <option value="">None</option>
                                                 <option value="income">รายรับ</option>
                                                 <option value="expenses">รายจ่าย</option>
                                             </select>
                                         </td>
-                                        <td><input type="number" name="transaction_amountNew[]" class="form-control" />
+                                        <td><input type="number" name="transaction_amount[]" class="form-control" />
                                         </td>
                                         <td>
-                                            <select name="transaction_walletNew[]" class="form-select">
+                                            <select name="transaction_wallet[]" class="form-select">
                                                 <option value="">None</option>
                                                 @forelse ($walletType as $item)
                                                     <option data-wallet="{{ $item->wallet_type_name }}"
@@ -439,8 +443,6 @@
                     }
                 });
             });
-
-
                // select job type
                $('#service').on('change', function() {
                 var serviceTrasaction = $(this).val();
@@ -467,14 +469,14 @@
             $('#addRow').click(function(event) {
                 event.preventDefault();
                 var newRow = $('#row-template').clone().removeAttr('id').removeAttr('style');
-                newRow.find('select[name="transaction_dateNew[]"]').attr('required', true);
-                newRow.find('select[name="transaction_groupNew[]"]').attr('required', true);
-                newRow.find('select[name="transaction_typeNew[]"]').attr('required', true);
-                newRow.find('select[name="transaction_walletNew[]"]').attr('required', true);
-                newRow.find('select[name="transaction_amountNew[]"]').attr('required', true);
+                newRow.find('select[name="transaction_date[]"]').attr('required', true);
+                newRow.find('select[name="transaction_grouw[]"]').attr('required', true);
+                newRow.find('select[name="transaction_type[]"]').attr('required', true);
+                newRow.find('select[name="transaction_wallet[]"]').attr('required', true);
+                newRow.find('select[name="transaction_amount[]"]').attr('required', true);
 
                 // ฟังการเปลี่ยนแปลงของ select ที่ชื่อว่า transaction_typeNew
-                newRow.find('select[name="transaction_typeNew[]"]').change(function() {
+                newRow.find('select[name="transaction_type[]"]').change(function() {
                     var type = $(this).val();
                     if (type === 'income') {
                         // newRow.css('background-color', '#26ff8042');

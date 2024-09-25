@@ -23,8 +23,9 @@ class JobOrderModel extends Model
         'job_order_details',
         'job_order_note',
         'job_order_receipt',
-        'job_order_service',
+        'job_order_detail',
         'job_order_service_other',
+        'job_order_type',
         'created_by',
         'update_by',
  

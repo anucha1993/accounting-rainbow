@@ -74,15 +74,7 @@ class jobOrderController extends Controller
         if ($request->passport) {
             $jobs->where('customer_passport', 'LIKE', "%$request->passport%");
         }
-
-
-
-
-
         $jobs =   $jobs->orderBy('job_order.job_order_id', 'desc')->get();
-
-
-
         $tableContent = View::make('jobs.table-search', compact('jobs', 'startDate'))->render();
 
         return response()->json($tableContent);
@@ -159,16 +151,16 @@ class jobOrderController extends Controller
 
         $jobOrder = JobOrderModel::create($request->all());
 
-        if ($request->transaction_typeNew) {
-            foreach ($request->transaction_typeNew as $key => $value) {
-                if (!empty($request->transaction_typeNew[$key])) {
+        if ($request->transaction_type) {
+            foreach ($request->transaction_type as $key => $value) {
+                if (!empty($request->transaction_type[$key])) {
                     transactionModel::create([
-                        'transaction_type' => $request->transaction_typeNew[$key],
-                        'transaction_date' => $request->transaction_dateNew[$key],
-                        'transaction_wallet' => $request->transaction_walletNew[$key],
-                        'transaction_amount' => $request->transaction_amountNew[$key],
+                        'transaction_type' => $request->transaction_type[$key],
+                        'transaction_date' => $request->transaction_date[$key],
+                        'transaction_wallet' => $request->transaction_wallet[$key],
+                        'transaction_amount' => $request->transaction_amount[$key],
                         'transaction_job' => $jobOrder->job_order_id,
-                        'transaction_group' => $request->transaction_groupNew[$key],
+                        'transaction_group' => $request->transaction_group[$key],
                         'transaction_job_number' => $jobOrder->job_order_number,
                     ]);
                 }
@@ -202,75 +194,42 @@ class jobOrderController extends Controller
 
     public function edit(Request $request, JobOrderModel $jobOrder)
     {
-       
-        // $services = DB::table('services')->select('service_group')->distinct()->get();
-        // $transaction = transactionModel::where('transaction_job', $jobOrder->job_order_id)
-        //     ->leftjoin('transaction_group', 'transaction_group.transaction_group_id', 'transactions.transaction_group')
-        //     ->leftjoin('wallet_type', 'wallet_type.wallet_type_id', 'transactions.transaction_wallet')
-        //     ->orderBy('transaction_id', 'desc')->get();
-
-        // 
-        // $jobOrder = JobOrderModel::where('job_order_id', $jobOrder->job_order_id)->leftjoin('services.service_id', 'job_order.job_order_service')->first();
         $customer = customersModel::where('customer_id',$jobOrder->job_order_customer)->first();
         $nationality  = DB::table('nationality')->get();
         $customers = customersModel::orderBy('customer_id', 'desc')->get();
         $walletType = DB::table('wallet_type')->orderBy('wallet_type_id', 'desc')->get();
-        
-        // $transactionGroup = DB::table('transaction_group')->orderBy('transaction_group_id', 'desc')->get();
-
-
-        return view('jobs.form-edit', compact('nationality','customer','customers', 'jobOrder', 'walletType'));
+        $jobType = DB::table('job_type')->latest()->get();
+        $jobDetail = DB::table('job_detail')->where('job_type',$jobOrder->job_order_type)->latest()->get();
+        $Jobtransactions = DB::table('job_trasaction')->where('job_detail',$jobOrder->job_order_detail)->latest()->get();
+        $transactions = DB::table('transactions')->where('transaction_job',$jobOrder->job_order_id)->latest()->get();
+       // dd($Jobtransactions);
+        return view('jobs.form-edit', compact('nationality','customer','customers', 'jobOrder', 'walletType','jobType','jobDetail','Jobtransactions','transactions'));
     }
-
 
 
     public function update(Request $request, JobOrderModel $jobOrder)
     {
         //dd($request);
-      
-
         $jobOrder->update($request->all());
         // ตรวจสอบว่ามีการส่งค่า transaction_idEdit มาหรือไม่
-        if ($request->transaction_idEdit) {
+        if ($request->transaction_type) {
+            //ลบรายการเดิมออก
+            transactionModel::where('transaction_job',$jobOrder->job_order_id)->delete();
             // อัปเดตข้อมูลธุรกรรมแต่ละรายการ
-            foreach ($request->transaction_idEdit as $key => $value) {
-                transactionModel::where('transaction_id', $value)
-                    ->update([
-                        'transaction_type' => $request->transaction_typeEdit[$key],
-                        'transaction_date' => $request->transaction_dateEdit[$key],
-                        'transaction_wallet' => $request->transaction_walletEdit[$key],
-                        'transaction_amount' => $request->transaction_amountEdit[$key],
-                        'transaction_group' => $request->transaction_groupEdit[$key],
-                    ]);
-            }
-        }
-
-      
-        // ลบข้อมูลธุรกรรมที่ไม่อยู่ใน transaction_idEdit
-        if ($jobOrder->job_order_id && $request->transaction_idEdit) {
-            transactionModel::where('transaction_job', $jobOrder->job_order_id)
-                ->whereNotIn('transaction_id', $request->transaction_idEdit)
-                ->delete();
-        }
-
-        if ($request->transaction_typeNew) {
-            foreach ($request->transaction_typeNew as $key => $value) {
-                if (!empty($request->transaction_typeNew[$key])) {
+            foreach ($request->transaction_type as $key => $value) {
+                if($request->transaction_type[$key]){
                     transactionModel::create([
-                        'transaction_type' => $request->transaction_typeNew[$key],
-                        'transaction_date' => $request->transaction_dateNew[$key],
-                        'transaction_wallet' => $request->transaction_walletNew[$key],
-                        'transaction_amount' => $request->transaction_amountNew[$key],
                         'transaction_job' => $jobOrder->job_order_id,
-                        'transaction_group' => $request->transaction_groupNew[$key],
-                        'transaction_job_number' => $jobOrder->job_order_number,
+                        'transaction_number' => $jobOrder->job_order_number,
+                        'transaction_type' => $request->transaction_type[$key],
+                        'transaction_date' => $request->transaction_date[$key],
+                        'transaction_wallet' => $request->transaction_wallet[$key],
+                        'transaction_amount' => $request->transaction_amount[$key],
+                        'transaction_group' => $request->transaction_group[$key],
                     ]);
                 }
-
             }
-
         }
-
         //คำนวนค่าใช้จ่าย
         $income = 0;
         $expenses = 0;
@@ -283,7 +242,6 @@ class jobOrderController extends Controller
                 $expenses += $value->transaction_amount;
               }
         }
-
         $jobOrder->update([
             'job_order_income' => $income,
             'job_order_expenses' => $expenses,
@@ -291,7 +249,6 @@ class jobOrderController extends Controller
         ]);
 
         
-       
 
     return redirect()->route('joborder.edit', $jobOrder->job_order_id)->with('success', 'Update Job Order Successfully');
 
