@@ -39,8 +39,8 @@ Route::middleware(['IsAdmin'])->group(function () {
 
 
 //dashboards
-Route::get('/', [dashbordController::class, 'index'])->name('dashboard.index');
-Route::get('/home', [dashbordController::class, 'index'])->name('dashboard.index');
+// Route::get('/', [dashbordController::class, 'index'])->name('dashboard.index');
+// Route::get('/home', [dashbordController::class, 'index'])->name('dashboard.index');
 
 //Customs
 Route::get('customer/all',[customersController::class,'index'])->name('customer.index');
@@ -84,7 +84,10 @@ Route::get('file/delete',[fileController::class,'deletefile'])->name('file.delet
 //Jobs Order 
 
 Route::get('jobs',[jobOrderController::class,'index'])->name('joborder.index'); 
+Route::get('',[jobOrderController::class,'index'])->name('joborder.index'); 
+
 Route::get('jobs/searchIndex',[jobOrderController::class,'searchIndex'])->name('joborder.searchIndex'); 
+
 Route::get('job/order/create',[jobOrderController::class,'create'])->name('joborder.craete'); 
 Route::get('job/order/edit/{jobOrder}',[jobOrderController::class,'edit'])->name('joborder.edit'); 
 Route::post('job/order/store',[jobOrderController::class,'store'])->name('joborder.store'); 
