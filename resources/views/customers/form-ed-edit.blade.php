@@ -7,188 +7,190 @@
 
 <div class="tab-content">
     <div class="tab-pane active" id="home2" role="tabpanel">
-        <h5>Passport Information</h5>
-
         <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-8">
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input success check-outline outline-success" type="radio"
-                            id="success-outline-radio" name="customer_prefix"
-                            {{ $cus->customer_prefix === 'MR' ? 'checked' : '' }} value="MR">
-                        <label class="form-check-label" for="success-outline-radio">MR.</label>
+            <div class="col-md-6">
+                <fieldset class=" redo-fieldset">
+                    <legend class="reset-this redo-legend">Passport Information</legend>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-8">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input success check-outline outline-success" type="radio"
+                                        id="success-outline-radio" name="customer_prefix"
+                                        {{ $cus->customer_prefix === 'MR' ? 'checked' : '' }} value="MR">
+                                    <label class="form-check-label" for="success-outline-radio">MR.</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input success check-outline outline-success" type="radio"
+                                        id="success2-outline-radio" name="customer_prefix"
+                                        {{ $cus->customer_prefix === 'MS' ? 'checked' : '' }} value="MS">
+                                    <label class="form-check-label" for="success2-outline-radio">MS.</label>
+                                </div>
+            
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input success check-outline outline-success" type="radio"
-                            id="success2-outline-radio" name="customer_prefix"
-                            {{ $cus->customer_prefix === 'MS' ? 'checked' : '' }} value="MS">
-                        <label class="form-check-label" for="success2-outline-radio">MS.</label>
+            
+            
+                    <div class="row">
+                        <div class="col-md-12 mb-2">
+                            <div class="form-group">
+                                <label>Name : <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="customer_name" placeholder="Name"
+                                    value="{{ $cus->customer_name }}" style="background-color: lightgrey" required>
+                            </div>
+                        </div>
+            
+                        <div class="col-md-6 mb-2">
+                            <div class="form-group">
+                                <label>Nationality : <span class="text-danger">*</span></label>
+                                <select class="select2 form-control custom-select " id="nationality" name="customer_nationality"
+                                    style="width: 100%; height: 36px">
+            
+                                    <option value=""></option>
+                                    <option selected value="1">None</option>
+                                    @forelse ($nationality as $item)
+                                        <option @if ($cus->customer_nationality === $item->nationality_id) selected @endif
+                                            value="{{ $item->nationality_id }}">
+                                            {{ $item->nationality_code }} : {{ $item->nationality_name }}</option>
+                                    @empty
+                                        No data nationality
+                                    @endforelse
+                                </select>
+                            </div>
+                        </div>
+            
+                        <div class="col-6 md-2">
+                            <div class="form-group">
+                                <label>Date of Birth : </span></label>
+                                <input type="date" class="form-control" name="customer_birthday"
+                                    value="{{ $cus->customer_birthday }}">
+                            </div>
+                        </div>
+            
                     </div>
-
-                </div>
+            
+                    <div class="row">
+                        <div class="col-md-6 mb-2">
+                            <div class="form-group">
+                                <label>Passport No :</label>
+                                <input type="text" class="form-control" name="customer_passport" placeholder="Passport No."
+                                    value="{{ $cus->customer_passport }}">
+                            </div>
+                        </div>
+            
+                        <div class="col-6 md-2">
+                            <div class="form-group">
+                                <label>Passport Expiry Date : </span></label>
+                                <input type="date" class="form-control" name="customer_passport_expire_date"
+                                    value="{{ $cus->customer_passport_expire_date }}">
+                            </div>
+                        </div>
+            
+                    </div>
+                </fieldset>
+            </div>
+            <div class="col-md-6">
+                <fieldset class=" redo-fieldset">
+                    <legend class="reset-this redo-legend mb-2">Visa Information</legend>
+                    <div class="row">
+                        <div class="col-6 md-4 mb-3">
+                            <div class="form-group">
+                                <label> CODE : <span class="text-danger">*</span></label>
+                                <input type="text" name="customer_code" class="form-control" value="{{ $cus->customer_code }}">
+                            </div>
+                        </div>
+                        <div class="col-6 md-4 mb-3">
+                            <div class="form-group">
+                                <label> date of Entry : <span class="text-danger">*</span></label>
+                                <input type="date" name="customer_date_entry" class="form-control"
+                                    value="{{ $cus->customer_date_entry }}">
+                            </div>
+                        </div>
+            
+                    </div>
+            
+                    <div class="row">
+                        <div class="col-6 md-4 mb-3">
+                            <div class="form-group">
+                                <label> Non-ED : </label>
+                                <input type="date" id="expiry-0" name="customer_visa_date_expiry_0" class="form-control"
+                                    value="{{ $cus->customer_visa_date_expiry_0 }}">
+                            </div>
+                        </div>
+                        <div class="col-6 md-4 mb-3">
+                            <div class="form-group">
+                                <label> Extension 1 : </label> <a href="#" id="add-expiry-1">add</a>
+                                <p id="show-expiry-1" style="display: none">-</p>
+                                <input type="date" id="expiry-1" name="customer_visa_date_expiry_1" class="form-control"
+                                    value="{{ $cus->customer_visa_date_expiry_1 }}">
+                            </div>
+                        </div>
+                        <div class="col-6 md-4 mb-3">
+                            <div class="form-group">
+                                <label> Extension 2 : </label> <a href="#" id="add-expiry-2">add</a>
+                                <p id="show-expiry-2" style="display: none">-</p>
+                                <input type="date" id="expiry-2" name="customer_visa_date_expiry_2" class="form-control"
+                                    value="{{ $cus->customer_visa_date_expiry_2 }}">
+                            </div>
+                        </div>
+                        <div class="col-6 md-4 mb-3">
+                            <div class="form-group">
+                                <label> Extension 3 : </label> <a href="#" id="add-expiry-3">add</a>
+                                <p id="show-expiry-3" style="display: none">-</p>
+                                <input type="date" id="expiry-3" name="customer_visa_date_expiry_3" class="form-control"
+                                    value="{{ $cus->customer_visa_date_expiry_3 }}">
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
             </div>
         </div>
-
-
-        <div class="row">
-            <div class="col-md-3 mb-3">
-                <div class="form-group">
-                    <label>Name : <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" name="customer_name" placeholder="Name"
-                        value="{{ $cus->customer_name }}" style="background-color: lightgrey" required>
+       
+  
+            <fieldset class=" redo-fieldset">
+                <legend class="reset-this redo-legend mb-2">Contact Information</legend>
+                <div class="row">
+          
+                    <div class="col-3 md-12 mb-3">
+                        <div class="form-group">
+                            <label>Tel: <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="customer_contact" placeholder="Tel"
+                                value="{{ $cus->customer_contact }}">
+                        </div>
+                    </div>
+        
+                    <div class="col-3 md-12 mb-3">
+                        <div class="form-group">
+                            <label>Line / WhatsApp : <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="customer_contact_media"
+                                value="{{ $cus->customer_contact_media }}" placeholder="Line / WhatsApp">
+                        </div>
+                    </div>
+        
+                    <div class="col-md-6 mb-3">
+                        <div class="form-group">
+                            <label>Email : </label>
+                            <input type="email" class="form-control" name="customer_email" placeholder="Email@..."
+                                value="{{ $cus->customer_email }}">
+                        </div>
+                    </div>
+        
+                    <div class="col-12 md-12 mb-4">
+                        <div class="form-group">
+                            <label>Address in thailand :</label>
+                            <textarea name="customer_address_thailand" cols="30" rows="3" class="form-control"
+                                placeholder="Address in Thailand">{{ $cus->customer_address_thailand }}</textarea>
+                        </div>
+                    </div>
+        
+        
                 </div>
-            </div>
-
-            <div class="col-md-3 mb-3">
-                <div class="form-group">
-                    <label>Nationality : <span class="text-danger">*</span></label>
-                    <select class="select2 form-control custom-select " id="nationality" name="customer_nationality"
-                        style="width: 100%; height: 36px">
-
-                        <option value=""></option>
-                        <option selected value="1">None</option>
-                        @forelse ($nationality as $item)
-                            <option @if ($cus->customer_nationality === $item->nationality_id) selected @endif
-                                value="{{ $item->nationality_id }}">
-                                {{ $item->nationality_code }} : {{ $item->nationality_name }}</option>
-                        @empty
-                            No data nationality
-                        @endforelse
-                    </select>
-                </div>
-            </div>
-
-            <div class="col-3 md-4">
-                <div class="form-group">
-                    <label>Date of Birth : </span></label>
-                    <input type="date" class="form-control" name="customer_birthday"
-                        value="{{ $cus->customer_birthday }}">
-                </div>
-            </div>
-
-        </div>
-
-        <div class="row">
-            <div class="col-md-3 mb-4">
-                <div class="form-group">
-                    <label>Passport No :</label>
-                    <input type="text" class="form-control" name="customer_passport" placeholder="Passport No."
-                        value="{{ $cus->customer_passport }}">
-                </div>
-            </div>
-
-            <div class="col-3 md-4">
-                <div class="form-group">
-                    <label>Passport Expiry Date : </span></label>
-                    <input type="date" class="form-control" name="customer_passport_expire_date"
-                        value="{{ $cus->customer_passport_expire_date }}">
-                </div>
-            </div>
-
-        </div>
-
-        <hr>
-        <h5>Visa Information</h5>
-        <div class="row">
-            <div class="col-3 md-4 mb-3">
-                <div class="form-group">
-                    <label> CODE : <span class="text-danger">*</span></label>
-                    <input type="text" name="customer_code" class="form-control" value="{{ $cus->customer_code }}">
-                </div>
-            </div>
-            <div class="col-3 md-4 mb-3">
-                <div class="form-group">
-                    <label> date of Entry : <span class="text-danger">*</span></label>
-                    <input type="date" name="customer_date_entry" class="form-control"
-                        value="{{ $cus->customer_date_entry }}">
-                </div>
-            </div>
-
-        </div>
-
-        <div class="row">
-            <div class="col-3 md-4 mb-3">
-                <div class="form-group">
-                    <label> Non-ED : </label>
-                    <input type="date" id="expiry-0" name="customer_visa_date_expiry_0" class="form-control"
-                        value="{{ $cus->customer_visa_date_expiry_0 }}">
-                </div>
-            </div>
-            <div class="col-3 md-4 mb-3">
-                <div class="form-group">
-                    <label> Extension 1 : </label> <a href="#" id="add-expiry-1">add</a>
-                    <p id="show-expiry-1" style="display: none">-</p>
-                    <input type="date" id="expiry-1" name="customer_visa_date_expiry_1" class="form-control"
-                        value="{{ $cus->customer_visa_date_expiry_1 }}">
-                </div>
-            </div>
-            <div class="col-3 md-4 mb-3">
-                <div class="form-group">
-                    <label> Extension 2 : </label> <a href="#" id="add-expiry-2">add</a>
-                    <p id="show-expiry-2" style="display: none">-</p>
-                    <input type="date" id="expiry-2" name="customer_visa_date_expiry_2" class="form-control"
-                        value="{{ $cus->customer_visa_date_expiry_2 }}">
-                </div>
-            </div>
-            <div class="col-3 md-4 mb-3">
-                <div class="form-group">
-                    <label> Extension 3 : </label> <a href="#" id="add-expiry-3">add</a>
-                    <p id="show-expiry-3" style="display: none">-</p>
-                    <input type="date" id="expiry-3" name="customer_visa_date_expiry_3" class="form-control"
-                        value="{{ $cus->customer_visa_date_expiry_3 }}">
-                </div>
-            </div>
-        </div>
-
-        <script></script>
-
-        <hr>
-
-        <div class="row">
-            <h5>Contact Information</h5>
-
-            <div class="col-3 md-12 mb-3">
-                <div class="form-group">
-                    <label>Tel: <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" name="customer_contact" placeholder="Tel"
-                        value="{{ $cus->customer_contact }}">
-                </div>
-            </div>
-
-            <div class="col-3 md-12 mb-3">
-                <div class="form-group">
-                    <label>Line / WhatsApp : <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" name="customer_contact_media"
-                        value="{{ $cus->customer_contact_media }}" placeholder="Line / WhatsApp">
-                </div>
-            </div>
-
-            <div class="col-md-3 mb-3">
-                <div class="form-group">
-                    <label>Email : </label>
-                    <input type="email" class="form-control" name="customer_email" placeholder="Email@..."
-                        value="{{ $cus->customer_email }}">
-                </div>
-            </div>
-
-            <div class="col-12 md-12 mb-4">
-                <div class="form-group">
-                    <label>Address in thailand :</label>
-                    <textarea name="customer_address_thailand" cols="30" rows="3" class="form-control"
-                        placeholder="Address in Thailand">{{ $cus->customer_address_thailand }}</textarea>
-                </div>
-            </div>
-
-
-        </div>
-
-
-
-
-
-
-    </div>
-
+    
+        
+              </div>
+            </fieldset>
+<br>
 
     <div class="tab-pane  p-3" id="profile2" role="tabpanel">
         <div class="accordion" id="accordionExample">

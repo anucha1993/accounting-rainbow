@@ -13,15 +13,19 @@
     <title>RAINBOW VISA SERVICE</title>
     <link rel="canonical" href="https://www.wrappixel.com/templates/ampleadmin/" />
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="{{URL::asset('assets/images/logos/rainbow_logo.png')}}" />
+    <link rel="icon" type="image/png" sizes="16x16"
+        href="{{ URL::asset('assets/images/logos/rainbow_logo.png') }}" />
     <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/select2/dist/css/select2.min.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/extra-libs/datatables.net-bs4/css/dataTables.bootstrap4.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/extra-libs/datatables.net-bs4/css/responsive.dataTables.min.css') }}" />
+    <link rel="stylesheet" type="text/css"
+        href="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}" />
+    <link rel="stylesheet" type="text/css"
+        href="{{ URL::asset('assets/extra-libs/datatables.net-bs4/css/dataTables.bootstrap4.css') }}" />
+    <link rel="stylesheet" type="text/css"
+        href="{{ URL::asset('assets/extra-libs/datatables.net-bs4/css/responsive.dataTables.min.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/daterangepicker/daterangepicker.css') }}" />
     <link href="{{ URL::asset('dist/css/style.min.css') }}" rel="stylesheet" />
-     
+
     <!-- This Page CSS -->
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/extra-libs/prism/prism.css') }}" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -33,6 +37,45 @@
     <!-- -------------------------------------------------------------- -->
     <script src="{{ URL::asset('assets/libs/jquery/dist/jquery.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+    <style>
+        .reset-this {
+            all: initial;
+            padding: 5px;
+        }
+
+        .redo-fieldset {
+            border: 1px solid rgb(177, 177, 177);
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            font-size: 14px;
+            /* color: #333; */
+        }
+
+        .form-group input {
+            border: 0.5px solid #0000001f;
+            /* background-color: #f9f9f9; */
+            padding: 5px;
+            border-radius: 3px;
+            font-size: 14px;
+            color: #555555;
+            /* box-shadow: 0 2px 2px rgba(92, 92, 92, 0.1); */
+            transition: border 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-group input:focus,  .form-group textarea:focus, .select:focus {
+            border: 2px solid #007bff;
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+            outline: none;
+        }
+    </style>
+
+
 </head>
 
 
@@ -77,9 +120,10 @@
                         <b class="logo-icon text-center">
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                             <!-- Dark Logo icon -->
-                            <img src="{{URL::asset('assets/images/logos/rainbow_logo.png')}}" alt="homepage" class="dark-logo" style="width: 50px" />
+                            <img src="{{ URL::asset('assets/images/logos/rainbow_logo.png') }}" alt="homepage"
+                                class="dark-logo" style="width: 50px" />
                             <!-- Light Logo icon -->
-                            <img src="{{URL::asset('assets/images/logos/rainbow_logo.png')}}" alt="homepage"
+                            <img src="{{ URL::asset('assets/images/logos/rainbow_logo.png') }}" alt="homepage"
                                 class="light-logo" />
                             {{-- <h4><b>ACCOUNT | APP</b></h4> --}}
                         </b>
@@ -91,7 +135,7 @@
                             <!-- Light Logo text -->
                             <img src="../../assets/images/logos/logo-light-text.png" class="light-logo"
                                 alt="homepage" /> --}}
-                              <b>  VISA SERVICE</b>
+                            <b> VISA SERVICE</b>
                         </span>
                     </a>
                     <!-- ============================================================== -->
@@ -747,7 +791,7 @@
                                     </div>
                                 </div>
 
-                                
+
                                 {{-- <a class="dropdown-item" href="#"><i data-feather="user"
                                         class="feather-sm text-info me-1 ms-1"></i>
                                     My Profile</a>
@@ -812,15 +856,16 @@
                                 aria-expanded="false"><i class="mdi mdi-av-timer"></i><span class="hide-menu">Home
                                 </span></a>
                             <ul aria-expanded="false" class="collapse first-level">
-                              
+
                             </ul>
                         </li>
 
                         <li class="sidebar-item">
-                          <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
-                              aria-expanded="false"><i class="mdi mdi-av-timer"></i><span class="hide-menu">Customers
-                              </span></a>
-                              <ul aria-expanded="false" class="collapse first-level">
+                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
+                                aria-expanded="false"><i class="mdi mdi-av-timer"></i><span
+                                    class="hide-menu">Customers
+                                </span></a>
+                            <ul aria-expanded="false" class="collapse first-level">
 
                                 <li class="sidebar-item">
                                     <a href="{{ route('customer.index') }}" class="sidebar-link">
@@ -829,7 +874,7 @@
                                     </a>
                                 </li>
                             </ul>
-                      </li>
+                        </li>
 
 
                         <li class="sidebar-item">
@@ -838,14 +883,14 @@
                                     class="hide-menu">Jobs </span></a>
                             <ul aria-expanded="false" class="collapse first-level">
 
-                                
+
                                 <li class="sidebar-item">
                                     <a href="{{ route('joborder.index') }}" class="sidebar-link">
                                         <i class="mdi mdi-table-large"></i>
                                         <span class="hide-menu"> Job Order </span>
                                     </a>
                                 </li>
-                              
+
                             </ul>
                         </li>
 
@@ -854,31 +899,32 @@
                                 aria-expanded="false"><i class="mdi mdi-clipboard-text"></i><span
                                     class="hide-menu">รายงาน</span></a>
                             <ul aria-expanded="false" class="collapse first-level">
-                                
+
                             </ul>
                         </li>
 
+                        {{-- @if (Auth::user()->isAdmin === 'isAdmin') --}}
                         <li class="sidebar-item">
                             <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
                                 aria-expanded="false"><i class="mdi mdi-buffer"></i><span class="hide-menu">Category
                                 </span></a>
-                                <ul aria-expanded="false" class="collapse first-level">
+                            <ul aria-expanded="false" class="collapse first-level">
 
-                                    <li class="sidebar-item">
-                                        <a href="{{ route('wallet.index') }}" class="sidebar-link">
-                                            <i class="mdi mdi-cash-usd"></i>
-                                            <span class="hide-menu"> Wallet </span>
-                                        </a>
-                                    </li>
-  
-                                  <li class="sidebar-item">
-                                      <a href="{{ route('jobtrasaction.index') }}" class="sidebar-link">
-                                          <i class="mdi mdi-credit-card"></i>
-                                          <span class="hide-menu"> Transactions </span>
-                                      </a>
-                                  </li>
-                                  
-                                  <li class="sidebar-item">
+                                <li class="sidebar-item">
+                                    <a href="{{ route('wallet.index') }}" class="sidebar-link">
+                                        <i class="mdi mdi-cash-usd"></i>
+                                        <span class="hide-menu"> Wallet </span>
+                                    </a>
+                                </li>
+
+                                <li class="sidebar-item">
+                                    <a href="{{ route('jobtrasaction.index') }}" class="sidebar-link">
+                                        <i class="mdi mdi-credit-card"></i>
+                                        <span class="hide-menu"> Transactions </span>
+                                    </a>
+                                </li>
+
+                                <li class="sidebar-item">
                                     <a href="{{ route('visaType.index') }}" class="sidebar-link">
                                         <i class="mdi mdi-credit-card"></i>
                                         <span class="hide-menu"> Visa Type </span>
@@ -891,10 +937,13 @@
                                         <span class="hide-menu">Job Detail</span>
                                     </a>
                                 </li>
-                              </ul>
+                            </ul>
                         </li>
+
+                        {{-- @endif --}}
+
                         
-                        
+
                         <li class="sidebar-item">
                             <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
                                 aria-expanded="false"><i class="mdi mdi-settings"></i><span
@@ -909,7 +958,7 @@
                                 </li>
                             </ul>
                         </li>
-                     
+
                     </ul>
                     </li>
                     </ul>
@@ -942,7 +991,7 @@
             <!-- -------------------------------------------------------------- -->
             <!-- Container fluid  -->
             <!-- -------------------------------------------------------------- -->
-      
+
             @if (session('error'))
                 <script>
                     Swal.fire({
@@ -950,7 +999,7 @@
                         title: '{{ session('error') }}',
                         showConfirmButton: false,
                         timer: 2000
-                        
+
                     })
                 </script>
             @endif
@@ -966,18 +1015,18 @@
             @endif
 
             @php
-            if(!session()->has('visited')) {
-                session(['visited' => true]);
-            } else {
-                session()->forget('success');
-                session()->forget('error');
-            }
-        @endphp
-  
+                if (!session()->has('visited')) {
+                    session(['visited' => true]);
+                } else {
+                    session()->forget('success');
+                    session()->forget('error');
+                }
+            @endphp
+
 
             @yield('content')
-      
-            
+
+
             <!-- -------------------------------------------------------------- -->
             <!-- End PAge Content -->
             <!-- -------------------------------------------------------------- -->
@@ -989,8 +1038,8 @@
         <!-- footer -->
         <!-- -------------------------------------------------------------- -->
         <footer class="footer text-center">
-          All Rights Reserved by Anucha Yothanan
-      </footer>
+            All Rights Reserved by Anucha Yothanan
+        </footer>
 
         <!-- -------------------------------------------------------------- -->
         <!-- End footer -->
@@ -1000,7 +1049,7 @@
     <!-- End Page wrapper  -->
     <!-- -------------------------------------------------------------- -->
     </div>
-    
+
     <!-- -------------------------------------------------------------- -->
     <!-- End Wrapper -->
     <!-- -------------------------------------------------------------- -->
@@ -1542,7 +1591,7 @@
     <!-- This Page JS -->
     <script src="{{ URL::asset('assets/extra-libs/prism/prism.js') }}"></script>
 
-    
+
     <script src="{{ URL::asset('assets/libs/select2/dist/js/select2.full.min.js') }}"></script>
     <script src="{{ URL::asset('assets/libs/select2/dist/js/select2.min.js') }}"></script>
     <script src="{{ URL::asset('dist/js/pages/forms/select2/select2.init.js') }}"></script>

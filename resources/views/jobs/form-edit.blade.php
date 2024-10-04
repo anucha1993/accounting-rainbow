@@ -23,7 +23,7 @@
                             <div class="input-group">
                                 <span class="input-group-text  bg-light-dark" id="basic-addon2">Job Date</span>
                                 <input type="date" name="job_order_date"
-                                    class="form-control"@if (Auth::user()->isAdmin === 'Operator' && $jobOrder->job_order_status === 'close') disabled @endif
+                                    class="form-control"@if (Auth::user()->isAdmin === 'Operator' || $jobOrder->job_order_status === 'close') disabled @endif
                                     value="{{ date('Y-m-d', strtotime($jobOrder->job_order_date)) }}">
 
                             </div>
@@ -52,7 +52,7 @@
                                         <span class="input-group-text  bg-light-dark" id="basic-addon2">Job Type <label
                                                 class="text-danger"> *</label></span>
                                         <select name="job_order_type" id="job-order-type"
-                                            @if (Auth::user()->isAdmin === 'Operator' && $jobOrder->job_order_status === 'close') disabled @endif
+                                            @if (Auth::user()->isAdmin === 'Operator' || $jobOrder->job_order_status === 'close') disabled @endif
                                             class="form-select job-order-type">
                                             <option value="service" selected disabled>Other Service</option>
                                             @forelse ($jobType as $item)
@@ -69,10 +69,9 @@
 
                                 <div class="col-md-3">
                                     <div class="input-group mb-3">
-                                        <span class="input-group-text  bg-light-dark" id="basic-addon2">Job detail <label
-                                                class="text-danger"> *</label></span>
+                                        <span class="input-group-text  bg-light-dark" id="basic-addon2">Job detail <label class="text-danger"> *</label></span>
                                         <select name="job_order_detail" id="service" class="form-select service"
-                                            @if (Auth::user()->isAdmin === 'Operator' && $jobOrder->job_order_status === 'close') disabled @endif>
+                                            @if (Auth::user()->isAdmin === 'Operator' || $jobOrder->job_order_status === 'close') disabled @endif>
 
 
                                             @forelse ($jobDetail as $item)
@@ -91,9 +90,9 @@
 
                                 <div class="col-md-3">
                                     <div class="input-group">
-                                        <span class="input-group-text  bg-light-dark" id="basic-addon2">Receipt No.</span>
+                                        <span class="input-group-text  bg-light-dark" id="basic-addon2">Receipt No. <label class="text-danger"> *</label></span>
                                         <input type="text" name="job_order_receipt" class="form-control"
-                                            @if (Auth::user()->isAdmin === 'Operator' && $jobOrder->job_order_status === 'close') disabled @endif
+                                            @if (Auth::user()->isAdmin === 'Operator' || $jobOrder->job_order_status === 'close') disabled @endif
                                             value="{{ $jobOrder->job_order_receipt }}" placeholder="Receipt No..">
         
                                     </div>
@@ -123,9 +122,9 @@
                                 <div class="col-md-6">
                                     <div class="input-group mb-3">
                                         <span class="input-group-text  bg-light-dark" id="basic-addon2">Source
-                                            Channel</span>
-                                        <select name="job_order_source_channel" class="form-select" required
-                                            @if (Auth::user()->isAdmin === 'Operator' && $jobOrder->job_order_status === 'close') disabled @endif>
+                                            Channel </span>
+                                        <select name="job_order_source_channel" class="form-select" 
+                                            @if (Auth::user()->isAdmin === 'Operator' || $jobOrder->job_order_status === 'close') disabled @endif>
                                             <option value="" disabled>none</option>
                                             <option @if ($jobOrder->job_order_source_channel === 'Walk-in') selected @endif value="Walk-in">
                                                 Walk-In</option>
@@ -143,7 +142,7 @@
                                     <div class="input-group">
 
                                         <textarea name="job_order_details" id="" class="form-control" cols="30" rows="3"
-                                            @if (Auth::user()->isAdmin === 'Operator' && $jobOrder->job_order_status === 'close') disabled @endif>{{ $jobOrder->job_order_details }}</textarea>
+                                            @if (Auth::user()->isAdmin === 'Operator' || $jobOrder->job_order_status === 'close') disabled @endif>{{ $jobOrder->job_order_details }}</textarea>
                                     </div>
                                 </div>
 
@@ -162,7 +161,7 @@
                                         <span class="input-group-text">Finish Date :</span>
                                         <input type="date" class="form-control" name="job_order_finish_date" readonly
                                             style="background-color: antiquewhite"
-                                            @if (Auth::user()->isAdmin === 'Operator' && $jobOrder->job_order_status === 'close') disabled @endif
+                                            @if (Auth::user()->isAdmin === 'Operator' || $jobOrder->job_order_status === 'close') disabled @endif
                                             value="{{ $jobOrder->job_order_status === 'close' ? date('Y-m-d', strtotime($jobOrder->job_order_finish_date)) : '' }}">
                                     </div>
                                 </div>
@@ -198,7 +197,7 @@
                                 <div class="input-group mb-3">
                                     <span class="input-group-text bg-primary text-white">Choose Customer</span>
                                     <select name="job_order_customer" id="customer-id" class="form-select customer-id"
-                                        @if (Auth::user()->isAdmin === 'Operator' && $jobOrder->job_order_status === 'close') disabled @endif required style="width: 75%"
+                                        @if (Auth::user()->isAdmin === 'Operator' || $jobOrder->job_order_status === 'close') disabled @endif required style="width: 75%"
                                         disabled>
                                         <option value="" disabled selected>Select by Customer</option>
 
@@ -220,15 +219,14 @@
                             <div class="col-md-3 float-end">
                                 <br>
                                 @if ($jobOrder->job_order_status === 'close')
-                                    @if (Auth::user()->isAdmin === 'Admin')
+                                   
                                         <a href="#" @if ($jobOrder->job_order_status === 'open') style="display: none" @endif
                                             class="btn btn-primary float-end me-3  btn-re-job"><i
                                                 class=" far fa-share-square"></i> Re-Open Job</a>
                                     @endif
-                                @endif
+                         
 
-
-                                <a href="#" @if ($jobOrder->job_order_status === 'close') style="display: none" @endif
+                                <a href="#" @if (Auth::user()->isAdmin !== 'Admin') style="display: none" @endif
                                     class="btn btn-danger float-end   me-3 btn-close-job"> <i
                                         class="far fa-window-close"></i> Close Job </a>
                             </div>
@@ -243,12 +241,12 @@
                         <div class="col-md-6">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <label>Name</label>
+                                    <label>Name <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="cusntomer-name" disabled>
                                 </div>
 
                                 <div class="col-md-12">
-                                    <label>Nationality</label>
+                                    <label>Nationality <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="cusntomer-nationality" disabled>
                                 </div>
 
@@ -263,7 +261,7 @@
                                 <div class="col-md-12">
                                     <label>Note Job</label>
                                     <textarea name="job_order_note" class="form-control" id="" cols="30" rows="2"
-                                        @if (Auth::user()->isAdmin === 'Operator' && $jobOrder->job_order_status === 'close') disabled @endif placeholder="Note..">{{ $jobOrder->job_order_note }}</textarea>
+                                        @if (Auth::user()->isAdmin === 'Operator' || $jobOrder->job_order_status === 'close') disabled @endif placeholder="Note..">{{ $jobOrder->job_order_note }}</textarea>
                                 </div>
 
 
@@ -295,7 +293,7 @@
                         </div>
                         <div class="col-md-2">
 
-                            @if ($jobOrder->job_order_status === 'open')
+                            @if (Auth::user()->isAdmin === 'Admin')
                                 <a href="{{ route('transaction.create') }}" class="btn btn-primary" id="addRow"><i
                                         class="far fa-plus-square"></i> New
                                     Transaction</a>
@@ -307,7 +305,7 @@
                                             New
                                             Transaction</a>
                                     @else
-                                        <a href="#" class="btn btn-dark">Job Close</a>
+                                       
                                     @endif
                                 @endif
                             @endif
@@ -446,7 +444,7 @@
                     <a href="{{ route('joborder.index') }}" class="btn btn-info "> <i
                             class="fas fas fa-arrow-circle-left"></i> Back Jobs </a>
 
-                    @if (Auth::user()->isAdmin === 'Operator' && $jobOrder->job_order_status === 'close')
+                    @if (Auth::user()->isAdmin === 'Operator' || $jobOrder->job_order_status === 'close')
                     @else
                         <button type="submit" class="btn btn-success float-end"> <i class="fa fa-save"></i> Save Job
                             Order</button>
@@ -485,7 +483,7 @@
                                     value="{{ $customer->customer_name }}">
                             </div>
                             <div class="col-md-12 mb-2">
-                                <label>Nationality</label>
+                                <label>Nationality <span class="text-danger">*</span></label>
                                 <select class="select2 form-control custom-select " id="mySelect2"
                                     name="customer_nationality" style="width: 100%; height: 36px">
                                     <option>None</option>

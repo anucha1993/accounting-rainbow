@@ -49,9 +49,8 @@ Route::get('customer/create',[customersController::class,'create'])->name('custo
 
 Route::put('customer/update/{customersModel}',[customersController::class,'update'])->name('customer.update');
 Route::post('customer/store',[customersController::class,'store'])->name('customer.store');
-
+Route::get('customer/edit/{cus}',[customersController::class,'edit'])->name('customer.edit');
 Route::middleware(['IsAdmin'])->group(function () {
-       Route::get('customer/edit/{cus}',[customersController::class,'edit'])->name('customer.edit');
        Route::get('customer/delete/',[customersController::class,'delete'])->name('customer.delete');
 });
 
@@ -99,12 +98,13 @@ Route::put('job/update/customer/{customersModel}',[jobOrderController::class,'Cu
 Route::get('jobs/select/jobtype',[jobOrderController::class,'jobType'])->name('joborder.jobType'); 
 Route::get('jobs/select/serviceTrasaction',[jobOrderController::class,'serviceTrasaction'])->name('joborder.serviceTrasaction'); 
 
-
-Route::put('job/order/update/{jobOrder}',[jobOrderController::class,'update'])->name('joborder.update'); 
-// Route::post('jobs/service/select',[jobOrderController::class,'service'])->name('joborder.service'); 
-
 Route::middleware(['IsAdmin'])->group(function () {
    Route::get('job/order/delete',[jobOrderController::class,'delete'])->name('joborder.delete');
+   Route::put('job/order/update/{jobOrder}',[jobOrderController::class,'update'])->name('joborder.update'); 
+});
+
+Route::middleware(['IsAdmin'])->group(function () {
+
 });
 
 //wallet
@@ -136,27 +136,36 @@ Route::post('transaction/delete',[transactionController::class, 'delete'])->name
 });
 
 // Visa Type
-
-Route::get('visa/type',[visaTypeController::class,'index'])->name('visaType.index');
-Route::get('visa/modal/edit/{visaTypeModel}',[visaTypeController::class,'edit'])->name('visaType.edit');
-Route::post('visa/store',[visaTypeController::class,'store'])->name('visaType.store');
 Route::middleware(['IsAdmin'])->group(function () {
-
-Route::get('visa/delete/{visaTypeModel}',[visaTypeController::class,'delete'])->name('visaType.delete');
+       Route::get('visa/type',[visaTypeController::class,'index'])->name('visaType.index');
+       Route::get('visa/modal/edit/{visaTypeModel}',[visaTypeController::class,'edit'])->name('visaType.edit');
+       Route::post('visa/store',[visaTypeController::class,'store'])->name('visaType.store');
+       Route::put('visa/update/{visaTypeModel}',[visaTypeController::class,'update'])->name('visaType.update');
+       Route::get('visa/delete/{visaTypeModel}',[visaTypeController::class,'delete'])->name('visaType.delete');
 });
-Route::put('visa/update/{visaTypeModel}',[visaTypeController::class,'update'])->name('visaType.update');
+
+
 
 
 // Services
-Route::get('jobdetail',[jobDetailController::class,'index'])->name('jobdetail.index');
-Route::post('jobdetail/store',[jobDetailController::class,'store'])->name('jobdetail.store');
-Route::get('jobdetail/edit/{jobDetailModel}',[jobDetailController::class,'edit'])->name('jobdetail.edit');
-Route::get('jobdetail/delete/{jobDetailModel}',[jobDetailController::class,'delete'])->name('jobdetail.delete');
-Route::put('jobdetail/update/{jobDetailModel}',[jobDetailController::class,'update'])->name('jobdetail.update');
-
+Route::middleware(['IsAdmin'])->group(function () {
+       Route::get('jobdetail',[jobDetailController::class,'index'])->name('jobdetail.index');
+       Route::post('jobdetail/store',[jobDetailController::class,'store'])->name('jobdetail.store');
+       Route::get('jobdetail/edit/{jobDetailModel}',[jobDetailController::class,'edit'])->name('jobdetail.edit');
+       Route::get('jobdetail/delete/{jobDetailModel}',[jobDetailController::class,'delete'])->name('jobdetail.delete');
+       Route::put('jobdetail/update/{jobDetailModel}',[jobDetailController::class,'update'])->name('jobdetail.update');
+         
+});
 // job Trasaction
-Route::get('jobtrasactions',[jobTransactionController::class,'index'])->name('jobtrasaction.index');
-Route::post('jobtrasaction/store',[jobTransactionController::class,'store'])->name('jobtrasaction.store');
-Route::get('jobtrasaction/edit/{jobTrasactionModel}',[jobTransactionController::class,'edit'])->name('jobtrasaction.edit');
-Route::put('jobtrasaction/update/{jobTrasactionModel}',[jobTransactionController::class,'update'])->name('jobtrasaction.update');
-Route::get('jobtrasaction/delete/{jobTrasactionModel}',[jobTransactionController::class,'delete'])->name('jobtrasaction.delete');
+Route::middleware(['IsAdmin'])->group(function () {
+       Route::get('jobtrasactions',[jobTransactionController::class,'index'])->name('jobtrasaction.index');
+       Route::post('jobtrasaction/store',[jobTransactionController::class,'store'])->name('jobtrasaction.store');
+       Route::get('jobtrasaction/edit/{jobTrasactionModel}',[jobTransactionController::class,'edit'])->name('jobtrasaction.edit');
+       Route::put('jobtrasaction/update/{jobTrasactionModel}',[jobTransactionController::class,'update'])->name('jobtrasaction.update');
+       Route::get('jobtrasaction/delete/{jobTrasactionModel}',[jobTransactionController::class,'delete'])->name('jobtrasaction.delete');
+         
+});
+
+
+
+

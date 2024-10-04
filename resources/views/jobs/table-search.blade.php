@@ -10,13 +10,16 @@
                 <th>Job Status</th>
                 <th>Name</th>
                 <th>Nationality</th>
-                <th>Passport No</th>
-                <th>Source Channel</th>
+                <th>Total</th>
+                <th>Job detail</th>
                 <th>Receipt No.</th>
                 <th>Close Job Date</th>
+
                 <th>Control</th>
+              
             </tr>
         </thead>
+
         <tbody>
             @forelse ($jobs as $item)
                 <tr class="text-center" data-id="{{$item->job_order_id}}">
@@ -32,14 +35,15 @@
                         </td>
                     <td>{{ $item->customer_name }}</td>
                     <td>{{ $item->nationality_name }}</td>
-                    <td>{{ $item->customer_passport }}</td>
-                    <td>
-                        <span
-                            class="badge
-                           @if ($item->job_order_source_channel === 'Walk-in') bg-primary @endif
-                           @if ($item->job_order_source_channel === 'FB') bg-info @endif
-                           @if ($item->job_order_source_channel === 'GG') bg-warning @endif
-                           @if ($item->job_order_source_channel === 'Agent') bg-danger @endif">{{ $item->job_order_source_channel }}</span>
+                    <td align="right">
+
+                        @php
+                            $totalTransactionAmount = $transactions->where('transaction_job',$item->job_order_id)->sum('transaction_amount');
+                        @endphp
+                        
+                         {{ number_format($totalTransactionAmount, 2, '.', ',') }}
+                    <td >
+                       {{$item->job_detail_name}}
                     </td>
 
                     <td>{{ $item->job_order_receipt ? $item->job_order_receipt : '-' }}</td>
@@ -52,8 +56,14 @@
                         {{ $item->job_order_status === 'close' ? date('d-m-Y', strtotime($item->job_order_finish_date)) : '-' }}
                     </td>
                     <td>
-                        <a href="{{route('joborder.edit',$item->job_order_id)}}" class="btn btn-sm btn-info"> <i class="fa fa-edit"></i></a>
+                    
+                        @if (Auth::user()->isAdmin === 'Admin')
+                      
                         <a href="#" data-id="{{$item->job_order_id}}" class="btn btn-sm btn-danger btn-delete-job"> <i class="fa fa-trash"></i></a>
+                     
+                       @endif
+                       <a href="{{route('joborder.edit',$item->job_order_id)}}" class="btn btn-sm btn-info"> <i class="fa fa-edit"></i></a>
+                       
                     </td>
                 </tr>
             @empty

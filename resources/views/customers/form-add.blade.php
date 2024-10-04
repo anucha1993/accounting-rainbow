@@ -33,8 +33,9 @@
                         </ul>
                         <br>
                         <div class="row">
+                            
                             <div class="col-md-3">
-                                <label> Visa Type</label>
+                                <label> Visa Type <span class="text-danger">*</span></label>
                                 <select name="customer_visa_type" class="form-select visa-type">
                                      
                                    @forelse ($visaType as $item)

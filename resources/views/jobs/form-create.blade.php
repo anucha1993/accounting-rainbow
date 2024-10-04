@@ -60,8 +60,7 @@
                                 <script></script>
                                 <div class="col-md-3">
                                     <div class="input-group mb-3">
-                                        <span class="input-group-text  bg-light-dark" id="basic-addon2">Job detail <label
-                                            class="text-danger"> *</label></span>
+                                        <span class="input-group-text  bg-light-dark" id="basic-addon2">Job detail <label class="text-danger"> *</label></span>
                                         <select name="job_order_detail" id="service" class="form-select">
                                             <option value="service">Service</option>
                                         </select>
@@ -71,8 +70,8 @@
 
                                 <div class="col-md-3">
                                     <div class="input-group">
-                                        <span class="input-group-text  bg-light-dark" id="basic-addon2">Receipt No.</span>
-                                        <input type="text" name="job_order_receipt" class="form-control" placeholder="Receipt No..">
+                                        <span class="input-group-text  bg-light-dark" id="basic-addon2">Receipt No. <label class="text-danger"> *</label></span>
+                                        <input type="text" name="job_order_receipt" class="form-control" placeholder="Receipt No.." required>
         
                                     </div>
         
@@ -91,7 +90,7 @@
                                     <div class="input-group mb-3">
                                         <span class="input-group-text  bg-light-dark" id="basic-addon2">Source
                                             Channel</span>
-                                        <select name="job_order_source_channel" class="form-select" required>
+                                        <select name="job_order_source_channel" class="form-select">
                                             <option value="" selected disabled>none</option>
                                             <option value="Walk-in">Walk-In</option>
                                             <option value="FB">FB</option>
@@ -125,7 +124,7 @@
                                 <div class="col-md-6"></div>
                                 <div class="col-md-6 mb-3">
                                     <div class="input-group mb-3">
-                                        <span class="input-group-text">Profit :</span>
+                                        <span class="input-group-text">Profit</span>
                                         <input type="number" class="form-control" name="job_order_profit"
                                             placeholder="00.00" readonly style="background-color: antiquewhite">
                                     </div>
@@ -204,11 +203,11 @@
 
                                 </div>
                                 <div class="col-md-4" style="display: block" id="prefixBlock">
-                                    <label for="">Prefix</label>
+                                    <label for="">Prefix <span class="text-danger">*</span></label>
                                     <input type="text" id="customer-prefix" class="form-control" disabled>
                                 </div>
                                 <div class="col-md-8">
-                                    <label>Name</label>
+                                    <label>Name <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" name="customer_name" id="cusntomer-name"
                                         placeholder="Name" disabled>
                                 </div>
@@ -222,10 +221,10 @@
                                 </div>
 
                                 <div class="col-md-12" id="div-nationality" style="display: none">
-                                    <label>Nationality</label>
-                                    <select class="select2 form-control custom-select " id="nationality"
+                                    <label>Nationality <span class="text-danger">*</span></label>
+                                    <select class="select2 form-control custom-select " id="nationality" required
                                         name="customer_nationality" style="width: 100%; height: 36px">
-                                        <option>None</option>
+                                        <option value="">None</option>
                                         @forelse ($nationality as $item)
                                             <option value="{{ $item->nationality_id }}">{{ $item->nationality_code }} :
                                                 {{ $item->nationality_name }}

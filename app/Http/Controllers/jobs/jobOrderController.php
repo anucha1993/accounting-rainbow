@@ -37,7 +37,8 @@ class jobOrderController extends Controller
         $endDate = $request->endDate;
 
         $jobs = JobOrderModel::leftjoin('customer', 'customer.customer_id', 'job_order.job_order_customer')
-            ->leftJoin('nationality', 'nationality.nationality_id', 'customer.customer_nationality');
+            ->leftJoin('nationality', 'nationality.nationality_id', 'customer.customer_nationality')
+            ->leftJoin('job_detail', 'job_detail.job_detail_id', 'job_order.job_order_detail');
 
 
         if ($startDate && $endDate) {
@@ -75,9 +76,14 @@ class jobOrderController extends Controller
             $jobs->where('customer_passport', 'LIKE', "%$request->passport%");
         }
         $jobs =   $jobs->orderBy('job_order.job_order_id', 'desc')->get();
-        $tableContent = View::make('jobs.table-search', compact('jobs', 'startDate'))->render();
+
+        $transactions = DB::table('transactions')->where('transaction_type','income')->get();
+        
+        $tableContent = View::make('jobs.table-search', compact('jobs', 'startDate','transactions'))->render();
+
 
         return response()->json($tableContent);
+
     }
 
 
@@ -200,8 +206,20 @@ class jobOrderController extends Controller
         $walletType = DB::table('wallet_type')->orderBy('wallet_type_id', 'desc')->get();
         $jobType = DB::table('job_type')->latest()->get();
         $jobDetail = DB::table('job_detail')->where('job_type',$jobOrder->job_order_type)->latest()->get();
-        $Jobtransactions = DB::table('job_trasaction')->where('job_detail',$jobOrder->job_order_detail)->latest()->get();
-        $transactions = DB::table('transactions')->where('transaction_job',$jobOrder->job_order_id)->latest()->get();
+       
+        if(Auth::user()->isAdmin === 'Admin') {
+            $Jobtransactions = DB::table('job_trasaction')->where('job_detail',$jobOrder->job_order_detail)->latest()->get();
+        }else{
+            $Jobtransactions = DB::table('job_trasaction')->where('job_detail',$jobOrder->job_order_detail)->where('job_trasaction_type','+')->latest()->get();
+        }
+
+        if(Auth::user()->isAdmin === 'Admin') {
+            $transactions = DB::table('transactions')->where('transaction_job',$jobOrder->job_order_id)->latest()->get();
+        }else{
+            $transactions = DB::table('transactions')->where('transaction_job',$jobOrder->job_order_id)->where('transaction_type','income')->latest()->get();
+        }
+
+       
        // dd($Jobtransactions);
         return view('jobs.form-edit', compact('nationality','customer','customers', 'jobOrder', 'walletType','jobType','jobDetail','Jobtransactions','transactions'));
     }
@@ -315,9 +333,15 @@ class jobOrderController extends Controller
 
     public function serviceTrasaction(Request $request)
     {
+        if(Auth::user()->isAdmin === 'Admin') {
+            $jobTrasaction = jobTrasactionModel::where('job_detail',$request->serviceTrasaction)->get();
+        }else{
+            $jobTrasaction = jobTrasactionModel::where('job_detail',$request->serviceTrasaction)->where('job_trasaction_type','+')->get();
 
-        $jobTrasaction = jobTrasactionModel::where('job_detail',$request->serviceTrasaction)->get();
+        }
 
+      
         return response()->json(['jobTrasaction' => $jobTrasaction]);
+
     }
 }
