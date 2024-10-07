@@ -98,6 +98,8 @@ Route::put('job/update/customer/{customersModel}',[jobOrderController::class,'Cu
 Route::get('jobs/select/jobtype',[jobOrderController::class,'jobType'])->name('joborder.jobType'); 
 Route::get('jobs/select/serviceTrasaction',[jobOrderController::class,'serviceTrasaction'])->name('joborder.serviceTrasaction'); 
 
+Route::get('job/wallet',[jobOrderController::class,'someFunction'])->name('joborder.someFunction'); 
+
 Route::middleware(['IsAdmin'])->group(function () {
    Route::get('job/order/delete',[jobOrderController::class,'delete'])->name('joborder.delete');
    Route::put('job/order/update/{jobOrder}',[jobOrderController::class,'update'])->name('joborder.update'); 

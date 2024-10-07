@@ -9,17 +9,41 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use App\Models\jobs\transactionModel;
+use App\Models\jobType\jobDetailModel;
 use App\Models\customers\customersModel;
 use App\Models\jobTrasaction\jobTrasactionModel;
-use App\Models\jobType\jobDetailModel;
+use App\Http\Controllers\wallets\WalletController;
+use App\Models\eventcases\eventCaseModel;
 
 class jobOrderController extends Controller
 {
     //
-    public function __construct()
+    protected $walletController;
+
+    public function __construct(WalletController $walletController)
     {
         $this->middleware('auth');
+        $this->walletController = $walletController;
     }
+
+    // public function someFunction()
+    // {
+    //     $walletId = 1;
+    //     $amount = 100;
+    //     $jobOrder = 47;
+    //     $jobOrder = 47;
+    //     $trasactionIds = [10, 20];
+
+    //     // เรียกใช้ฟังก์ชัน credit จาก WalletController
+    //     $this->walletController->credit($walletId, $amount, $jobOrder, $trasactionIds);
+
+    //     // เรียกใช้ฟังก์ชัน debit จาก WalletController
+    //    // $this->walletController->debit($walletId, $amount);
+    // }
+
+
+
+
 
     public function index()
     {
@@ -77,13 +101,12 @@ class jobOrderController extends Controller
         }
         $jobs =   $jobs->orderBy('job_order.job_order_id', 'desc')->get();
 
-        $transactions = DB::table('transactions')->where('transaction_type','income')->get();
-        
-        $tableContent = View::make('jobs.table-search', compact('jobs', 'startDate','transactions'))->render();
+        $transactions = DB::table('transactions')->where('transaction_type', 'income')->get();
+
+        $tableContent = View::make('jobs.table-search', compact('jobs', 'startDate', 'transactions'))->render();
 
 
         return response()->json($tableContent);
-
     }
 
 
@@ -98,7 +121,7 @@ class jobOrderController extends Controller
         $customers = customersModel::orderBy('customer_id', 'desc')->get();
         $walletType = DB::table('wallet_type')->orderBy('wallet_type_id', 'desc')->get();
 
-        return view('jobs.form-create', compact('customers','customer','nationality','walletType','jobType'));
+        return view('jobs.form-create', compact('customers', 'customer', 'nationality', 'walletType', 'jobType'));
     }
 
 
@@ -141,9 +164,9 @@ class jobOrderController extends Controller
     public function store(Request $request)
     {
 
-      
 
-        if($request->job_order_customer === 'CustomerNew') {
+
+        if ($request->job_order_customer === 'CustomerNew') {
             $customer = customersModel::create($request->all());
             $request->merge(['job_order_customer' => $customer->customer_id]);
         }
@@ -170,22 +193,36 @@ class jobOrderController extends Controller
                         'transaction_job_number' => $jobOrder->job_order_number,
                     ]);
                 }
-
             }
-
         }
 
         //คำนวนค่าใช้จ่าย
         $income = 0;
         $expenses = 0;
 
-        $transactionProfit = transactionModel::where('transaction_job',$jobOrder->job_order_id)->get();
-        foreach ($transactionProfit as  $key => $value ) {
-              if($value->transaction_type === 'income') {
-                 $income += $value->transaction_amount;
-              }else{
+        $transactionProfit = transactionModel::where('transaction_job', $jobOrder->job_order_id)->get();
+        foreach ($transactionProfit as  $key => $value) {
+            if ($value->transaction_type === 'income') {
+                $income += $value->transaction_amount;
+                if ($income > 0) {
+                    $walletId = $value->transaction_wallet;
+                    $amount = $income;
+                    $jobOrderId  = $jobOrder->job_order_id;
+                    $trasactionIds =  $value->transaction_id;
+                    // เรียกใช้ฟังก์ชัน credit จาก WalletController
+                    $this->walletController->credit($walletId, $amount, $jobOrderId, $trasactionIds);
+                }
+            } else {
                 $expenses += $value->transaction_amount;
-              }
+                if ($expenses > 0) {
+                    $walletId = $value->transaction_wallet;
+                    $amount = $income;
+                    $jobOrderId  = $jobOrder->job_order_id;
+                    $trasactionIds =  $value->transaction_id;
+                    // เรียกใช้ฟังก์ชัน credit จาก WalletController
+                    $this->walletController->debit($walletId, $amount, $jobOrderId, $trasactionIds);
+                }
+            }
         }
 
         $jobOrder->update([
@@ -195,33 +232,36 @@ class jobOrderController extends Controller
         ]);
 
 
+
+
+
         return redirect()->route('joborder.edit', $jobOrder->job_order_id)->with('success', 'Created Job Order Successfully');
     }
 
     public function edit(Request $request, JobOrderModel $jobOrder)
     {
-        $customer = customersModel::where('customer_id',$jobOrder->job_order_customer)->first();
+        $customer = customersModel::where('customer_id', $jobOrder->job_order_customer)->first();
         $nationality  = DB::table('nationality')->get();
         $customers = customersModel::orderBy('customer_id', 'desc')->get();
         $walletType = DB::table('wallet_type')->orderBy('wallet_type_id', 'desc')->get();
         $jobType = DB::table('job_type')->latest()->get();
-        $jobDetail = DB::table('job_detail')->where('job_type',$jobOrder->job_order_type)->latest()->get();
-       
-        if(Auth::user()->isAdmin === 'Admin') {
-            $Jobtransactions = DB::table('job_trasaction')->where('job_detail',$jobOrder->job_order_detail)->latest()->get();
-        }else{
-            $Jobtransactions = DB::table('job_trasaction')->where('job_detail',$jobOrder->job_order_detail)->where('job_trasaction_type','+')->latest()->get();
+        $jobDetail = DB::table('job_detail')->where('job_type', $jobOrder->job_order_type)->latest()->get();
+
+        if (Auth::user()->isAdmin === 'Admin') {
+            $Jobtransactions = DB::table('job_trasaction')->where('job_detail', $jobOrder->job_order_detail)->latest()->get();
+        } else {
+            $Jobtransactions = DB::table('job_trasaction')->where('job_detail', $jobOrder->job_order_detail)->where('job_trasaction_type', '+')->latest()->get();
         }
 
-        if(Auth::user()->isAdmin === 'Admin') {
-            $transactions = DB::table('transactions')->where('transaction_job',$jobOrder->job_order_id)->latest()->get();
-        }else{
-            $transactions = DB::table('transactions')->where('transaction_job',$jobOrder->job_order_id)->where('transaction_type','income')->latest()->get();
+        if (Auth::user()->isAdmin === 'Admin') {
+            $transactions = DB::table('transactions')->where('transaction_job', $jobOrder->job_order_id)->latest()->get();
+        } else {
+            $transactions = DB::table('transactions')->where('transaction_job', $jobOrder->job_order_id)->where('transaction_type', 'income')->latest()->get();
         }
 
-       
-       // dd($Jobtransactions);
-        return view('jobs.form-edit', compact('nationality','customer','customers', 'jobOrder', 'walletType','jobType','jobDetail','Jobtransactions','transactions'));
+
+        // dd($Jobtransactions);
+        return view('jobs.form-edit', compact('nationality', 'customer', 'customers', 'jobOrder', 'walletType', 'jobType', 'jobDetail', 'Jobtransactions', 'transactions'));
     }
 
 
@@ -229,13 +269,21 @@ class jobOrderController extends Controller
     {
         //dd($request);
         $jobOrder->update($request->all());
+
+        $eventCaseCount = eventCaseModel::where('job_order_id', $jobOrder->job_order_id)->count();
+
+        if ($eventCaseCount > 0) {
+            // เรียกฟังก์ชัน refund จาก WalletController โดยส่ง $jobOrder
+            $this->walletController->refund($request, $jobOrder);
+        }
+
         // ตรวจสอบว่ามีการส่งค่า transaction_idEdit มาหรือไม่
         if ($request->transaction_type) {
             //ลบรายการเดิมออก
-            transactionModel::where('transaction_job',$jobOrder->job_order_id)->delete();
+            transactionModel::where('transaction_job', $jobOrder->job_order_id)->delete();
             // อัปเดตข้อมูลธุรกรรมแต่ละรายการ
             foreach ($request->transaction_type as $key => $value) {
-                if($request->transaction_type[$key]){
+                if ($request->transaction_type[$key]) {
                     transactionModel::create([
                         'transaction_job' => $jobOrder->job_order_id,
                         'transaction_number' => $jobOrder->job_order_number,
@@ -252,13 +300,31 @@ class jobOrderController extends Controller
         $income = 0;
         $expenses = 0;
 
-        $transactionProfit = transactionModel::where('transaction_job',$jobOrder->job_order_id)->get();
-        foreach ($transactionProfit as  $key => $value ) {
-              if($value->transaction_type === 'income') {
-                 $income += $value->transaction_amount;
-              }else{
+        $transactionProfit = transactionModel::where('transaction_job', $jobOrder->job_order_id)->get();
+        foreach ($transactionProfit as  $key => $value) {
+            if ($value->transaction_type === 'income') {
+                $income += $value->transaction_amount;
+
+                if ($income > 0) {
+                    $walletId = $value->transaction_wallet;
+                    $amount = $income;
+                    $jobOrderId  = $jobOrder->job_order_id;
+                    $trasactionIds =  $value->transaction_id;
+                    // เรียกใช้ฟังก์ชัน credit จาก WalletController
+                    $this->walletController->credit($walletId, $amount, $jobOrderId, $trasactionIds);
+                }
+            } else {
                 $expenses += $value->transaction_amount;
-              }
+
+                if ($expenses > 0) {
+                    $walletId = $value->transaction_wallet;
+                    $amount = $expenses;
+                    $jobOrderId  = $jobOrder->job_order_id;
+                    $trasactionIds =  $value->transaction_id;
+                    // เรียกใช้ฟังก์ชัน credit จาก WalletController
+                    $this->walletController->debit($walletId, $amount, $jobOrderId, $trasactionIds);
+                }
+            }
         }
         $jobOrder->update([
             'job_order_income' => $income,
@@ -266,10 +332,9 @@ class jobOrderController extends Controller
             'job_order_profit' => $income - $expenses // กำไรควรเป็นรายรับลบด้วยรายจ่าย
         ]);
 
-        
 
-    return redirect()->route('joborder.edit', $jobOrder->job_order_id)->with('success', 'Update Job Order Successfully');
 
+        return redirect()->route('joborder.edit', $jobOrder->job_order_id)->with('success', 'Update Job Order Successfully');
     }
 
 
@@ -321,11 +386,11 @@ class jobOrderController extends Controller
     }
 
 
-    
+
     public function jobType(Request $request)
     {
-        $jobDetail = jobDetailModel::where('job_type',$request->jobType)->get(); 
-       // $jobTrasaction = jobTrasactionModel::where('job_type',$request->jobType)->get();
+        $jobDetail = jobDetailModel::where('job_type', $request->jobType)->get();
+        // $jobTrasaction = jobTrasactionModel::where('job_type',$request->jobType)->get();
 
 
         return response()->json(['jobDetail' => $jobDetail]);
@@ -333,15 +398,13 @@ class jobOrderController extends Controller
 
     public function serviceTrasaction(Request $request)
     {
-        if(Auth::user()->isAdmin === 'Admin') {
-            $jobTrasaction = jobTrasactionModel::where('job_detail',$request->serviceTrasaction)->get();
-        }else{
-            $jobTrasaction = jobTrasactionModel::where('job_detail',$request->serviceTrasaction)->where('job_trasaction_type','+')->get();
-
+        if (Auth::user()->isAdmin === 'Admin') {
+            $jobTrasaction = jobTrasactionModel::where('job_detail', $request->serviceTrasaction)->get();
+        } else {
+            $jobTrasaction = jobTrasactionModel::where('job_detail', $request->serviceTrasaction)->where('job_trasaction_type', '+')->get();
         }
 
-      
-        return response()->json(['jobTrasaction' => $jobTrasaction]);
 
+        return response()->json(['jobTrasaction' => $jobTrasaction]);
     }
 }
