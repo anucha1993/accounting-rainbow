@@ -43,7 +43,7 @@
                                 @endforelse
                             </tbody>
                         </table>
-                        {!! $quotations->withQueryString()->links('pagination::bootstrap-5') !!}
+                       
                     </div>
                 </div>
             </div>
