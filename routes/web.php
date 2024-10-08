@@ -112,6 +112,9 @@ Route::middleware(['IsAdmin'])->group(function () {
 //wallet
 Route::middleware(['IsAdmin'])->group(function () {
 Route::get('wallet/index',[walletController::class,'index'])->name('wallet.index'); 
+//Wallettransaction
+Route::get('wallet/wallettransaction/index/{walletModel}',[walletController::class,'wallettransaction'])->name('wallet.wallettransaction'); 
+
 Route::post('/update-wallet', [walletController::class, 'update'])->name('wallet.update');
 Route::get('/create-wallet', [walletController::class, 'create'])->name('wallet.create');
 Route::get('/edit-wallet/{walletModel}', [walletController::class, 'edit'])->name('wallet.edit');

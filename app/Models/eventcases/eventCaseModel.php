@@ -13,6 +13,7 @@ class eventCaseModel extends Model
     protected $fillable = [
         'event_case_log',
         'event_case_name',
+        'event_case_status',
         'wallet_type_id',
         'job_order_id',
         'transaction_id',

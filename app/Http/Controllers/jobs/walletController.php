@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\jobs;
 
 use App\Http\Controllers\Controller;
+use App\Models\eventcases\eventCaseModel;
 use App\Models\jobs\walletModel;
 use Illuminate\Http\Request;
 
@@ -69,19 +70,29 @@ class walletController extends Controller
     }
 
 
-
-
-
-
-
-
-
     /**
      * Display the specified resource.
      */
-    public function show(walletModel $walletModel)
+    public function wallettransaction(Request $request, walletModel $walletModel)
     {
         //
+        $search = $request->search;
+        $eventCase = eventCaseModel::where('event_case.wallet_type_id', $walletModel->wallet_type_id)
+        ->leftJoin('job_order', 'job_order.job_order_id', '=', 'event_case.job_order_id') // เข้าร่วมกับตาราง job_trasaction
+        ->leftJoin('job_trasaction', 'job_trasaction.job_trasaction_id', '=', 'event_case.transaction_id');
+
+
+        if ($search) {
+            $eventCase->where('job_order.job_order_number', 'LIKE', "%$search%")->orWhere('event_case.event_case_number', 'LIKE', "%$search%");
+        }
+        
+        $eventCase = $eventCase->orderBy('event_case.event_case_id','DESC')
+        ->paginate(10);
+    
+
+        //dd($eventCase);
+
+        return view('wallet.Wallettransaction', compact('walletModel','eventCase','request'));
     }
 
 

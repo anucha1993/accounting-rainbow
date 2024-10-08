@@ -208,7 +208,7 @@ class jobOrderController extends Controller
                     $walletId = $value->transaction_wallet;
                     $amount = $income;
                     $jobOrderId  = $jobOrder->job_order_id;
-                    $trasactionIds =  $value->transaction_id;
+                    $trasactionIds =  $value->transaction_group;
                     // เรียกใช้ฟังก์ชัน credit จาก WalletController
                     $this->walletController->credit($walletId, $amount, $jobOrderId, $trasactionIds);
                 }
@@ -218,7 +218,7 @@ class jobOrderController extends Controller
                     $walletId = $value->transaction_wallet;
                     $amount = $income;
                     $jobOrderId  = $jobOrder->job_order_id;
-                    $trasactionIds =  $value->transaction_id;
+                    $trasactionIds =  $value->transaction_group;
                     // เรียกใช้ฟังก์ชัน credit จาก WalletController
                     $this->walletController->debit($walletId, $amount, $jobOrderId, $trasactionIds);
                 }
@@ -309,7 +309,7 @@ class jobOrderController extends Controller
                     $walletId = $value->transaction_wallet;
                     $amount = $income;
                     $jobOrderId  = $jobOrder->job_order_id;
-                    $trasactionIds =  $value->transaction_id;
+                    $trasactionIds =  $value->transaction_group;
                     // เรียกใช้ฟังก์ชัน credit จาก WalletController
                     $this->walletController->credit($walletId, $amount, $jobOrderId, $trasactionIds);
                 }
@@ -320,7 +320,7 @@ class jobOrderController extends Controller
                     $walletId = $value->transaction_wallet;
                     $amount = $expenses;
                     $jobOrderId  = $jobOrder->job_order_id;
-                    $trasactionIds =  $value->transaction_id;
+                    $trasactionIds =  $value->transaction_group;
                     // เรียกใช้ฟังก์ชัน credit จาก WalletController
                     $this->walletController->debit($walletId, $amount, $jobOrderId, $trasactionIds);
                 }
