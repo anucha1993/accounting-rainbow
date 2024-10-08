@@ -71,7 +71,7 @@
                                     <div class="input-group mb-3">
                                         <span class="input-group-text  bg-light-dark" id="basic-addon2">Job detail <label class="text-danger"> *</label></span>
                                         <select name="job_order_detail" id="service" class="form-select service"
-                                            @if (Auth::user()->isAdmin === 'Operator' || $jobOrder->job_order_status === 'close') disabled @endif>
+                                            @if (Auth::user()->isAdmin === 'Operator') disabled @endif>
 
 
                                             @forelse ($jobDetail as $item)
@@ -651,6 +651,9 @@
                 }
             });
         });
+
+       
+
 
 
         // function updateRowColor(row) {
