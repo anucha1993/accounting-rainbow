@@ -72,15 +72,15 @@ function loadCustomerData() {
             _token: _token,
         },
         success: function (response) {
-            //console.log(response.customer);
-            $("#cusntomer-name").val(response.customer.customer_name);
-            $("#cusntomer-passport").val(response.customer.customer_passport);
-            $("#cusntomer-contact").val(
+            // แก้ไขชื่อฟิลด์ที่ถูกสะกดผิด
+            $("#customer-name").val(response.customer.customer_name);
+            $("#customer-passport").val(response.customer.customer_passport);
+            $("#customer-contact").val(
                 response.customer.customer_tel +
                     " , " +
                     response.customer.customer_contact_media
             );
-            $("#cusntomer-nationality").val(response.customer.nationality_name);
+            $("#customer-nationality").val(response.customer.nationality_name);
             $("#customer-address-th").val(
                 response.customer.customer_address_thailand
             );
@@ -92,6 +92,7 @@ function loadCustomerData() {
         },
     });
 }
+
 
 
 $(document).ready(function () {

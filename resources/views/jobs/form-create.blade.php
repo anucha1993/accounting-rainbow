@@ -222,7 +222,7 @@
 
                                 <div class="col-md-12" id="div-nationality" style="display: none">
                                     <label>Nationality <span class="text-danger">*</span></label>
-                                    <select class="select2 form-control custom-select " id="nationality" required
+                                    <select class="select2 form-control custom-select " id="nationality" 
                                         name="customer_nationality" style="width: 100%; height: 36px">
                                         <option value="">None</option>
                                         @forelse ($nationality as $item)
