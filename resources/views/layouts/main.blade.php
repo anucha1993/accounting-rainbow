@@ -847,10 +847,12 @@
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
                         <!-- User Profile-->
+                        
                         <li class="nav-small-cap">
                             <i class="mdi mdi-dots-horizontal"></i>
                             <span class="hide-menu">เมนูหลัก</span>
                         </li>
+                       
                         <li class="sidebar-item">
                             <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
                                 aria-expanded="false"><i class="mdi mdi-av-timer"></i><span class="hide-menu">Home
@@ -859,7 +861,9 @@
 
                             </ul>
                         </li>
+                    
 
+                      
                         <li class="sidebar-item">
                             <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
                                 aria-expanded="false"><i class="mdi mdi-av-timer"></i><span
@@ -876,7 +880,7 @@
                             </ul>
                         </li>
 
-
+                        @if (Auth::user()->isAdmin !== 'Loyal')
                         <li class="sidebar-item">
                             <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
                                 aria-expanded="false"><i class="mdi mdi-cart-outline"></i><span
@@ -893,6 +897,10 @@
 
                             </ul>
                         </li>
+                      
+
+
+                     
 
                         <li class="sidebar-item">
                             <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
@@ -958,6 +966,8 @@
                                 </li>
                             </ul>
                         </li>
+
+                        @endif
 
                     </ul>
                     </li>

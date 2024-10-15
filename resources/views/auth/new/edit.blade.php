@@ -91,6 +91,7 @@
                             <option value="" >เลือกระดับ</option>
                             <option value="Admin"  @if ($user->isAdmin === 'Admin') selected @endif>Admin</option>
                             <option value="Operator"  @if ($user->isAdmin === 'Operator') selected @endif>Operator</option>
+                            <option value="Loyal"  @if ($user->isAdmin === 'Loyal') selected @endif>Loyal</option>
                         
                         </select>
                     </div>

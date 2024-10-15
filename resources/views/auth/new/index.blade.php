@@ -47,9 +47,12 @@
                                
                                 @if ($item->isAdmin === "Admin")
                                 <span class="badge bg-info">Admin</span>
-                                @endif
+                                @endif 
                                 @if ($item->isAdmin === "Operator")
-                                <span class="badge bg-dark">Operator</span>
+                                <span class="badge bg-secondary">Operator</span>
+                                @endif
+                                @if ($item->isAdmin === "Loyal")
+                                <span class="badge bg-dark">Loyal</span>
                                 @endif
                             </td>
                             <td>

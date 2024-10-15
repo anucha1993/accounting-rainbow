@@ -84,6 +84,7 @@
                             <option value="">เลือกระดับ</option>
                             <option value="Admin">Admin</option>
                             <option value="Operator">Operator</option>
+                            <option value="Loyal">Loyal</option>
                         </select>
                     </div>
                 </div>
