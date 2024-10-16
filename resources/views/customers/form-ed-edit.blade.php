@@ -10,7 +10,7 @@
         <div class="row">
             <div class="col-md-6">
                 <fieldset class=" redo-fieldset">
-                    <legend class="reset-this redo-legend">Passport Information</legend>
+                    <legend class="reset-this redo-legend"><h5>Passport Information</h5></legend>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="col-md-8">
@@ -37,7 +37,7 @@
                             <div class="form-group">
                                 <label>Name : <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="customer_name" placeholder="Name"
-                                    value="{{ $cus->customer_name }}" style="background-color: lightgrey" required>
+                                    value="{{ $cus->customer_name }}"  required>
                             </div>
                         </div>
             
@@ -92,7 +92,7 @@
             </div>
             <div class="col-md-6">
                 <fieldset class=" redo-fieldset">
-                    <legend class="reset-this redo-legend mb-2">Visa Information</legend>
+                    <legend class="reset-this redo-legend mb-2"><h5>Visa Information</h5></legend>
                     <div class="row">
                         <div class="col-6 md-4 mb-3">
                             <div class="form-group">
@@ -149,7 +149,7 @@
        
   
             <fieldset class=" redo-fieldset">
-                <legend class="reset-this redo-legend mb-2">Contact Information</legend>
+                <legend class="reset-this redo-legend mb-2"><h5>Contact Information</h5></legend>
                 <div class="row">
           
                     <div class="col-3 md-12 mb-3">

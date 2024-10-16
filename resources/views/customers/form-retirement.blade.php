@@ -10,7 +10,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <fieldset class=" redo-fieldset">
-                            <legend class="reset-this redo-legend">Passport Information</legend>
+                            <legend class="reset-this redo-legend" ><h5>Passport Information</h5> </legend>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="col-md-8">
@@ -34,7 +34,7 @@
                                 <div class="form-group">
                                     <label>Name : <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" name="customer_name" placeholder="Name"
-                                        style="background-color: lightgrey"  required>
+                                      required>
                                 </div>
                             </div>
                 
@@ -90,7 +90,7 @@
 
                     <div class="col-md-6">
                         <fieldset class=" redo-fieldset">
-                            <legend class="reset-this redo-legend">Visa Information</legend>
+                            <legend class="reset-this redo-legend"><h5>Visa Information</h5></legend>
         
                         <div class="row">
                             <div class="col-6 md-4 mb-3">
@@ -117,7 +117,7 @@
                     </fieldset>
 
                     <fieldset class=" redo-fieldset">
-                        <legend class="reset-this redo-legend">Contact Information</legend>
+                        <legend class="reset-this redo-legend"><h5>Contact Information</h5></legend>
     
                     <div class="row">
                         <div class="col-6 md-12 ">
@@ -153,7 +153,7 @@
         <div class="row">
           <div class="col">
             <fieldset class=" redo-fieldset">
-                <legend class="reset-this redo-legend">Address in thailand :</legend>
+                <legend class="reset-this redo-legend"><h5>Address in thailand :</h5></legend>
 
             <div class="col-12 md-3 mb-4">
                 <div class="form-group">

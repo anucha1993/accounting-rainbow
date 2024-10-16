@@ -43,17 +43,21 @@
         .reset-this {
             all: initial;
             padding: 5px;
+             font-family: inherit;
+             color: #3e5569;
         }
 
         .redo-fieldset {
-            border: 1px solid rgb(177, 177, 177);
+            border: 1px solid rgb(146, 146, 146);
             padding: 15px;
             border-radius: 5px;
+            font-family: inherit;
         }
 
         .form-group label {
             font-weight: bold;
             font-size: 14px;
+
             /* color: #333; */
         }
 

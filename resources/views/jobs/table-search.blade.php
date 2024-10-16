@@ -10,8 +10,11 @@
                 <th>Job Status</th>
                 <th>Name</th>
                 <th>Nationality</th>
-                <th>Total</th>
-                <th>Job detail</th>
+            @if (Auth::user()->isAdmin === 'Admin')
+            <th>Total</th>
+            <th>Job detail</th>
+            @endif
+              
                 <th>Receipt No.</th>
                 <th>Close Job Date</th>
 
@@ -35,6 +38,7 @@
                         </td>
                     <td>{{ $item->customer_name }}</td>
                     <td>{{ $item->nationality_name }}</td>
+                    @if (Auth::user()->isAdmin === 'Admin')
                     <td align="right">
 
                         @php
@@ -45,6 +49,9 @@
                     <td >
                        {{$item->job_detail_name}}
                     </td>
+                    @endif
+                  
+                    
 
                     <td>{{ $item->job_order_receipt ? $item->job_order_receipt : '-' }}</td>
 
@@ -78,6 +85,7 @@
     $(document).ready(function() {
             $('.table-job').DataTable({
                 searching: false,
+                order:[]
             });
         });
 

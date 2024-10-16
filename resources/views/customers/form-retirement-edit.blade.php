@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-md-6">
                 <fieldset class=" redo-fieldset">
-                    <legend class="reset-this redo-legend">Passport Information Edit Form Retirement</legend>
+                    <legend class="reset-this redo-legend"><h5>Passport Information Edit Form Retirement</h5></legend>
 
                     <div class="row">
                         <div class="col-md-12">
@@ -33,7 +33,7 @@
                             <div class="form-group">
                                 <label>Name : <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="customer_name" placeholder="Name"
-                                    style="background-color: lightgrey" value="{{ $cus->customer_name }}" required>
+                                     value="{{ $cus->customer_name }}" required>
                             </div>
                         </div>
             
@@ -89,7 +89,7 @@
             </div>
             <div class="col-md-6">
                 <fieldset class=" redo-fieldset">
-                    <legend class="reset-this redo-legend">Visa Informationt</legend>
+                    <legend class="reset-this redo-legend"><h5>Visa Informationt</h5></legend>
                     <div class="row">
                         <div class="col-6 md-4 mb-3">
                             <div class="form-group">
@@ -120,7 +120,7 @@
                     </div>
                 </fieldset>
                 <fieldset class=" redo-fieldset">
-                    <legend class="reset-this redo-legend">Contact Informationt</legend>
+                    <legend class="reset-this redo-legend"><h5>Contact Informationt</h5></legend>
                     <div class="row">
         
                         <div class="col-md-6 mb-3">
@@ -153,7 +153,7 @@
         <div class="row">
             <div class="col-md-12">
                 <fieldset class=" redo-fieldset">
-                    <legend class="reset-this redo-legend">Address in thailand</legend>
+                    <legend class="reset-this redo-legend"><h5>Address in thailan</h5></legend>
 
                         <div class="form-group">
                             <textarea name="customer_address_thailand" cols="30" rows="3" class="form-control"
