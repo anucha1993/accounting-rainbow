@@ -85,31 +85,31 @@ Route::get('file/delete',[fileController::class,'deletefile'])->name('file.delet
 //Jobs Order 
 
 
-Route::get('jobs',[jobOrderController::class,'index'])->name('joborder.index'); 
-Route::get('',[jobOrderController::class,'index'])->name('joborder.index'); 
-
-Route::get('jobs/searchIndex',[jobOrderController::class,'searchIndex'])->name('joborder.searchIndex'); 
-
-Route::get('job/order/create',[jobOrderController::class,'create'])->name('joborder.craete'); 
-Route::get('job/order/edit/{jobOrder}',[jobOrderController::class,'edit'])->name('joborder.edit'); 
-Route::post('job/order/store',[jobOrderController::class,'store'])->name('joborder.store'); 
-Route::post('job/order/close',[jobOrderController::class,'close'])->name('joborder.close'); 
-Route::post('job/order/reOpen',[jobOrderController::class,'reOpen'])->name('joborder.reOpen'); 
-Route::post('job/select/customer',[jobOrderController::class,'selectCustomer'])->name('joborder.select.selectCustomer'); 
-Route::put('job/update/customer/{customersModel}',[jobOrderController::class,'CustomerUpdate'])->name('joborder.customerUpdate'); 
-
-Route::get('jobs/select/jobtype',[jobOrderController::class,'jobType'])->name('joborder.jobType'); 
-Route::get('jobs/select/serviceTrasaction',[jobOrderController::class,'serviceTrasaction'])->name('joborder.serviceTrasaction'); 
-
-Route::get('job/wallet',[jobOrderController::class,'someFunction'])->name('joborder.someFunction'); 
 
 Route::middleware(['IsAdmin'])->group(function () {
    Route::get('job/order/delete',[jobOrderController::class,'delete'])->name('joborder.delete');
    Route::put('job/order/update/{jobOrder}',[jobOrderController::class,'update'])->name('joborder.update'); 
 });
 
-Route::middleware(['IsAdmin'])->group(function () {
-
+Route::middleware(['IsLoyal'])->group(function () {
+       Route::get('jobs',[jobOrderController::class,'index'])->name('joborder.index'); 
+       Route::get('',[jobOrderController::class,'index'])->name('joborder.index'); 
+       
+       Route::get('jobs/searchIndex',[jobOrderController::class,'searchIndex'])->name('joborder.searchIndex'); 
+       
+       Route::get('job/order/create',[jobOrderController::class,'create'])->name('joborder.craete'); 
+       Route::get('job/order/edit/{jobOrder}',[jobOrderController::class,'edit'])->name('joborder.edit'); 
+       Route::post('job/order/store',[jobOrderController::class,'store'])->name('joborder.store'); 
+       Route::post('job/order/close',[jobOrderController::class,'close'])->name('joborder.close'); 
+       Route::post('job/order/reOpen',[jobOrderController::class,'reOpen'])->name('joborder.reOpen'); 
+       Route::post('job/select/customer',[jobOrderController::class,'selectCustomer'])->name('joborder.select.selectCustomer'); 
+       Route::put('job/update/customer/{customersModel}',[jobOrderController::class,'CustomerUpdate'])->name('joborder.customerUpdate'); 
+       
+       Route::get('jobs/select/jobtype',[jobOrderController::class,'jobType'])->name('joborder.jobType'); 
+       Route::get('jobs/select/serviceTrasaction',[jobOrderController::class,'serviceTrasaction'])->name('joborder.serviceTrasaction'); 
+       
+       Route::get('job/wallet',[jobOrderController::class,'someFunction'])->name('joborder.someFunction'); 
+       
 });
 
 

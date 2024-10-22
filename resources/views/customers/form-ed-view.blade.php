@@ -202,9 +202,13 @@
     
     <div class="modal-footer">
 
-        <button type="submit" class="btn btn-primary">Save and Add Job Order</button> &nbsp; &nbsp;
+        @if (Auth::user()->isAdmin !== 'Loyal') 
+        <button type="submit" name="addJobOrder" value="addJobOrder" class="btn btn-primary">Save and Add Job Order</button> &nbsp; &nbsp;
         &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
+       
+        @endif
         <button type="submit" class="btn btn-success">Save</button>
+       
         &nbsp;
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">
             Cancel</button>

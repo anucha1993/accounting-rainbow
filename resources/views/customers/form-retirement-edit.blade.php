@@ -153,7 +153,7 @@
         <div class="row">
             <div class="col-md-12">
                 <fieldset class=" redo-fieldset">
-                    <legend class="reset-this redo-legend"><h5>Address in thailan</h5></legend>
+                    <legend class="reset-this redo-legend"><h5>Address in thailand</h5></legend>
 
                         <div class="form-group">
                             <textarea name="customer_address_thailand" cols="30" rows="3" class="form-control"
@@ -239,9 +239,13 @@
 
     <div class="modal-footer">
 
+        @if (Auth::user()->isAdmin !== 'Loyal') 
         <button type="submit" name="addJobOrder" value="addJobOrder" class="btn btn-primary">Save and Add Job Order</button> &nbsp; &nbsp;
         &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
+       
+        @endif
         <button type="submit" class="btn btn-success">Save</button>
+       
         &nbsp;
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">
             Cancel</button>

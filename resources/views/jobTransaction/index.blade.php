@@ -5,7 +5,7 @@
                <div class="row">
         <div class="card">
             <div class="card-body">
-                <h4>Job Trasaction
+                <h4>Job Transaction
 
                 </h4>
                 <hr>
@@ -14,12 +14,12 @@
                     @csrf
                     <div class="row">
                         <div class="col-md-3">
-                            <label>Job Trasaction Name</label>
+                            <label>Job Transaction Name</label>
                             <input type="text" class="form-control " name="job_trasaction_name"
                                 placeholder="Job Trasaction Name" required>
                         </div>
                         <div class="col-md-2">
-                            <label> Trasaction Type </label>
+                            <label> Transaction Type </label>
                             <select name="job_trasaction_type" class="form-select" required>
                                 <option value="+">+</option>
                                 <option value="-">-</option>
@@ -46,7 +46,7 @@
                             <input type="hidden"name="job_type" id="job-type" readonly>
                         </div>
                         <div class="col-md-2">
-                            <label> Trasaction Status </label>
+                            <label> Transaction Status </label>
                             <select name="job_trasaction_status" class="form-select job-type" required>
                                 <option value="active">Active</option>
                                 <option value="disable">Disable</option>
@@ -71,7 +71,7 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>Job Trasaction Name</th>
+                                <th>Job Transaction Name</th>
                                 <th>Trasaction Type</th>
                                 <th>Job Detail</th>
                                 <th>job Type</th>

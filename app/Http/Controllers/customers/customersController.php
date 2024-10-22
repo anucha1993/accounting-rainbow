@@ -82,25 +82,32 @@ class customersController extends Controller
         if ($customerVisaType) {
             $customers->where('customer_visa_type', $customerVisaType);
         }
+        
         if ($code) {
             $customers->where('customer_code', 'LIKE', "%$code%");
         }
         if ($startDate && $endDate) {
             $startDate = date('Y-m-d', strtotime($startDate));
             $endDate = date('Y-m-d', strtotime($endDate));
-            
+        
+            // ใช้เงื่อนไข where หลายเงื่อนไขภายใต้กลุ่มเดียว
             $customers->where(function ($query) use ($startDate, $endDate) {
-                $query->whereDate('customer_visa_date_expiry_0', '>=', $startDate)
-                      ->whereDate('customer_visa_date_expiry_0', '<=', $endDate);
-            })->orWhere(function ($query) use ($startDate, $endDate) {
-                $query->whereDate('customer_visa_date_expiry_1', '>=', $startDate)
-                      ->whereDate('customer_visa_date_expiry_1', '<=', $endDate);
-            })->orWhere(function ($query) use ($startDate, $endDate) {
-                $query->whereDate('customer_visa_date_expiry_2', '>=', $startDate)
-                      ->whereDate('customer_visa_date_expiry_2', '<=', $endDate);
-            })->orWhere(function ($query) use ($startDate, $endDate) {
-                $query->whereDate('customer_visa_date_expiry_3', '>=', $startDate)
-                      ->whereDate('customer_visa_date_expiry_3', '<=', $endDate);
+                $query->where(function ($subQuery) use ($startDate, $endDate) {
+                    $subQuery->whereDate('customer_visa_date_expiry_0', '>=', $startDate)
+                             ->whereDate('customer_visa_date_expiry_0', '<=', $endDate);
+                })
+                ->orWhere(function ($subQuery) use ($startDate, $endDate) {
+                    $subQuery->whereDate('customer_visa_date_expiry_1', '>=', $startDate)
+                             ->whereDate('customer_visa_date_expiry_1', '<=', $endDate);
+                })
+                ->orWhere(function ($subQuery) use ($startDate, $endDate) {
+                    $subQuery->whereDate('customer_visa_date_expiry_2', '>=', $startDate)
+                             ->whereDate('customer_visa_date_expiry_2', '<=', $endDate);
+                })
+                ->orWhere(function ($subQuery) use ($startDate, $endDate) {
+                    $subQuery->whereDate('customer_visa_date_expiry_3', '>=', $startDate)
+                             ->whereDate('customer_visa_date_expiry_3', '<=', $endDate);
+                });
             });
         }
     

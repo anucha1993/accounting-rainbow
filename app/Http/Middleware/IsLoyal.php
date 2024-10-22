@@ -17,7 +17,8 @@ class IsLoyal
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::user()->isAdmin === 'Loyal') {
-            return response()->view('errors.error-403', [], 403);
+            
+            return redirect()->route('customer.index');
         }
         return $next($request);
     }

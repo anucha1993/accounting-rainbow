@@ -26,7 +26,7 @@
                                 <a class="nav-link d-flex" data-bs-toggle="tab" href="#profile2" role="tab">
                                     <span><i class=" fas fa-folder-open"></i>
                                     </span>
-                                    <span class="d-none d-md-block ms-2">Note && File Attach</span>
+                                    <span class="d-none d-md-block ms-2">Note & File Attach</span>
                                 </a>
                             </li>
                     
