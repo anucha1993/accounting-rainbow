@@ -79,8 +79,9 @@ class customersController extends Controller
             $customers->where('customer_name', 'LIKE', "%$name%");
         }
         if ($NationalitySelect) {
-            $customers->where('customer_nationality', 'LIKE', "%$NationalitySelect%");
+            $customers->where('customer_nationality',$NationalitySelect);
         }
+
         if ($customerVisaType) {
             $customers->where('customer_visa_type', $customerVisaType);
         }
