@@ -207,6 +207,9 @@
                     endDate = formatDate(dates[1].trim()); // ตัดช่องว่างด้านหน้าและด้านหลังของวันที่
                 }
 
+                console.log(startDate, endDate);
+                
+
                 function formatDate(dateString) {
                     var parts = dateString.split('/');
                     return parts[2] + '-' + parts[1] + '-' + parts[0];

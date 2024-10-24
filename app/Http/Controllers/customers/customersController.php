@@ -65,10 +65,12 @@ class customersController extends Controller
         $code = $request->code;
         $startDate = $request->startDate;
         $endDate = $request->endDate;
-    
+
+       // dd('startDate :'.$startDate, 'endDate :'.$endDate);
+
         // สร้าง query builder สำหรับการค้นหาข้อมูล
         $customers = customersModel::leftJoin('nationality', 'nationality.nationality_id', 'customer.customer_nationality');
-    
+
         // เพิ่มเงื่อนไขในการค้นหาข้อมูล
         if ($passportNumber) {
             $customers->where('customer_passport', 'LIKE', "%$passportNumber%");
@@ -82,58 +84,64 @@ class customersController extends Controller
         if ($customerVisaType) {
             $customers->where('customer_visa_type', $customerVisaType);
         }
-        
+
         if ($code) {
             $customers->where('customer_code', 'LIKE', "%$code%");
         }
+
         if ($startDate && $endDate) {
             $startDate = date('Y-m-d', strtotime($startDate));
             $endDate = date('Y-m-d', strtotime($endDate));
         
-            // ใช้เงื่อนไข where หลายเงื่อนไขภายใต้กลุ่มเดียว
+            // ใช้ where เฉพาะฟิลด์ที่มีค่าล่าสุด ไม่เช็คฟิลด์อื่นถ้ามีค่า
             $customers->where(function ($query) use ($startDate, $endDate) {
-                $query->where(function ($subQuery) use ($startDate, $endDate) {
-                    $subQuery->whereDate('customer_visa_date_expiry_0', '>=', $startDate)
-                             ->whereDate('customer_visa_date_expiry_0', '<=', $endDate);
+                $query->where(function ($q) use ($startDate, $endDate) {
+                    $q->whereNotNull('customer_visa_date_expiry_3')
+                      ->whereBetween('customer_visa_date_expiry_3', [$startDate, $endDate]);
                 })
-                ->orWhere(function ($subQuery) use ($startDate, $endDate) {
-                    $subQuery->whereDate('customer_visa_date_expiry_1', '>=', $startDate)
-                             ->whereDate('customer_visa_date_expiry_1', '<=', $endDate);
+                ->orWhere(function ($q) use ($startDate, $endDate) {
+                    $q->whereNull('customer_visa_date_expiry_3')
+                      ->whereNotNull('customer_visa_date_expiry_2')
+                      ->whereBetween('customer_visa_date_expiry_2', [$startDate, $endDate]);
                 })
-                ->orWhere(function ($subQuery) use ($startDate, $endDate) {
-                    $subQuery->whereDate('customer_visa_date_expiry_2', '>=', $startDate)
-                             ->whereDate('customer_visa_date_expiry_2', '<=', $endDate);
+                ->orWhere(function ($q) use ($startDate, $endDate) {
+                    $q->whereNull('customer_visa_date_expiry_2')
+                      ->whereNotNull('customer_visa_date_expiry_1')
+                      ->whereBetween('customer_visa_date_expiry_1', [$startDate, $endDate]);
                 })
-                ->orWhere(function ($subQuery) use ($startDate, $endDate) {
-                    $subQuery->whereDate('customer_visa_date_expiry_3', '>=', $startDate)
-                             ->whereDate('customer_visa_date_expiry_3', '<=', $endDate);
+                ->orWhere(function ($q) use ($startDate, $endDate) {
+                    $q->whereNull('customer_visa_date_expiry_1')
+                      ->whereNotNull('customer_visa_date_expiry_0')
+                      ->whereBetween('customer_visa_date_expiry_0', [$startDate, $endDate]);
                 });
             });
         }
-    
-        $customers->selectRaw('*, CASE
-                                    WHEN customer_visa_date_expiry_3 IS NOT NULL THEN customer_visa_date_expiry_3
-                                    WHEN customer_visa_date_expiry_2 IS NOT NULL THEN customer_visa_date_expiry_2
-                                    WHEN customer_visa_date_expiry_1 IS NOT NULL THEN customer_visa_date_expiry_1
-                                    ELSE customer_visa_date_expiry_0
-                                END AS latest_expiry_date');
-    
-        $customers = $customers->orderBy('customer_id','DESC')->get();
-    
-       
-    
+        
+        
+
+        // $customers->selectRaw('*, CASE
+        //                             WHEN customer_visa_date_expiry_3 IS NOT NULL THEN customer_visa_date_expiry_3
+        //                             WHEN customer_visa_date_expiry_2 IS NOT NULL THEN customer_visa_date_expiry_2
+        //                             WHEN customer_visa_date_expiry_1 IS NOT NULL THEN customer_visa_date_expiry_1
+        //                             ELSE customer_visa_date_expiry_0
+        //                         END AS latest_expiry_date');
+
+        $customers = $customers->orderBy('customer_id', 'DESC')->get();
+
+
+
         $selectedFormType = $request->selectedFormType;
         if ($selectedFormType === "retirement") {
             $tableContent = View::make('customers.table-retirement', compact('customers'))->render();
         } else {
             $tableContent = View::make('customers.table-ed', compact('customers'))->render();
         }
-    
+
         return response()->json($tableContent);
     }
-    
 
-    
+
+
 
 
 
@@ -199,18 +207,13 @@ class customersController extends Controller
                 }
             }
         }
-        
-         $customerID = $lastestID->customer_id;
-        if($request->addJobOrder) {
-            return redirect()->route('joborder.craete',compact('customerID'));
-        }else{
+
+        $customerID = $lastestID->customer_id;
+        if ($request->addJobOrder) {
+            return redirect()->route('joborder.craete', compact('customerID'));
+        } else {
             return redirect()->route('customer.index')->with('success', 'Create Customer Successfully');
         }
-
-
-
-
-      
     }
 
     /**
@@ -256,7 +259,7 @@ class customersController extends Controller
         if ($selectedFormType === "ed") {
             $formContent = View::make('customers.form-ed-edit', compact('nationality', 'visaType', 'cus', 'files'))->render();
         }
-        if($selectedFormType === NULL){
+        if ($selectedFormType === NULL) {
             $formContent = View::make('customers.form-null-edit', compact('nationality', 'visaType', 'cus', 'files'))->render();
         }
 
@@ -291,7 +294,7 @@ class customersController extends Controller
     public function update(Request $request, customersModel $customersModel)
     {
         //
-    
+
         $request->merge(['updated_by' => Auth::user()->name . ' ' . Auth::user()->lastname]);
 
         $customersModel->update($request->all());
@@ -327,13 +330,11 @@ class customersController extends Controller
         $customerID = $customersModel->customer_id;
 
 
-        if($request->addJobOrder) {
-            return redirect()->route('joborder.craete',compact('customerID'));
-        }else{
+        if ($request->addJobOrder) {
+            return redirect()->route('joborder.craete', compact('customerID'));
+        } else {
             return redirect()->back()->with('success', 'Update Customer Successfully');
         }
-
-       
     }
 
     /**
@@ -358,5 +359,4 @@ class customersController extends Controller
             return response()->json(['error' => 'Delete Customer Field Error']);
         }
     }
-
 }
