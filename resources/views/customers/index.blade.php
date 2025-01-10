@@ -1,6 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
+
     <div class="container-lg page-content-custom " id="customer-index">
         <div class="card">
             <div class="card-body">
@@ -217,6 +218,8 @@
 
                 var Nationality = $('#Nationality').val();
                 var visaType = $('#visaType').val();
+                console.log(visaType);
+                
 
                 // โหลดเนื้อหาของไฟล์ฟอร์มและแสดงใน DOM
                 $.ajax({

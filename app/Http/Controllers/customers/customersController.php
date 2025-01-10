@@ -132,12 +132,21 @@ class customersController extends Controller
 
 
         $selectedFormType = $request->selectedFormType;
+
+        // $tableContent = View::make('customers.table-retirement', compact('customers'))->render();
+
         if ($selectedFormType === "retirement") {
-            $tableContent = View::make('customers.table-retirement', compact('customers'))->render();
+           // $tableContent = View::make('customers.table-retirement', compact('customers'))->render();
+            $tableContent = view('customers.table-retirement', compact('customers'))->render();
         } else {
-            $tableContent = View::make('customers.table-ed', compact('customers'))->render();
+            //$tableContent = View::make('customers.table-ed', compact('customers'))->render();
+            $tableContent= view('customers.table-ed', compact('customers'))->render();
         }
 
+        if (!mb_check_encoding($tableContent, 'UTF-8')) {
+            $tableContent = utf8_encode($tableContent);
+        }
+        
         return response()->json($tableContent);
     }
 
