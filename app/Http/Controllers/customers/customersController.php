@@ -162,7 +162,7 @@ class customersController extends Controller
     public function create()
     {
         //
-        $nationality  = DB::table('nationality')->get();
+        $nationality  = DB::table('nationality')->orderBy('nationality_code', 'ASC')->get();
         $visaType = DB::table('visa_type')->where('status','activate')->get();
         return view('customers.form-add', compact('nationality', 'visaType'));
     }
@@ -170,7 +170,7 @@ class customersController extends Controller
     public function formType(Request $request)
     {
         $selectedFormType = $request->selectedFormType;
-        $nationality  = DB::table('nationality')->get();
+        $nationality  = DB::table('nationality')->orderBy('nationality_code', 'ASC')->get();
         $visaType = DB::table('visa_type')->get();
 
         if ($selectedFormType === "retirement") {

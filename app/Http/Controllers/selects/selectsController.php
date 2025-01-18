@@ -20,6 +20,7 @@ class selectsController extends Controller
         $nationality = DB::table('nationality')
                         ->where('nationality_name', 'like', "%$query%")
                         ->orWhere('nationality_id',$query)
+                        ->orderBy('nationality_code', 'ASC')
                         ->get();
     
         return response()->json($nationality);
