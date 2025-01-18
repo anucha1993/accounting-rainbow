@@ -50,6 +50,7 @@
                             <th>Visa Name</th>
                             <th>Visa Renew</th>
                             <th>Visa Form</th>
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -60,6 +61,14 @@
                                 <td>{{ $item->visa_type_name }}</td>
                                 <td>{{ $item->visa_type_renew === 'Y' ? 'ใช่' : 'ไม่ใช่' }}</td>
                                 <td>{{ $item->visa_type_from }}</td>
+                                <td>
+                                    
+                                    @if ($item->status === 'disabled')
+                                    <span class="badge bg-danger">Disabled</span>
+                                    @else
+                                    <span class="badge bg-success">Activate</span>
+                                    @endif
+                                </td>
                                 <td>
                                     <a href="{{route('visaType.edit',$item->visa_type_id)}}" class="text-info mx-3 btn-add"> <i class="fa fa-edit"></i></a>
                                     @if (Auth::user()->isAdmin === 'Admin')

@@ -14,5 +14,6 @@ class visaTypeModel extends Model
         'visa_type_name',
         'visa_type_renew',
         'visa_type_from',
+        'status',
     ];
 }

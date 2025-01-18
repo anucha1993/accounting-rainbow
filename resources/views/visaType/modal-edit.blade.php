@@ -28,6 +28,13 @@
                             <option @if($visaTypeModel->visa_type_from === 'ed') selected @endif value="ed">ed</option>
                         </select>
                     </div>
+                    <div class="col-md-4 ">
+                        <label for="">Status</label>
+                        <select name="status" class="form-select" required>
+                            <option @if($visaTypeModel->status === 'activate') selected @endif value="activate">activate</option>
+                            <option @if($visaTypeModel->status === 'disabled') selected @endif value="disabled">disabled</option>
+                        </select>
+                    </div>
                 </div>
                 <br>
                 <button type="submit" class="btn btn-success pull-end"> Update</button>

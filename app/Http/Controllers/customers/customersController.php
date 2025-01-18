@@ -163,7 +163,7 @@ class customersController extends Controller
     {
         //
         $nationality  = DB::table('nationality')->get();
-        $visaType = DB::table('visa_type')->get();
+        $visaType = DB::table('visa_type')->where('status','activate')->get();
         return view('customers.form-add', compact('nationality', 'visaType'));
     }
 

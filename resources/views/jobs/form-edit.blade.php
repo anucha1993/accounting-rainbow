@@ -69,7 +69,8 @@
 
                                 <div class="col-md-3">
                                     <div class="input-group mb-3">
-                                        <span class="input-group-text  bg-light-dark" id="basic-addon2">Job detail <label class="text-danger"> *</label></span>
+                                        <span class="input-group-text  bg-light-dark" id="basic-addon2">Job detail <label
+                                                class="text-danger"> *</label></span>
                                         <select name="job_order_detail" id="service" class="form-select service"
                                             @if (Auth::user()->isAdmin === 'Operator') disabled @endif>
 
@@ -85,18 +86,19 @@
 
                                         </select>
                                     </div>
-                                    
+
                                 </div>
 
                                 <div class="col-md-3">
                                     <div class="input-group">
-                                        <span class="input-group-text  bg-light-dark" id="basic-addon2">Receipt No. <label class="text-danger"> *</label></span>
+                                        <span class="input-group-text  bg-light-dark" id="basic-addon2">Receipt No. <label
+                                                class="text-danger"> *</label></span>
                                         <input type="text" name="job_order_receipt" class="form-control"
                                             @if (Auth::user()->isAdmin === 'Operator' || $jobOrder->job_order_status === 'close') disabled @endif
                                             value="{{ $jobOrder->job_order_receipt }}" placeholder="Receipt No..">
-        
+
                                     </div>
-        
+
                                 </div>
 
 
@@ -123,7 +125,7 @@
                                     <div class="input-group mb-3">
                                         <span class="input-group-text  bg-light-dark" id="basic-addon2">Source
                                             Channel </span>
-                                        <select name="job_order_source_channel" class="form-select" 
+                                        <select name="job_order_source_channel" class="form-select"
                                             @if (Auth::user()->isAdmin === 'Operator' || $jobOrder->job_order_status === 'close') disabled @endif>
                                             <option value="" disabled>none</option>
                                             <option @if ($jobOrder->job_order_source_channel === 'Walk-in') selected @endif value="Walk-in">
@@ -146,10 +148,10 @@
                                     </div>
                                 </div>
 
-                                
+
 
                             </div>
-                            
+
                         </div>
 
 
@@ -219,12 +221,11 @@
                             <div class="col-md-3 float-end">
                                 <br>
                                 @if ($jobOrder->job_order_status === 'close')
-                                   
-                                        <a href="#" @if ($jobOrder->job_order_status === 'open') style="display: none" @endif
-                                            class="btn btn-primary float-end me-3  btn-re-job"><i
-                                                class=" far fa-share-square"></i> Re-Open Job</a>
-                                    @endif
-                         
+                                    <a href="#" @if ($jobOrder->job_order_status === 'open') style="display: none" @endif
+                                        class="btn btn-primary float-end me-3  btn-re-job"><i
+                                            class=" far fa-share-square"></i> Re-Open Job</a>
+                                @endif
+
 
                                 <a href="#" @if (Auth::user()->isAdmin !== 'Admin') style="display: none" @endif
                                     class="btn btn-danger float-end   me-3 btn-close-job"> <i
@@ -305,7 +306,6 @@
                                             New
                                             Transaction</a>
                                     @else
-                                       
                                     @endif
                                 @endif
                             @endif
@@ -315,7 +315,7 @@
                         </div>
 
 
-                     
+
                     </div>
                     <br>
 
@@ -340,7 +340,8 @@
                                 <tbody>
                                     @forelse ($transactions as $itemTransaction)
                                         <tr>
-                                            <td><input type="date" name="transaction_date[]" class="form-control"
+                                            <td><input type="date" name="transaction_date[]"
+                                                    class="form-control date-custom"
                                                     value="{{ $itemTransaction->transaction_date }}" />
                                             </td>
                                             <td>
@@ -365,7 +366,7 @@
                                                 </select>
                                             </td>
                                             <td class="text-end"><input type="number" name="transaction_amount[]"
-                                                    class="form-control text-end"
+                                                    class="form-control text-end" step="0.01"
                                                     value="{{ $itemTransaction->transaction_amount }}" />
                                             </td>
                                             <td>
@@ -389,11 +390,12 @@
                                     @empty
                                     @endforelse
 
-                                   
+
 
 
                                     <tr id="row-template" style="display: none;">
-                                        <td><input type="date" name="transaction_date[]" class="form-control" />
+                                        <td><input type="date" name="transaction_date[]"
+                                                class="form-control date-custom" />
                                         </td>
                                         <td>
                                             <select name="transaction_group[]" class="form-select job-trasaction">
@@ -413,7 +415,8 @@
                                                 <option value="expenses">รายจ่าย</option>
                                             </select>
                                         </td>
-                                        <td><input type="number" name="transaction_amount[]" class="form-control text-end" />
+                                        <td><input type="number" name="transaction_amount[]"
+                                                class="form-control text-end" step="0.01" />
                                         </td>
                                         <td>
                                             <select name="transaction_wallet[]" class="form-select">
@@ -572,6 +575,29 @@
 
 
     <script>
+        //funtion ตรวจสอบใส่วันที่ล่วงหน้าไม่ได้
+        function checkDate(selectedDateStr) {
+            // รับค่าวันที่จาก input
+            var selectedDate = new Date(selectedDateStr); // สร้างวัตถุ Date
+            // ตั้งค่าเวลาของ selectedDate เป็น 00:00:00 เพื่อเปรียบเทียบเฉพาะวันที่
+            selectedDate.setHours(0, 0, 0, 0);
+            var today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            // เปรียบเทียบวันที่ โดยไม่สนใจเวลา
+            if (selectedDate > today) {
+                alert("ไม่สามารถเลือกวันที่ในอนาคตได้");
+                $(this).val('');
+            }
+        }
+
+        $(document).ready(function() {
+            $('.date-custom').change(function() {
+                var selectedDateStr = $(this).val();
+                checkDate(selectedDateStr);
+            });
+        });
+
         // ใส่สี Input
         $(document).ready(function() {
             // ฟังก์ชันตรวจสอบและเปลี่ยนสี
@@ -652,20 +678,6 @@
             });
         });
 
-       
-
-
-
-        // function updateRowColor(row) {
-        //     var type = row.find('select[name="transaction_typeEdit[]"]').val();
-        //     if (type === 'income') {
-        //         row.find('input, select').css('background-color', '#26ff8042');
-        //     } else if (type === 'expenses') {
-        //         row.find('input, select').css('background-color', '#ff0a2a3d');
-        //     } else {
-        //         row.find('input, select').css('background-color', '');
-        //     }
-        // }
 
 
         function serviceOther() {
@@ -684,19 +696,6 @@
             $(".service").on("change", function() {
                 serviceOther()
             });
-
-
-
-            // // อัปเดตสีสำหรับแถวที่มีอยู่แล้ว
-            // $('tr[id^="row-template-edit"]').each(function() {
-            //     updateRowColor($(this));
-            // });
-
-            // // ฟังการเปลี่ยนแปลงของ select ที่ชื่อว่า transaction_typeEdit[]
-            // $('select[name="transaction_typeEdit[]"]').change(function() {
-            //     updateRowColor($(this).closest('tr'));
-            // });
-
 
             $('#addRow').click(function(event) {
                 event.preventDefault();
@@ -720,9 +719,19 @@
                         // newRow.css('background-color', '');
                         newRow.find('input, select').css('background-color', '');
                     }
-                });
 
+
+                });
+                //funtion ตรวจสอบใส่วันที่ล่วงหน้าไม่ได้
+                $(document).ready(function() {
+                    $('.date-custom').change(function() {
+                        var selectedDateStr = $(this).val();
+                        checkDate(selectedDateStr);
+                    });
+                });
                 $('table tbody').prepend(newRow);
+
+
             });
 
             $(document).on('click', '.removeRow', function() {
