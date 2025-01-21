@@ -32,7 +32,7 @@
                                         <td class="wallet-account">{{ $item->wallet_type_account_no }}</td>
                                         <td class="wallet-name">{{ $item->wallet_type_name }}</td>
                                         <td class="wallet-price">{{ $item->wallet_type_price }}</td>
-                                        <td class="wallet-price"><a href="{{route('wallet.wallettransaction',$item->wallet_type_id)}}"> ตรวสอบธุรกรรม</a></td>
+                                        <td class="wallet-price"><a href="{{route('wallet.wallettransaction',$item->wallet_type_id)}}"> ตรวจสอบธุรกรรม</a></td>
                                         <td>
                                             <a href="{{ route('wallet.edit', $item->wallet_type_id) }}"class="text-info btn-wallet-edit">แก้ไข</a> |
                                             <a href="#" class="text-danger delete-btn">ลบ</a>
