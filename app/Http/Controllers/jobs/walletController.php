@@ -78,6 +78,7 @@ class walletController extends Controller
         //
         $search = $request->search;
         $eventCase = eventCaseModel::where('event_case.wallet_type_id', $walletModel->wallet_type_id)
+        ->where('event_case_status','!=','cancel')
         ->leftJoin('job_order', 'job_order.job_order_id', '=', 'event_case.job_order_id') // เข้าร่วมกับตาราง job_trasaction
         ->leftJoin('job_trasaction', 'job_trasaction.job_trasaction_id', '=', 'event_case.transaction_id');
 
