@@ -135,7 +135,13 @@ class WalletController extends Controller
                 // Credit: คืนยอด โดยการลดยอดเงินในกระเป๋าเงิน
                 $refundAmount = -$event->grand_total; // บันทึกยอด Refund เป็นลบ
                 $wallet->wallet_type_price -= abs($refundAmount); // ลดยอดเงินจากกระเป๋า
-                $eventCaseLog = 'คืนยอด Credit';  // บันทึก log สำหรับ Credit
+              
+
+                if($event->wallet_type_id ===  $wallet->wallet_type_id){
+                $eventCaseLog = 'คืนยอด Credit-OLD';  // บันทึก log สำหรับ Credit
+                }else{
+                    $eventCaseLog = 'คืนยอด Credit';  // บันทึก log สำหรับ Credit
+                }
             } elseif ($event->event_case_name == 'Debit') {
                 // Debit: คืนยอด โดยการเพิ่มยอดเงินในกระเป๋าเงิน
                 $refundAmount = abs($event->grand_total); // บันทึกยอด Refund เป็นบวก

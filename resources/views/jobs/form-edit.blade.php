@@ -339,7 +339,9 @@
 
                                 <tbody>
                                     @forelse ($transactions as $itemTransaction)
+                                   
                                         <tr>
+                                            <td style="display: none"><input type="text" name="transaction_id[]" value="{{$itemTransaction->transaction_id}}"></td>
                                             <td><input type="date" name="transaction_date[]"
                                                     class="form-control date-custom"
                                                     value="{{ $itemTransaction->transaction_date }}" />
@@ -394,6 +396,7 @@
 
 
                                     <tr id="row-template" style="display: none;">
+                                        
                                         <td><input type="date" name="transaction_date[]"
                                                 class="form-control date-custom" />
                                         </td>

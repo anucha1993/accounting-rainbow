@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\jobs;
 
+use Illuminate\Http\Request;
+use App\Models\jobs\walletModel;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\eventcases\eventCaseModel;
-use App\Models\jobs\walletModel;
-use Illuminate\Http\Request;
 
 class walletController extends Controller
 {
@@ -78,25 +79,19 @@ class walletController extends Controller
         //
         $search = $request->search;
         $eventCase = eventCaseModel::where('event_case.wallet_type_id', $walletModel->wallet_type_id)
-        ->where('event_case_status','!=','cancel')
+        ->where('event_case_log','!=','คืนยอด Credit-OLD')
         ->leftJoin('job_order', 'job_order.job_order_id', '=', 'event_case.job_order_id') // เข้าร่วมกับตาราง job_trasaction
-        ->leftJoin('job_trasaction', 'job_trasaction.job_trasaction_id', '=', 'event_case.transaction_id');
-
-
+        ->leftJoin('job_trasaction', 'job_trasaction.job_trasaction_id', '=', 'event_case.transaction_id')
+        ->groupBy('event_case.event_case_name','event_case.grand_total')
+        ->select('event_case.event_case_number','event_case.event_case_log','event_case.event_case_name', 'event_case.grand_total', DB::raw('count(*) as total'));
         if ($search) {
             $eventCase->where('job_order.job_order_number', 'LIKE', "%$search%")->orWhere('event_case.event_case_number', 'LIKE', "%$search%");
         }
-        
         $eventCase = $eventCase->orderBy('event_case.event_case_id','DESC')
         ->paginate(10);
-    
-
         //dd($eventCase);
-
         return view('wallet.Wallettransaction', compact('walletModel','eventCase','request'));
     }
-
-
 
     /**
      * Update the specified resource in storage.

@@ -306,32 +306,49 @@ class jobOrderController extends Controller
                 }
             }
         }
-        //คำนวนค่าใช้จ่าย
-        // $income = 0;
-        // $expenses = 0;
 
-        // $transactionProfit = transactionModel::where('transaction_job', $jobOrder->job_order_id)->get();
-        // foreach ($transactionProfit as $key => $value) {
-        //     if ($value->transaction_type === 'income') {
-        //         $income += $value->transaction_amount;
-        //         if ($income > 0) {
-        //             $walletId = $value->transaction_wallet;
-        //             $amount = $income;
-        //             $jobOrderId  = $jobOrder->job_order_id;
-        //             $transactionIds = $value->transaction_group;
-        //             $this->walletController->credit($walletId, $amount, $jobOrderId, $transactionIds);
-        //         }
-        //     } else {
-        //         $expenses += $value->transaction_amount;
-        //         if ($expenses > 0) {
-        //             $walletId = $value->transaction_wallet;
-        //             $amount = $expenses;
-        //             $jobOrderId  = $jobOrder->job_order_id;
-        //             $transactionIds = $value->transaction_group;
-        //             $this->walletController->debit($walletId, $amount, $jobOrderId, $transactionIds);
+        // if ($request->transaction_type) {
+        //     // ดึงข้อมูลเดิมทั้งหมดที่เกี่ยวข้องกับ jobOrder
+        //     $existingTransactions = transactionModel::where('transaction_job', $jobOrder->job_order_id)->get();
+        //     // อัปเดตหรือสร้างข้อมูลใหม่
+        //     $updatedTransactions = []; // Array เก็บข้อมูลที่ถูกอัปเดต
+        //     foreach ($request->transaction_type as $key => $value) {
+        //         $existingTransaction = $existingTransactions->where('transaction_id', $value->transaction_id)->first();
+        //         if ($existingTransaction) {
+        //             // อัปเดตข้อมูล
+        //             $existingTransaction->update([
+        //               'transaction_type' => $request->transaction_type[$key],
+        //               'transaction_date' => $request->transaction_date[$key],
+        //               'transaction_wallet' => $request->transaction_wallet[$key],
+        //               'transaction_amount' => $request->transaction_amount[$key],
+        //               'transaction_group' => $request->transaction_group[$key],
+        //             ]);
+        //             $updatedTransactions[] = $existingTransaction->transaction_id;
+        //         } else {
+        //             // สร้างข้อมูลใหม่
+        //             $newTransaction = transactionModel::create([
+        //              'transaction_job' => $jobOrder->job_order_id,
+        //              'transaction_number' => $jobOrder->job_order_number,
+        //              'transaction_type' => $request->transaction_type[$key],
+        //              'transaction_date' => $request->transaction_date[$key],
+        //              'transaction_wallet' => $request->transaction_wallet[$key],
+        //              'transaction_amount' => $request->transaction_amount[$key],
+        //              'transaction_group' => $request->transaction_group[$key],
+        //             ]);
+        //             $updatedTransactions[] = $newTransaction->transaction_id;
         //         }
         //     }
+        
+        //     // ลบข้อมูลเดิมที่ไม่ได้ถูกอัปเดต (ถ้าต้องการ)
+        //     $existingIds = $existingTransactions->pluck('id')->toArray();
+        //     $deletedIds = array_diff($existingIds, $updatedTransactions);
+        //     transactionModel::whereIn('id', $deletedIds)->delete();
         // }
+
+       
+
+
+      
         $income = 0;
         $expenses = 0;
 
