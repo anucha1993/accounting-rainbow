@@ -225,8 +225,6 @@
                                         class="btn btn-primary float-end me-3  btn-re-job"><i
                                             class=" far fa-share-square"></i> Re-Open Job</a>
                                 @endif
-
-
                                 <a href="#" @if (Auth::user()->isAdmin !== 'Admin') style="display: none" @endif
                                     class="btn btn-danger float-end   me-3 btn-close-job"> <i
                                         class="far fa-window-close"></i> Close Job </a>
