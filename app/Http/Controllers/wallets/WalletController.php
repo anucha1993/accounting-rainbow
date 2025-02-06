@@ -138,7 +138,7 @@ class WalletController extends Controller
               
 
                 if($event->wallet_type_id ===  $wallet->wallet_type_id){
-                $eventCaseLog = 'คืนยอด Credit-OLD';  // บันทึก log สำหรับ Credit
+                $eventCaseLog = 'คืนยอด';  // บันทึก log สำหรับ Credit
                 }else{
                     $eventCaseLog = 'คืนยอด Credit';  // บันทึก log สำหรับ Credit
                 }
