@@ -26,20 +26,6 @@ class jobOrderController extends Controller
         $this->walletController = $walletController;
     }
 
-    // public function someFunction()
-    // {
-    //     $walletId = 1;
-    //     $amount = 100;
-    //     $jobOrder = 47;
-    //     $jobOrder = 47;
-    //     $trasactionIds = [10, 20];
-
-    //     // เรียกใช้ฟังก์ชัน credit จาก WalletController
-    //     $this->walletController->credit($walletId, $amount, $jobOrder, $trasactionIds);
-
-    //     // เรียกใช้ฟังก์ชัน debit จาก WalletController
-    //    // $this->walletController->debit($walletId, $amount);
-    // }
 
     public function index()
     {
@@ -176,34 +162,7 @@ class jobOrderController extends Controller
             }
         }
 
-        //คำนวนค่าใช้จ่าย
-        // $income = 0;
-        // $expenses = 0;
-
-        // $transactionProfit = transactionModel::where('transaction_job', $jobOrder->job_order_id)->get();
-        // foreach ($transactionProfit as $key => $value) {
-        //     if ($value->transaction_type === 'income') {
-        //         $income += $value->transaction_amount;
-        //         if ($income > 0) {
-        //             $walletId = $value->transaction_wallet;
-        //             $amount = $income;
-        //             $jobOrderId = $jobOrder->job_order_id;
-        //             $trasactionIds = $value->transaction_group;
-        //             // เรียกใช้ฟังก์ชัน credit จาก WalletController
-        //             $this->walletController->credit($walletId, $amount, $jobOrderId, $trasactionIds);
-        //         }
-        //     } else {
-        //         $expenses += $value->transaction_amount;
-        //         if ($expenses > 0) {
-        //             $walletId = $value->transaction_wallet;
-        //             $amount = $income;
-        //             $jobOrderId = $jobOrder->job_order_id;
-        //             $trasactionIds = $value->transaction_group;
-        //             // เรียกใช้ฟังก์ชัน credit จาก WalletController
-        //             $this->walletController->debit($walletId, $amount, $jobOrderId, $trasactionIds);
-        //         }
-        //     }
-        // }
+      
 
 
         $income = 0;
@@ -245,6 +204,13 @@ class jobOrderController extends Controller
             ->latest()
             ->get();
 
+        $wallerLogs = eventCaseModel::where('event_case.job_order_id', $jobOrder->job_order_id )
+        ->where('event_case.event_case_status', 'success')
+        ->leftJoin('job_order', 'job_order.job_order_id', '=', 'event_case.job_order_id') // เข้าร่วมกับตาราง job_trasaction
+        ->leftJoin('job_trasaction', 'job_trasaction.job_trasaction_id', '=', 'event_case.transaction_id')
+        ->leftJoin('wallet_type', 'wallet_type.wallet_type_id', '=', 'event_case.wallet_type_id')
+        ->get();
+
         if (Auth::user()->isAdmin === 'Admin') {
             $Jobtransactions = DB::table('job_trasaction')
                 ->where('job_detail', $jobOrder->job_order_detail)
@@ -272,7 +238,7 @@ class jobOrderController extends Controller
         }
 
         // dd($Jobtransactions);
-        return view('jobs.form-edit', compact('nationality', 'customer', 'customers', 'jobOrder', 'walletType', 'jobType', 'jobDetail', 'Jobtransactions', 'transactions'));
+        return view('jobs.form-edit', compact('wallerLogs','nationality', 'customer', 'customers', 'jobOrder', 'walletType', 'jobType', 'jobDetail', 'Jobtransactions', 'transactions'));
     }
 
     public function update(Request $request, JobOrderModel $jobOrder)

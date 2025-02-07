@@ -288,7 +288,8 @@
                     <hr>
                     <div class="row">
                         <div class="col-md-12">
-                            <h6>Statement Transaction </h6>
+                            <h6>Statement Transaction 
+                                <a href="#" data-bs-toggle="modal"  data-bs-target="#wallet-log">ตรวจสอบธุรกรรม</a></h6> 
                         </div>
                         <div class="col-md-2">
 
@@ -325,11 +326,11 @@
                             <table class="table ">
                                 <thead>
                                     <thead class="text-center bg-inverse text-white">
+                                        <th>เลขธุรกรรม</th>
                                         <th>Date</th>
                                         <th>Transaction</th>
                                         <th>รายรับ/รายจ่าย</th>
                                         <th>จำนวนเงิน</th>
-
                                         <th>บัญชีกระเป๋ารับเงิน-ถอนเงิน</th>
                                         <th>Actions</th>
                                         </tr>
@@ -339,6 +340,7 @@
                                     @forelse ($transactions as $itemTransaction)
                                    
                                         <tr>
+
                                             <td style="display: none"><input type="text" name="transaction_id[]" value="{{$itemTransaction->transaction_id}}"></td>
                                             <td><input type="date" name="transaction_date[]"
                                                     class="form-control date-custom"
@@ -463,6 +465,101 @@
 
 
     <!--modal content Edit Customer -->
+    <div class="modal fade" id="wallet-log" tabindex="-1" aria-labelledby="wallet-log"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header d-flex align-items-center">
+                    <h4 class="modal-title" id="myLargeModalLabel">
+                        Wallet Log
+                    </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <hr>
+
+                <div class="modal-body">
+                    <table class="table">
+                        <thead>
+                            {{-- <tr>
+                                <th>เลขที่ธุรกรรม</th>
+                                <th>รายละเอียด</th>
+                                <th>ราคา</th>
+                            </tr> --}}
+                        </thead>
+
+                        <tbody>
+                            @php
+                                $total = 0;
+                            @endphp
+                            @forelse ($wallerLogs as $item)
+                            @php
+                            $total += $item->grand_total;
+                             @endphp
+                            <tr>
+                                <td>
+                                    {{ $item->event_case_number }}
+                                </td>
+                                <td>
+                                    <span
+                                        class="
+                              @if ($item->event_case_name === 'Credit') text-success        
+                              @elseif ($item->event_case_name === 'Debit')
+                                  text-danger        
+                              @elseif ($item->event_case_name === 'Refund')
+                                  text-warning @endif
+                              ">{{ $item->event_case_log }}</span>
+                                </td>
+                                <td>
+
+                                    <h6 class="mb-0 font-weight-medium">
+                                        <a href="javascript:void(0)" class="link">Job No :
+                                            {{ $item->job_order_number }} </a>
+                                    </h6>
+                                    <small class="text-muted">Product id :
+                                        {{ $item->job_trasaction_name ?? 'N/A' }}</small><br>
+                                    <small class="text-muted">Wallet Name :
+                                        {{ $item->wallet_type_name ?? 'N/A' }}</small>
+                                </td>
+                                <td>
+                                    <h5
+                                        class="  @if ($item->event_case_name === 'Credit') text-success        
+                              @elseif ($item->event_case_name === 'Debit')
+                                  text-danger        
+                              @elseif ($item->event_case_name === 'Refund')
+                                  text-warning @endif">
+                                        {{ number_format($item->grand_total, 2, '.', ',') }}</h5>
+                                    <!-- แก้ไขให้เป็นฟิลด์ที่ต้องการ -->
+                                </td>
+                                
+                            </tr>
+                            @empty
+                                
+                            @endforelse
+                        </tbody>
+                    </table>
+                    <h5 class="float-end ">รวมทั้งสิ้น : {{ number_format($total, 2, '.', ',') }}. บาท</h5>
+                </div>
+
+                <div class="modal-footer">
+                    
+                    <button type="submit"
+                        class="btn btn-light-success text-danger font-weight-medium  waves-effect  text-start"
+                        data-bs-dismiss="modal">
+                        ปิด
+                    </button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+
+
+
+
+    <!--modal content Edit Customer -->
     <div class="modal fade" id="bs-example-modal-lg" tabindex="-1" aria-labelledby="bs-example-modal-lg"
         aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -545,6 +642,15 @@
     </div>
     <!-- /.modal -->
 
+        {{-- modal  job wallet" --}}
+        <div class="modal fade job-wallet" id="job-wallet" tabindex="-1"
+        aria-labelledby="vertical-center-transaction" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+
 
     {{-- modal add add-transaction" --}}
     <div class="modal fade custom-modal  " id="add-transaction" tabindex="-1"
@@ -554,6 +660,8 @@
             </div>
         </div>
     </div>
+
+
     {{-- modal edit add-transaction" --}}
     <div class="modal fade custom-modal  " id="edit-transaction" tabindex="-1"
         aria-labelledby="vertical-center-transaction" aria-hidden="true">
