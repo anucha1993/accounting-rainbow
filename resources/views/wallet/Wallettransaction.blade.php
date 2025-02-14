@@ -34,7 +34,7 @@
                     <hr>
                     <div class="form-group">
 
-                        <table class="table stylish-table mt-4 no-wrap v-middle">
+                         <table class="table stylish-table mt-4 no-wrap v-middle">
                             <thead>
                                 <tr>
                                     <th class="border-0 text-muted font-weight-medium" style="width: 90px">
@@ -55,44 +55,44 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($eventCase as $item)
+                                @forelse ($eventCase1 as $item1)
                                     <tr>
                                         <td>
-                                            {{ $item->event_case_number }}
+                                            {{ $item1->event_case_number }} {{ $item1->event_case_id}}
                                         </td>
                                         <td>
                                             <span
                                                 class="
-                                      @if ($item->event_case_name === 'Credit') text-success        
-                                      @elseif ($item->event_case_name === 'Debit')
+                                      @if ($item1->event_case_name === 'Credit') text-success        
+                                      @elseif ($item1->event_case_name === 'Debit')
                                           text-danger        
-                                      @elseif ($item->event_case_name === 'Refund')
+                                      @elseif ($item1->event_case_name === 'Refund')
                                           text-warning @endif
-                                      ">{{ $item->event_case_log }}</span>
+                                      ">{{ $item1->event_case_log }}</span>
                                         </td>
                                         <td>
 
                                             <h6 class="mb-0 font-weight-medium">
                                                 <a href="javascript:void(0)" class="link">Job No :
-                                                    {{ $item->job_order_number }} </a>
+                                                    {{ $item1->job_order_number }} </a>
                                             </h6>
                                             <small class="text-muted">Product id :
-                                                {{ $item->job_trasaction_name ?? 'N/A' }}</small><br>
+                                                {{ $item1->job_trasaction_name ?? 'N/A' }}</small><br>
                                             <small class="text-muted">Wallet Name :
                                                 {{ $walletModel->wallet_type_name ?? 'N/A' }}</small>
                                         </td>
                                         <td>
                                             <h5
-                                                class="  @if ($item->event_case_name === 'Credit') text-success        
-                                      @elseif ($item->event_case_name === 'Debit')
+                                                class="  @if ($item1->event_case_name === 'Credit') text-success        
+                                      @elseif ($item1->event_case_name === 'Debit')
                                           text-danger        
-                                      @elseif ($item->event_case_name === 'Refund')
+                                      @elseif ($item1->event_case_name === 'Refund')
                                           text-warning @endif">
-                                                {{ number_format($item->grand_total, 2, '.', ',') }}</h5>
+                                                {{ number_format($item1->grand_total, 2, '.', ',') }}</h5>
                                             <!-- แก้ไขให้เป็นฟิลด์ที่ต้องการ -->
                                         </td>
                                         <td>
-                                            <h5>{{ number_format($item->wallet_grand_total, 2, '.', ',') }}</h5>
+                                            <h5>{{ number_format($item1->wallet_grand_total, 2, '.', ',') }}</h5>
                                             <!-- แก้ไขให้เป็นฟิลด์ที่ต้องการ -->
                                         </td>
                                     </tr>
@@ -106,7 +106,57 @@
 
 
                             </tbody>
+                        </table> 
+
+                        <table class="table stylish-table mt-4 no-wrap v-middle">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Job No.</th>
+                                    <th>รายจ่าย</th>
+                                    <th>รายรับ</th>
+                                    {{-- <th>debit</th>
+                                    <th>Credit</th>
+                                    <th>Refund</th> --}}
+
+                                    <th>ยอดทั้งหมด</th>
+                                    <th>ยอดคงเหลือในบัญชี</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                use App\Models\eventcases\eventCaseModel;
+                                @endphp
+                                @forelse ($eventCase as $key => $item)
+                                @php
+                                 $maxEventCase = eventCaseModel::find($item->max_event_case_id);
+                                 @endphp
+                                  
+                                    <tr>
+                                        <td>{{$key+1}}</td>
+                                        <td>{{$item->jobOrder->job_order_number}}</td>
+                                        <td class="text-danger">{{ number_format($item->expenses(),2)}}</td>
+                                        <td class="text-success">{{ number_format($item->income(),2)}}</td>
+                                        {{-- <td>{{ number_format($item->debit_total,2)}}</td>
+                                        <td>{{ number_format($item->credit_total,2)}}</td>
+                                        <td>{{ number_format($item->refund_total,2)}}</td> --}}
+                                        {{-- <td>{{ number_format($item->debit_total,2)}}</td>
+                                        <td>{{ number_format($item->credit_total,2)}}</td>
+                                        <td>{{ number_format($item->refund_total,2)}}</td>
+                                        <td>{{ number_format($item->debit_total+$item->credit_total+$item->refund_total,2)}}</td> --}}
+                                         {{-- <td>{{ number_format($item->max_wallet_grand_total,2)}}</td> --}}
+                                         <td>{{number_format($item->income()-$item->expenses(),2)}}</td>
+                                         <td>{{number_format($item->max_wallet_grand_total = $maxEventCase ? $maxEventCase->wallet_grand_total : 0.00,2)}}</td>
+                                    </tr>
+                                @empty
+                                    
+                                @endforelse
+
+                            </tbody>
+
                         </table>
+
+
                         {!! $eventCase->withQueryString()->links('pagination::bootstrap-5') !!}
 
                     </div>

@@ -493,7 +493,7 @@
                             @endphp
                             @forelse ($wallerLogs as $item)
                             @php
-                            $total += $item->grand_total;
+                             $total += $item->grand_total;
                              @endphp
                             <tr>
                                 <td>
