@@ -340,6 +340,7 @@
                                     @forelse ($transactions as $itemTransaction)
                                    
                                         <tr>
+                                            <td>{{$itemTransaction->eventCase->event_case_number}}</td>
 
                                             <td style="display: none"><input type="text" name="transaction_id[]" value="{{$itemTransaction->transaction_id}}"></td>
                                             <td><input type="date" name="transaction_date[]"

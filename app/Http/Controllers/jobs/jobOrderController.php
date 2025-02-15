@@ -173,11 +173,11 @@ class jobOrderController extends Controller
             if ($value->transaction_type === 'income') {
                 $income += $value->transaction_amount;
                 // Call credit() immediately after calculating income
-                $this->walletController->credit($value->transaction_wallet, $value->transaction_amount, $jobOrder->job_order_id, $value->transaction_group);
+                $this->walletController->credit($value->transaction_wallet, $value->transaction_amount, $jobOrder->job_order_id, $value->transaction_group,$value->transaction_id);
             } else {
                 $expenses += $value->transaction_amount;
                 // Call debit() immediately after calculating expenses
-                $this->walletController->debit($value->transaction_wallet, $value->transaction_amount, $jobOrder->job_order_id, $value->transaction_group);
+                $this->walletController->debit($value->transaction_wallet, $value->transaction_amount, $jobOrder->job_order_id, $value->transaction_group,$value->transaction_id);
             }
         }
 
@@ -213,11 +213,13 @@ class jobOrderController extends Controller
 
         if (Auth::user()->isAdmin === 'Admin') {
             $Jobtransactions = DB::table('job_trasaction')
+      
                 ->where('job_detail', $jobOrder->job_order_detail)
                 ->latest()
                 ->get();
         } else {
             $Jobtransactions = DB::table('job_trasaction')
+      
                 ->where('job_detail', $jobOrder->job_order_detail)
                 ->where('job_trasaction_type', '+')
                 ->latest()
@@ -225,12 +227,11 @@ class jobOrderController extends Controller
         }
 
         if (Auth::user()->isAdmin === 'Admin') {
-            $transactions = DB::table('transactions')
-                ->where('transaction_job', $jobOrder->job_order_id)
+            $transactions = transactionModel::where('transaction_job', $jobOrder->job_order_id)
                 ->latest()
                 ->get();
         } else {
-            $transactions = DB::table('transactions')
+            $transactions = transactionModel::where('transaction_job', $jobOrder->job_order_id)
                 ->where('transaction_job', $jobOrder->job_order_id)
                 ->where('transaction_type', 'income')
                 ->latest()
@@ -323,11 +324,11 @@ class jobOrderController extends Controller
             if ($value->transaction_type === 'income') {
                 $income += $value->transaction_amount;
                 // Call credit() immediately after calculating income
-                $this->walletController->credit($value->transaction_wallet, $value->transaction_amount, $jobOrder->job_order_id, $value->transaction_group);
+                $this->walletController->credit($value->transaction_wallet, $value->transaction_amount, $jobOrder->job_order_id, $value->transaction_group,$value->transaction_id);
             } else {
                 $expenses += $value->transaction_amount;
                 // Call debit() immediately after calculating expenses
-                $this->walletController->debit($value->transaction_wallet, $value->transaction_amount, $jobOrder->job_order_id, $value->transaction_group);
+                $this->walletController->debit($value->transaction_wallet, $value->transaction_amount, $jobOrder->job_order_id, $value->transaction_group,$value->transaction_id);
             }
         }
 

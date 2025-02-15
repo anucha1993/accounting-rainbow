@@ -28,7 +28,7 @@ class WalletController extends Controller
         return $transactionId;
     }
 
-    public function credit($walletId, $amount, $jobOrderId, $trasactionIds)
+    public function credit($walletId, $amount, $jobOrderId, $trasactionIds,$jobtrasactionIds)
     {
         DB::beginTransaction();
         try {
@@ -50,6 +50,7 @@ class WalletController extends Controller
                 'wallet_type_id' => $wallet->wallet_type_id,
                 'job_order_id' => $jobOrderId,
                 'transaction_id' => $trasactionIds, // บันทึก transaction_id เป็น JSON
+                'job_transaction_id' => $jobtrasactionIds,
                 'grand_total' => $amount,
                 'wallet_grand_total' => $wallet->wallet_type_price, // อัปเดตยอดคงเหลือหลังการเติมเงิน
                 'created_by' => Auth::user()->name . ' ' .Auth::user()->lastname,
@@ -62,7 +63,7 @@ class WalletController extends Controller
         }
     }
 
-    public function debit($walletId, $amount, $jobOrderId, $trasactionIds)
+    public function debit($walletId, $amount, $jobOrderId, $trasactionIds,$jobtrasactionIds)
     {
         DB::beginTransaction();
         try {
@@ -87,6 +88,7 @@ class WalletController extends Controller
                 'wallet_type_id' => $wallet->wallet_type_id,
                 'job_order_id' => $jobOrderId,
                 'transaction_id' => $trasactionIds, // บันทึก transaction_id เป็น JSON
+                'job_transaction_id' => $jobtrasactionIds,
                 'grand_total' => -$amount, // อัปเดตให้เป็นยอดลบสำหรับการถอน
                 'wallet_grand_total' => $wallet->wallet_type_price, // อัปเดตยอดคงเหลือหลังการถอนเงิน
                 'created_by' => Auth::user()->name . ' ' .Auth::user()->lastname,
@@ -164,6 +166,7 @@ class WalletController extends Controller
                 'wallet_type_id' => $wallet->wallet_type_id, // บันทึก Wallet ID ที่คืนยอด
                 'job_order_id' => $jobOrder->job_order_id,
                 'transaction_id' => $event->transaction_id, // บันทึก Transaction ID ที่คืนยอด
+                'transaction_id' => $event->job_transaction_id, // บันทึก Transaction ID ที่คืนยอด
                 'grand_total' => $refundAmount, // ยอดคืน (ลบในกรณี Credit)
                 'wallet_grand_total' => $wallet->wallet_type_price, // ยอดคงเหลือหลังจากคืนเงิน
                 'created_by' => Auth::user()->name,

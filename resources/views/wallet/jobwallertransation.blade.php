@@ -21,11 +21,11 @@
                         <div class="rwo">
                             <div class="col-md-12">
                                 <div class="col-md-12">
-                                    <div class="input-group mb-3">
+                                    {{-- <div class="input-group mb-3">
                                         <span class="input-group-text" for="">กรอกข้อมูล</span>
                                         <input type="text" class="form-control" name="search" placeholder="Search.." value="{{$request->search}}">
                                         <button class="btn btn-success">Search</button>
-                                    </div>
+                                    </div> --}}
 
                                 </div>
                             </div>
@@ -34,7 +34,7 @@
                     <hr>
                     <div class="form-group">
 
-                         {{-- <table class="table stylish-table mt-4 no-wrap v-middle">
+                         <table class="table stylish-table mt-4 no-wrap v-middle">
                             <thead>
                                 <tr>
                                     <th class="border-0 text-muted font-weight-medium" style="width: 90px">
@@ -57,12 +57,8 @@
                             <tbody>
                                 @forelse ($eventCase1 as $item1)
                                     <tr>
-                                        <td>
-                                            {{ $item1->event_case_number }} {{ $item1->event_case_id}}
-                                        </td>
-                                        <td>
-                                            <span
-                                                class="
+                                        <td>{{ $item1->event_case_number }}</td>
+                                        <td><span class="
                                       @if ($item1->event_case_name === 'Credit') text-success        
                                       @elseif ($item1->event_case_name === 'Debit')
                                           text-danger        
@@ -106,61 +102,9 @@
 
 
                             </tbody>
-                        </table>  --}}
+                        </table> 
 
-                        <table class="table stylish-table mt-4 no-wrap v-middle">
-                            <thead>
-                                <tr>
-                                    <th>No.</th>
-                                    <th>Job No.</th>
-                                    <th>รายจ่าย</th>
-                                    <th>รายรับ</th>
-                                    {{-- <th>debit</th>
-                                    <th>Credit</th>
-                                    <th>Refund</th> --}}
-
-                                    <th>ยอดทั้งหมด</th>
-                                    <th>ยอดคงเหลือในบัญชี</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @php
-                                use App\Models\eventcases\eventCaseModel;
-                                @endphp
-                                @forelse ($eventCase as $key => $item)
-                                @php
-                                 $maxEventCase = eventCaseModel::find($item->max_event_case_id);
-                                 @endphp
-                                  
-                                    <tr>
-                                        <td>{{$key+1}}</td>
-                                        <td><a href="{{route('joborder.edit',$item->jobOrder->job_order_id)}}">{{$item->jobOrder->job_order_number}}</a></td>
-                                        <td class="text-danger">{{ number_format($item->expenses(),2)}}</td>
-                                        <td class="text-success">{{ number_format($item->income(),2)}}</td>
-                                        {{-- <td>{{ number_format($item->debit_total,2)}}</td>
-                                        <td>{{ number_format($item->credit_total,2)}}</td>
-                                        <td>{{ number_format($item->refund_total,2)}}</td> --}}
-                                        {{-- <td>{{ number_format($item->debit_total,2)}}</td>
-                                        <td>{{ number_format($item->credit_total,2)}}</td>
-                                        <td>{{ number_format($item->refund_total,2)}}</td>
-                                        <td>{{ number_format($item->debit_total+$item->credit_total+$item->refund_total,2)}}</td> --}}
-                                         {{-- <td>{{ number_format($item->max_wallet_grand_total,2)}}</td> --}}
-                                         <td>{{number_format($item->income()-$item->expenses(),2)}}</td>
-                                         <td>{{number_format($item->max_wallet_grand_total = $maxEventCase ? $maxEventCase->wallet_grand_total : 0.00,2)}}</td>
-                                         <td><a href="{{route('wallet.jobtransaction',[$item->jobOrder->job_order_id,$item->wallet_type_id])}}">รายละเอียด</a></td>
-                                    </tr>
-                                @empty
-                                    
-                                @endforelse
-
-                            </tbody>
-
-                        </table>
-
-
-                        {!! $eventCase->withQueryString()->links('pagination::bootstrap-5') !!}
-
+                    
                     </div>
                 </div>
             </div>

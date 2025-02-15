@@ -2,6 +2,7 @@
 
 namespace App\Models\jobs;
 
+use App\Models\eventcases\eventCaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -30,4 +31,10 @@ class JobOrderModel extends Model
         'update_by',
  
     ];
+
+    // public function eventCase()
+    // {
+    //     return $this->belongsTo(eventCaseModel::class, 'job_order_id', 'job_order_id');
+    // }
+
 }

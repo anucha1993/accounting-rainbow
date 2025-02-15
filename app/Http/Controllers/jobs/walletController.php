@@ -7,6 +7,7 @@ use App\Models\jobs\walletModel;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\eventcases\eventCaseModel;
+use App\Models\jobs\JobOrderModel;
 
 class walletController extends Controller
 {
@@ -74,6 +75,18 @@ class walletController extends Controller
     /**
      * Display the specified resource.
      */
+
+    public function jobtransaction(JobOrderModel $jobOrderModel,walletModel $walletModel)
+    {
+        $eventCase1 = eventCaseModel::where('event_case.wallet_type_id', $walletModel->wallet_type_id)
+        ->where('event_case.event_case_status', 'success')
+        ->leftJoin('job_order', 'job_order.job_order_id', '=', 'event_case.job_order_id') // เข้าร่วมกับตาราง job_trasaction
+        ->leftJoin('job_trasaction', 'job_trasaction.job_trasaction_id', '=', 'event_case.transaction_id')
+        ->where('event_case.job_order_id', $jobOrderModel->job_order_id);
+        $eventCase1 = $eventCase1->orderBy('event_case.event_case_id','DESC')
+        ->paginate(10);
+        return view('wallet.jobwallertransation', compact('eventCase1','walletModel'));
+    }
     public function wallettransaction(Request $request, walletModel $walletModel)
     {
         //

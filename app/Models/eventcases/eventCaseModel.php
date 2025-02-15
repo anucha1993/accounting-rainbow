@@ -20,6 +20,7 @@ class eventCaseModel extends Model
         'wallet_type_id',
         'job_order_id',
         'transaction_id',
+        'job_transaction_id',
         'event_case_number',
         'grand_total',
         'wallet_grand_total',

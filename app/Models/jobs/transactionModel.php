@@ -2,8 +2,9 @@
 
 namespace App\Models\jobs;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\eventcases\eventCaseModel;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class transactionModel extends Model
 {
@@ -19,4 +20,12 @@ class transactionModel extends Model
         'transaction_group',
         'transaction_job_number',
     ];
+
+     public function eventCase()
+    {
+        return $this->belongsTo(eventCaseModel::class, 'transaction_id', 'job_transaction_id');
+    }
+
+
+
 }
