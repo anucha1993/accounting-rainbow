@@ -329,7 +329,7 @@
                                                 <option value="expenses">รายจ่าย</option>
                                             </select>
                                         </td>
-                                        <td><input type="number" name="transaction_amount[]" class="form-control" />
+                                        <td><input type="number" name="transaction_amount[]" class="form-control" step="0.01" min="0.1" />
                                         </td>
                                         <td>
                                             <select name="transaction_wallet[]" class="form-select">

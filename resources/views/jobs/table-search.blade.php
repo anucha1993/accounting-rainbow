@@ -13,6 +13,7 @@
             @if (Auth::user()->isAdmin === 'Admin')
             <th>Total</th>
             <th>Job detail</th>
+            <th>Detail</th>
             @endif
               
                 <th>Receipt No.</th>
@@ -49,6 +50,7 @@
                     <td >
                        {{$item->job_detail_name}}
                     </td>
+                    <td>{{$item->job_order_details ?? '-'}}</td>
                     @endif
                   
                     

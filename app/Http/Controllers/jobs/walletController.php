@@ -78,7 +78,7 @@ class walletController extends Controller
 
     public function jobtransaction(JobOrderModel $jobOrderModel,walletModel $walletModel)
     {
-        $eventCase1 = eventCaseModel::where('event_case.wallet_type_id', $walletModel->wallet_type_id)
+        $eventCase1 = eventCaseModel::select('event_case.*','event_case.created_at as event_created_at','job_order.*','job_trasaction.*')->where('event_case.wallet_type_id', $walletModel->wallet_type_id)
         ->where('event_case.event_case_status', 'success')
         ->leftJoin('job_order', 'job_order.job_order_id', '=', 'event_case.job_order_id') // เข้าร่วมกับตาราง job_trasaction
         ->leftJoin('job_trasaction', 'job_trasaction.job_trasaction_id', '=', 'event_case.transaction_id')
@@ -112,6 +112,7 @@ class walletController extends Controller
         $eventCase = eventCaseModel::select(
             'job_order_id',
             'wallet_type_id',
+            'event_case.created_at',
             DB::raw('MAX(event_case_id) as max_event_case_id'),
             DB::raw('SUM(grand_total) as sum_grand_total'),
             DB::raw('SUM(CASE WHEN event_case_name = "Credit" THEN grand_total ELSE 0 END) as credit_total'),

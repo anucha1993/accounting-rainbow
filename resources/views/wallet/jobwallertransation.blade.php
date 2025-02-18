@@ -43,6 +43,9 @@
                                     <th class="border-0 text-muted font-weight-medium" style="width: 90px">
                                         ประเภท
                                     </th>
+                                    <th class="border-0 text-muted font-weight-medium" style="width: 90px">
+                                        Transaction Date
+                                    </th>
                                     <th class="border-0 text-muted font-weight-medium">
                                         รายละเอียด
                                     </th>
@@ -66,6 +69,7 @@
                                           text-warning @endif
                                       ">{{ $item1->event_case_log }}</span>
                                         </td>
+                                        <td>{{date('d/m/Y',strtotime($item1->event_created_at))}}</td>
                                         <td>
 
                                             <h6 class="mb-0 font-weight-medium">

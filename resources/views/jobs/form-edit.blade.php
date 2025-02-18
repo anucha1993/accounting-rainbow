@@ -368,9 +368,8 @@
                                                         value="expenses">รายจ่าย</option>
                                                 </select>
                                             </td>
-                                            <td class="text-end"><input type="number" name="transaction_amount[]"
-                                                    class="form-control text-end" step="0.01"
-                                                    value="{{ $itemTransaction->transaction_amount }}" />
+                                            <td class="text-end">
+                                                <input type="number" name="transaction_amount[]" class="form-control text-end" step="0.01" min="0.1" value="{{ $itemTransaction->transaction_amount }}" />
                                             </td>
                                             <td>
                                                 <select name="transaction_wallet[]" class="form-select">
@@ -419,8 +418,7 @@
                                                 <option value="expenses">รายจ่าย</option>
                                             </select>
                                         </td>
-                                        <td><input type="number" name="transaction_amount[]"
-                                                class="form-control text-end" step="0.01" />
+                                        <td><input type="number" name="transaction_amount[]" class="form-control text-end" step="0.01" min="0.1" />
                                         </td>
                                         <td>
                                             <select name="transaction_wallet[]" class="form-select">
@@ -500,6 +498,7 @@
                                 <td>
                                     {{ $item->event_case_number }}
                                 </td>
+                                {{-- <td>{{ date('d/m/Y',strtotime($item->created_at)) }}</td> --}}
                                 <td>
                                     <span
                                         class="

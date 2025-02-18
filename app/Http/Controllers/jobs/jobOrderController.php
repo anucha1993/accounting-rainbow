@@ -209,6 +209,7 @@ class jobOrderController extends Controller
         ->leftJoin('job_order', 'job_order.job_order_id', '=', 'event_case.job_order_id') // เข้าร่วมกับตาราง job_trasaction
         ->leftJoin('job_trasaction', 'job_trasaction.job_trasaction_id', '=', 'event_case.transaction_id')
         ->leftJoin('wallet_type', 'wallet_type.wallet_type_id', '=', 'event_case.wallet_type_id')
+        ->orderBy('event_case.event_case_id', 'DESC')
         ->get();
 
         if (Auth::user()->isAdmin === 'Admin') {
@@ -228,12 +229,13 @@ class jobOrderController extends Controller
 
         if (Auth::user()->isAdmin === 'Admin') {
             $transactions = transactionModel::where('transaction_job', $jobOrder->job_order_id)
-                ->latest()
+                 ->orderBy('transaction_id', 'DESC')
                 ->get();
         } else {
             $transactions = transactionModel::where('transaction_job', $jobOrder->job_order_id)
                 ->where('transaction_job', $jobOrder->job_order_id)
                 ->where('transaction_type', 'income')
+                ->orderBy('transaction_id', 'DESC')
                 ->latest()
                 ->get();
         }
