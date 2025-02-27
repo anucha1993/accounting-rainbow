@@ -4,10 +4,11 @@ namespace App\Http\Controllers\jobs;
 
 use Illuminate\Http\Request;
 use App\Models\jobs\walletModel;
+use App\Models\jobs\JobOrderModel;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\jobs\transactionModel;
 use App\Models\eventcases\eventCaseModel;
-use App\Models\jobs\JobOrderModel;
 
 class walletController extends Controller
 {
@@ -82,10 +83,13 @@ class walletController extends Controller
         ->where('event_case.event_case_status', 'success')
         ->leftJoin('job_order', 'job_order.job_order_id', '=', 'event_case.job_order_id') // เข้าร่วมกับตาราง job_trasaction
         ->leftJoin('job_trasaction', 'job_trasaction.job_trasaction_id', '=', 'event_case.transaction_id')
+        // ->leftJoin('transactions', 'transactions.transaction_group', '=', 'job_trasaction.job_trasaction_id')
         ->where('event_case.job_order_id', $jobOrderModel->job_order_id);
-        $eventCase1 = $eventCase1->orderBy('event_case.event_case_id','DESC')
+        $eventCase1 = $eventCase1->orderBy('event_case.event_case_id','ASC')
         ->paginate(10);
-        return view('wallet.jobwallertransation', compact('eventCase1','walletModel'));
+
+        $transactions = transactionModel::where('transaction_job', $jobOrderModel->job_order_id)->get();
+        return view('wallet.jobwallertransation', compact('eventCase1','walletModel','transactions'));
     }
     public function wallettransaction(Request $request, walletModel $walletModel)
     {

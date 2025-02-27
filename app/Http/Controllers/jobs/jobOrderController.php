@@ -132,6 +132,7 @@ class jobOrderController extends Controller
     // ฟังก์ชันในการบันทึกข้อมูล
     public function store(Request $request)
     {
+        dd($request);
         if ($request->job_order_customer === 'CustomerNew') {
             $customer = customersModel::create($request->all());
             $request->merge(['job_order_customer' => $customer->customer_id]);
@@ -229,13 +230,13 @@ class jobOrderController extends Controller
 
         if (Auth::user()->isAdmin === 'Admin') {
             $transactions = transactionModel::where('transaction_job', $jobOrder->job_order_id)
-                 ->orderBy('transaction_id', 'DESC')
+                 ->orderBy('transaction_id', 'ASC')
                 ->get();
         } else {
             $transactions = transactionModel::where('transaction_job', $jobOrder->job_order_id)
                 ->where('transaction_job', $jobOrder->job_order_id)
                 ->where('transaction_type', 'income')
-                ->orderBy('transaction_id', 'DESC')
+                ->orderBy('transaction_id', 'ASC')
                 ->latest()
                 ->get();
         }

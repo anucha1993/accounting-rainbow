@@ -58,8 +58,15 @@
                                 </tr>
                             </thead>
                             <tbody>
+                               
                                 @forelse ($eventCase1 as $item1)
+                                @php
+                                
+                                $transaction = $transactions->Where('transaction_id',$item1->job_transaction_id)->first();
+                                 @endphp
+
                                     <tr>
+                                        {{-- <td>{{$item1->event_case_id}}</td> --}}
                                         <td>{{ $item1->event_case_number }}</td>
                                         <td><span class="
                                       @if ($item1->event_case_name === 'Credit') text-success        
@@ -69,7 +76,8 @@
                                           text-warning @endif
                                       ">{{ $item1->event_case_log }}</span>
                                         </td>
-                                        <td>{{date('d/m/Y',strtotime($item1->event_created_at))}}</td>
+                                        {{-- <td>{{$item1->transaction_id}}</td> --}}
+                                        <td>{{date('d/m/Y',strtotime($transaction->transaction_date))}}</td>
                                         <td>
 
                                             <h6 class="mb-0 font-weight-medium">

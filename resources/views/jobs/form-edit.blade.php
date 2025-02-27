@@ -340,7 +340,8 @@
                                     @forelse ($transactions as $itemTransaction)
                                    
                                         <tr>
-                                            <td>{{$itemTransaction->eventCase->event_case_number}}</td>
+                                            {{-- <td>{{$itemTransaction->transaction_id}}</td> --}}
+                                            <td>{{$itemTransaction->eventCase->event_case_number}} </td>
 
                                             <td style="display: none"><input type="text" name="transaction_id[]" value="{{$itemTransaction->transaction_id}}"></td>
                                             <td><input type="date" name="transaction_date[]"
@@ -396,7 +397,7 @@
 
 
                                     <tr id="row-template" style="display: none;">
-                                        
+                                        <td>TX{{date('Ymd')}}-XXXX</td>
                                         <td><input type="date" name="transaction_date[]"
                                                 class="form-control date-custom" />
                                         </td>

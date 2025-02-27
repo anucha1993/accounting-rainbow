@@ -24,6 +24,7 @@ class eventCaseModel extends Model
         'event_case_number',
         'grand_total',
         'wallet_grand_total',
+        'transaction_group',
         'created_by',
     ];
 
