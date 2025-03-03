@@ -132,7 +132,7 @@ class jobOrderController extends Controller
     // ฟังก์ชันในการบันทึกข้อมูล
     public function store(Request $request)
     {
-        dd($request);
+       // dd($request);
         if ($request->job_order_customer === 'CustomerNew') {
             $customer = customersModel::create($request->all());
             $request->merge(['job_order_customer' => $customer->customer_id]);
