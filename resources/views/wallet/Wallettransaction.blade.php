@@ -130,17 +130,35 @@
                                 @php
                                  $maxEventCase = eventCaseModel::find($item->max_event_case_id);
                                  @endphp
-                                  
+
+                                  @if ($item->jobOrder)
                                     <tr>
                                         <td>{{$key+1}}</td>
-                                        <td><a href="{{route('joborder.edit',$item->jobOrder->job_order_id)}}">{{$item->jobOrder->job_order_number}}</a></td>
-                                        <td>{{date('d/m/Y',strtotime($item->created_at))}}</td>
+                                        <td><a href="{{route('joborder.edit',1)}}">{{$item->jobOrder->job_order_number ? $item->jobOrder->job_order_number : 'NUll'}}</a></td>
+                                        <td>{{date('d/m/Y',strtotime($item->transactions->transaction_date))}}</td>
                                         <td class="text-danger">{{ number_format($item->expenses(),2)}}</td>
                                         <td class="text-success">{{ number_format($item->income(),2)}}</td>
                                          <td>{{number_format($item->income()-$item->expenses(),2)}}</td>
                                          <td>{{number_format($item->max_wallet_grand_total = $maxEventCase ? $maxEventCase->wallet_grand_total : 0.00,2)}}</td>
                                          <td><a href="{{route('wallet.jobtransaction',[$item->jobOrder->job_order_id,$item->wallet_type_id])}}">รายละเอียด</a></td>
                                     </tr>
+
+                                    @else
+
+                                    <tr>
+                                        <td>{{$key+1}}</td>
+                                        {{-- <td><a href="{{route('joborder.edit',1)}}">{{$item->jobOrder->job_order_number ? $item->jobOrder->job_order_number : 'NUll'}}</a></td> --}}
+                                        <td>NULL</td>
+                                        <td>{{date('d/m/Y',strtotime($item->transactions->created_at))}}</td>
+                                        <td class="text-danger">{{ number_format($item->expenses(),2)}}</td>
+                                        <td class="text-success">{{ number_format($item->income(),2)}}</td>
+                                         <td>{{number_format($item->income()-$item->expenses(),2)}}</td>
+                                         <td>{{number_format($item->max_wallet_grand_total = $maxEventCase ? $maxEventCase->wallet_grand_total : 0.00,2)}}</td>
+                                         <td>NULL</td>
+                                         {{-- <td><a href="{{route('wallet.jobtransaction',[$item->jobOrder->job_order_id,$item->wallet_type_id])}}">รายละเอียด</a></td> --}}
+                                    </tr>
+                                      
+                                    @endif
                                 @empty
                                     
                                 @endforelse

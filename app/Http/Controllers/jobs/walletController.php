@@ -98,15 +98,18 @@ class walletController extends Controller
         $eventCase1 = eventCaseModel::where('event_case.wallet_type_id', $walletModel->wallet_type_id)
         //->where('event_case_log','!=','คืนยอด Debit')
         ->leftJoin('job_order', 'job_order.job_order_id', '=', 'event_case.job_order_id') // เข้าร่วมกับตาราง job_trasaction
-        ->leftJoin('job_trasaction', 'job_trasaction.job_trasaction_id', '=', 'event_case.transaction_id');
+        ->leftJoin('job_trasaction', 'job_trasaction.job_trasaction_id', '=', 'event_case.transaction_id')
+        ->where('job_order.job_order_id','!=', NULL);
         // ->groupBy('job_order.job_order_id','event_case.job_order_id');
         // ->groupBy('event_case.event_case_name','event_case.grand_total')
         // ->select('event_case.event_case_number','event_case.event_case_log','event_case.event_case_name', 'event_case.grand_total', DB::raw('count(*) as total'));
         if ($search) {
             $eventCase1->where('job_order.job_order_number', 'LIKE', "%$search%")->orWhere('event_case.event_case_number', 'LIKE', "%$search%");
         }
+        
         $eventCase1 = $eventCase1->orderBy('event_case.event_case_id','DESC')
         ->paginate(10);
+  
 
         // $eventCase = eventCaseModel::with('jobOrder')
         // ->where('event_case.wallet_type_id', $walletModel->wallet_type_id)
