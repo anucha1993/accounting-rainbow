@@ -7,7 +7,9 @@ use App\Models\jobs\walletModel;
 use App\Models\jobs\JobOrderModel;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Models\jobs\transactionModel;
+use App\Models\transfer\transferModel;
 use App\Models\eventcases\eventCaseModel;
 
 class walletController extends Controller
@@ -134,9 +136,11 @@ class walletController extends Controller
             ->orderBy('max_event_case_id', 'DESC')
             ->paginate(10);
 
+            $transfers = transferModel::where('wallet_type_id',$walletModel->wallet_type_id)->latest()->limit(15)->get();
+
         
 
-        return view('wallet.Wallettransaction', compact('walletModel','eventCase','request','eventCase1'));
+        return view('wallet.Wallettransaction', compact('walletModel','eventCase','request','eventCase1','transfers'));
     }
 
     /**
@@ -159,4 +163,51 @@ class walletController extends Controller
     {
         //
     }
+
+
+    public function money(walletModel $walletModel)
+    {
+        $listWallets = walletModel::get();
+        return view('wallet.modal-money',compact('walletModel','listWallets'));
+    }
+
+    public function transfer(walletModel $walletModel, Request $request)
+    {
+       $wallerMoney = $walletModel->wallet_type_price;
+
+       $walletTransfer = walletModel::where('wallet_type_id',$request->wallet_transfer)->first();
+
+       if($wallerMoney > $request->transfer_price)
+       {
+         if($request->transfer_type === 'โอนเงิน') {
+            transferModel::create([
+                'transfer_date' => date('Y-m-d'),
+                'transfer_type' => 'โอนเงิน',
+                'wallet_type_id' => $walletModel->wallet_type_id,
+                'transfer_price' => $request->transfer_price,
+                'wallet_transfer' => $request->wallet_transfer,
+                'created_by' => Auth::user()->name.' '.Auth::user()->lastname,
+            ]);
+            // Update wallet ที่ถอนออก
+            $walletModel->update([
+                'wallet_type_price' =>  $walletModel->wallet_type_price - $request->transfer_price,
+            ]);
+            //updated Wallet ที่ ฝากเข้า
+            $walletTransfer->update([
+                'wallet_type_price' =>  $walletTransfer->wallet_type_price + $request->transfer_price,
+            ]);
+
+            return redirect()->back();
+            
+         }
+
+       }else{
+        echo 'ยอดเงินไม่เพี่ยงพอ'.$wallerMoney;
+       }
+    }
+
+ 
+
+
+
 }

@@ -17,6 +17,7 @@ use App\Http\Controllers\jobs\vue\jobOrderControllerVue;
 use App\Http\Controllers\jobs\transactionGroupController;
 use App\Http\Controllers\jobTransaction\jobTransactionController;
 use App\Http\Controllers\jobType\jobDetailController;
+use App\Models\transfer\transferModel;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -126,6 +127,7 @@ Route::get('/create-wallet', [walletController::class, 'create'])->name('wallet.
 Route::get('/edit-wallet/{walletModel}', [walletController::class, 'edit'])->name('wallet.edit');
 Route::post('/store-wallet', [walletController::class, 'store'])->name('wallet.store');
 Route::post('/delete-wallet', [walletController::class, 'delete'])->name('wallet.delete');
+Route::get('/money/{walletModel}', [walletController::class, 'money'])->name('wallet.money');
 });
 
 // Transaction Group
@@ -174,6 +176,11 @@ Route::middleware(['IsAdmin'])->group(function () {
        Route::get('jobtrasaction/edit/{jobTrasactionModel}',[jobTransactionController::class,'edit'])->name('jobtrasaction.edit');
        Route::put('jobtrasaction/update/{jobTrasactionModel}',[jobTransactionController::class,'update'])->name('jobtrasaction.update');
        Route::get('jobtrasaction/delete/{jobTrasactionModel}',[jobTransactionController::class,'delete'])->name('jobtrasaction.delete');
+});
+
+//transfer
+Route::middleware(['IsAdmin'])->group(function () {
+       Route::post('transfer/{walletModel}',[walletController::class,'transfer'])->name('wallet.transfer');
 });
 
 

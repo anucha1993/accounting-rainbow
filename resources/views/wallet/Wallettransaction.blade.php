@@ -149,7 +149,7 @@
                                         <td>{{$key+1}}</td>
                                         {{-- <td><a href="{{route('joborder.edit',1)}}">{{$item->jobOrder->job_order_number ? $item->jobOrder->job_order_number : 'NUll'}}</a></td> --}}
                                         <td>NULL</td>
-                                        <td>{{date('d/m/Y',strtotime($item->transactions->created_at))}}</td>
+                                        <td>NULL</td>
                                         <td class="text-danger">{{ number_format($item->expenses(),2)}}</td>
                                         <td class="text-success">{{ number_format($item->income(),2)}}</td>
                                          <td>{{number_format($item->income()-$item->expenses(),2)}}</td>
@@ -174,5 +174,52 @@
                 </div>
             </div>
         </div>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive-sm">
+                    <form action="" method="get">
+                        <div class="rwo">
+                            <div class="col-md-12">
+                              
+                            </div>
+                        </div>
+                    </form>
+                    <hr>
+                    <div class="form-group">
+                        <table class="table stylish-table mt-4 no-wrap v-middle table-transfer" >
+                            <thead>
+                                <tr>
+                                    <th>ลำดับ</th>
+                                    <th>วันที่ทำธุรกรรม</th>
+                                    <th>ประเภท</th>
+                                    <th>โอนมาบัญชี</th>
+                                    <th>จำนวนเงิน</th>
+                                    <th>ผู้ทำธุรกรรม</th>
+                                </tr>
+                            </thead>
+                           <tbody>
+                            @forelse ($transfers as $key => $item)
+                                <tr>
+                                    <td>{{++$key}}</td>
+                                    <td>{{date('d/m/Y',strtotime($item->transfer_date))}}</td>
+                                    <td>{{$item->transfer_type}}</td>
+                                    <td>{{$item->wallet->wallet_type_name}}</td>
+                                    <td>{{number_format($item->transfer_price,2)}}</td>
+                                    <td>{{$item->created_by}}</td>
+                                </tr>
+                            @empty
+                                
+                            @endforelse
+                           </tbody>
+                            
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     </div>
 @endsection

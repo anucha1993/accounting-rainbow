@@ -22,6 +22,7 @@
                                     <th>ชื่อเรียก <br> A/C Name</th>
                                     <th>รายการตั้งต้น <br> Wallet Total</th>
                                     <th>รายการธุรกรรม <br> transaction Wallet</th>
+                                    <th>โอน-ถอนเงิน <br>Money</th>
                                     <th>ควบคุม <br>Control</th>
                                 </tr>
                             </thead>
@@ -34,12 +35,16 @@
                                         <td class="wallet-price">{{ number_format($item->wallet_type_price,2) }}</td>
                                         <td class="wallet-price"><a href="{{route('wallet.wallettransaction',$item->wallet_type_id)}}"> ตรวจสอบธุรกรรม</a></td>
                                         <td>
+                                            <a href="{{route('wallet.money',$item->wallet_type_id)}}" class="btn-money text-primary">โอน-ถอนเงิน</a>
+                                        </td>
+                                        <td>
                                             <a href="{{ route('wallet.edit', $item->wallet_type_id) }}"class="text-info btn-wallet-edit">แก้ไข</a> |
                                             <a href="#" class="text-danger delete-btn">ลบ</a>
                                         </td>
+                              
                                     </tr>
                                 @empty
-                                    No Data Wallet
+                                    No Data Wallet 
                                 @endforelse
                             </tbody>
                         </table>
@@ -71,11 +76,32 @@
         </div>
     </div>
 
+
+    <div class="modal fade" id="money" tabindex="-1" aria-labelledby="vertical-center-modal" aria-hidden="true">
+
+
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+            </div>
+        </div>
+    </div>
+
     <script>
         $(document).ready(function() {
             $('.table-wallet').DataTable({
                 ordering: false,
                 order: []
+            });
+
+             // modal add user
+             $(".btn-money").click("click", function(e) {
+                e.preventDefault();
+                $("#money")
+                    .modal("show")
+                    .addClass("modal-lg")
+                    .find(".modal-content")
+                    .load($(this).attr("href"));
             });
 
 
