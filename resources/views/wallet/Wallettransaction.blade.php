@@ -145,18 +145,17 @@
 
                                     @else
 
-                                    <tr>
+                                    {{-- <tr>
                                         <td>{{$key+1}}</td>
-                                        {{-- <td><a href="{{route('joborder.edit',1)}}">{{$item->jobOrder->job_order_number ? $item->jobOrder->job_order_number : 'NUll'}}</a></td> --}}
-                                        <td>NULL</td>
+                                         <td><a href="{{route('joborder.edit',1)}}">{{$item->jobOrder->job_order_number ? $item->jobOrder->job_order_number : 'NUll'}}</a></td>
                                         <td>NULL</td>
                                         <td class="text-danger">{{ number_format($item->expenses(),2)}}</td>
                                         <td class="text-success">{{ number_format($item->income(),2)}}</td>
                                          <td>{{number_format($item->income()-$item->expenses(),2)}}</td>
                                          <td>{{number_format($item->max_wallet_grand_total = $maxEventCase ? $maxEventCase->wallet_grand_total : 0.00,2)}}</td>
                                          <td>NULL</td>
-                                         {{-- <td><a href="{{route('wallet.jobtransaction',[$item->jobOrder->job_order_id,$item->wallet_type_id])}}">รายละเอียด</a></td> --}}
-                                    </tr>
+                                        <td><a href="{{route('wallet.jobtransaction',[$item->jobOrder->job_order_id,$item->wallet_type_id])}}">รายละเอียด</a></td> 
+                                    </tr> --}}
                                       
                                     @endif
                                 @empty
@@ -193,6 +192,7 @@
                                     <th>ลำดับ</th>
                                     <th>วันที่ทำธุรกรรม</th>
                                     <th>ประเภท</th>
+                                    <th>โอนจากบัญชี</th>
                                     <th>โอนมาบัญชี</th>
                                     <th>จำนวนเงิน</th>
                                     <th>ผู้ทำธุรกรรม</th>
@@ -205,6 +205,7 @@
                                     <td>{{date('d/m/Y',strtotime($item->transfer_date))}}</td>
                                     <td>{{$item->transfer_type}}</td>
                                     <td>{{$item->wallet->wallet_type_name}}</td>
+                                    <td>{{$item->transferWallet->wallet_type_name}}</td>
                                     <td>{{number_format($item->transfer_price,2)}}</td>
                                     <td>{{$item->created_by}}</td>
                                 </tr>

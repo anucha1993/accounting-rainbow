@@ -24,4 +24,8 @@ class transferModel extends Model
     {
         return $this->belongsTo(walletModel::class, 'wallet_type_id', 'wallet_type_id');
     }
+    public function transferWallet()
+    {
+        return $this->belongsTo(walletModel::class, 'wallet_transfer', 'wallet_type_id');
+    }
 }
