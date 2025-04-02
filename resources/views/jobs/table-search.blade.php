@@ -67,8 +67,14 @@
                     <td>
                     
                         @if (Auth::user()->isAdmin === 'Admin')
+
+                        @if ($item->transactions->count() === 0)
+                        <a href="#" data-id="{{$item->job_order_id}}" class="btn btn-sm btn-danger  btn-delete-job"> <i class="fa fa-trash"></i> </a>
+                        @else
+                        <a href="#" data-id="{{$item->job_order_id}}" class="btn btn-sm btn-danger" onclick="return confirm('คุณต้องลบ transaction ใน Job ก่อน ถึงจะสามารถลบ Job ได้')" > <i class="fa fa-trash"></i> </a>
+                        @endif
                       
-                        <a href="#" data-id="{{$item->job_order_id}}" class="btn btn-sm btn-danger btn-delete-job"> <i class="fa fa-trash"></i></a>
+                       
                      
                        @endif
                        <a href="{{route('joborder.edit',$item->job_order_id)}}" class="btn btn-sm btn-info"> <i class="fa fa-edit"></i></a>
@@ -104,7 +110,7 @@ $(document).ready(function () {
                    console.log(JobId);
                    e.preventDefault();
                    Swal.fire({
-                       title: "Do you want to Delete Job?",
+                       title: "Do you want to Delete Job? ",
                        showCancelButton: true,
                        confirmButtonText: "Confirm",
                        denyButtonText: `Don't Delete`,

@@ -32,9 +32,9 @@ class JobOrderModel extends Model
  
     ];
 
-    // public function eventCase()
-    // {
-    //     return $this->belongsTo(eventCaseModel::class, 'job_order_id', 'job_order_id');
-    // }
+    public function transactions() //เปลี่ยน transaction เป็น transactions เพราะมีหลายรายการ
+    {
+        return $this->hasMany(transactionModel::class, 'transaction_job', 'job_order_id'); // เปลี่ยน belongsTo เป็น hasMany และสลับ foreign key และ local key
+    }
 
 }
