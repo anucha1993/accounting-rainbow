@@ -22,7 +22,7 @@
                 </div>
                 <div class="col-12 md-3">
                     <label for="">ยอดตั้งต้น Starting balance</label>
-                    <input type="number" name="wallet_type_price" id="walle-price" class="form-control"
+                    <input type="number" name="wallet_type_price" id="walle-price" class="form-control" step="0.01"
                         value="{{ $walletModel->wallet_type_price }}" required>
                 </div>
             </div>
