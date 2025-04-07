@@ -60,7 +60,8 @@
                                 <script></script>
                                 <div class="col-md-3">
                                     <div class="input-group mb-3">
-                                        <span class="input-group-text  bg-light-dark" id="basic-addon2">Job detail <label class="text-danger"> *</label></span>
+                                        <span class="input-group-text  bg-light-dark" id="basic-addon2">Job detail <label
+                                                class="text-danger"> *</label></span>
                                         <select name="job_order_detail" id="service" class="form-select">
                                             <option value="service">Service</option>
                                         </select>
@@ -70,11 +71,13 @@
 
                                 <div class="col-md-3">
                                     <div class="input-group">
-                                        <span class="input-group-text  bg-light-dark" id="basic-addon2">Receipt No. <label class="text-danger"> *</label></span>
-                                        <input type="text" name="job_order_receipt" class="form-control" placeholder="Receipt No.." required>
-        
+                                        <span class="input-group-text  bg-light-dark" id="basic-addon2">Receipt No. <label
+                                                class="text-danger"> *</label></span>
+                                        <input type="text" name="job_order_receipt" class="form-control"
+                                            placeholder="Receipt No.." required>
+
                                     </div>
-        
+
                                 </div>
 
                             </div>
@@ -154,7 +157,7 @@
                                     <select name="job_order_customer" id="customer-id"
                                         class="form-select customer-id customer" required style="width: 75%">
                                         <option value="CustomerNew">เพิ่มใหม่</option>
-                                        <option value="" disabled selected>Select by Customer</option>
+                                        <option value="" selected>Select by Customer</option>
 
                                         @forelse ($customers as $item)
                                             <option @if ($customer == $item->customer_id) selected @endif
@@ -222,7 +225,7 @@
 
                                 <div class="col-md-12" id="div-nationality" style="display: none">
                                     <label>Nationality <span class="text-danger">*</span></label>
-                                    <select class="select2 form-control custom-select " id="nationality" 
+                                    <select class="select2 form-control custom-select " id="nationality"
                                         name="customer_nationality" style="width: 100%; height: 36px">
                                         <option value="">None</option>
                                         @forelse ($nationality as $item)
@@ -316,9 +319,9 @@
                                         <td><input type="date" name="transaction_date[]" class="form-control" />
                                         </td>
                                         <td>
-                                            <select name="transaction_group[]" class="form-select job-trasaction" >
+                                            <select name="transaction_group[]" class="form-select job-trasaction">
                                                 <option value="">None</option>
-                                               
+
                                             </select>
                                         </td>
                                         <td>
@@ -329,7 +332,8 @@
                                                 <option value="expenses">รายจ่าย</option>
                                             </select>
                                         </td>
-                                        <td><input type="number" name="transaction_amount[]" class="form-control" step="0.01" min="0.1" />
+                                        <td><input type="number" name="transaction_amount[]" class="form-control"
+                                                step="0.01" min="0.1" />
                                         </td>
                                         <td>
                                             <select name="transaction_wallet[]" class="form-select">
@@ -416,14 +420,27 @@
     <script src="{{ URL::asset('js/jobs/job-create.js') }}"></script>
 
     <script>
+      $(document).ready(function() {
+    $('form').submit(function(event) {
+        let customerValue = $('#customer-id').val();
+        console.log('ค่าของ job_order_customer:', customerValue); // แสดงค่าใน console
+
+        if (customerValue === '' || customerValue === 'CustomerNew') {
+            event.preventDefault(); // หยุดการส่งฟอร์ม
+            alert('กรุณาเลือก Customer ก่อนทำการ Submit');
+        }
+    });
+});
+
+
         $(document).ready(function() {
 
-    
+
             // select job type
             $('.job-order-type').on('change', function() {
                 var jobType = $(this).val();
                 // console.log('jobType: '+jobType);
-                
+
                 $.ajax({
                     url: "{{ route('joborder.jobType') }}",
                     method: 'GET',
@@ -432,18 +449,19 @@
                     },
                     success: function(response) {
                         //console.log(response.jobTrasaction);
-                        
-                        var options = '<option value="">' + "Select job Type" +"</option>";
-                        response.jobDetail.forEach(function (jobDetail) {
-                            options += '<option value="'+ jobDetail.job_detail_id +'">' + jobDetail.job_detail_name +"</option>";
+
+                        var options = '<option value="">' + "Select job Type" + "</option>";
+                        response.jobDetail.forEach(function(jobDetail) {
+                            options += '<option value="' + jobDetail.job_detail_id +
+                                '">' + jobDetail.job_detail_name + "</option>";
                         });
                         $("#service").html(options);
 
                     }
                 });
             });
-               // select job type
-               $('#service').on('change', function() {
+            // select job type
+            $('#service').on('change', function() {
                 var serviceTrasaction = $(this).val();
                 // console.log('jobType: '+jobType);
                 $.ajax({
@@ -454,12 +472,15 @@
                     },
                     success: function(response) {
                         //console.log(response.jobTrasaction);
-                        
-                        var optionsjobTrasaction = '<option selected value="" disabled>' + "Select job trasaction " +"</option>";
-                        response.jobTrasaction.forEach(function (jobTrasaction) {
-                            optionsjobTrasaction += '<option value="'+ jobTrasaction.job_trasaction_id  +'">' + jobTrasaction.job_trasaction_name +"</option>";
+
+                        var optionsjobTrasaction = '<option selected value="" disabled>' +
+                            "Select job trasaction " + "</option>";
+                        response.jobTrasaction.forEach(function(jobTrasaction) {
+                            optionsjobTrasaction += '<option value="' + jobTrasaction
+                                .job_trasaction_id + '">' + jobTrasaction
+                                .job_trasaction_name + "</option>";
                         });
-                        
+
                         $(".job-trasaction").html(optionsjobTrasaction);
                     }
                 });
