@@ -423,11 +423,14 @@
       $(document).ready(function() {
     $('form').submit(function(event) {
         let customerValue = $('#customer-id').val();
-        console.log('ค่าของ job_order_customer:', customerValue); // แสดงค่าใน console
+        let customerName = $('#cusntomer-name').val();
 
-        if (customerValue === '' || customerValue === 'CustomerNew') {
-            event.preventDefault(); // หยุดการส่งฟอร์ม
-            alert('กรุณาเลือก Customer ก่อนทำการ Submit');
+        console.log('ค่าของ job_order_customer:', customerValue); // แสดงค่าใน console
+        console.log('ค่าของ cusntomer-name:', customerName); // แสดงค่าใน console
+
+        if (!customerName && (customerValue === '' || customerValue === 'CustomerNew')) {
+            event.preventDefault();
+            alert('กรุณาใส่ชื่อ Customer หรือเลือก Customer จากรายการก่อนทำการ Submit');
         }
     });
 });
