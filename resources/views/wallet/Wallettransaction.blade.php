@@ -200,12 +200,13 @@
                             </thead>
                            <tbody>
                             @forelse ($transfers as $key => $item)
+    
                                 <tr>
                                     <td>{{++$key}}</td>
                                     <td>{{date('d/m/Y',strtotime($item->transfer_date))}}</td>
                                     <td>{{$item->transfer_type}}</td>
                                     <td>{{$item->wallet->wallet_type_name}}</td>
-                                    <td>{{$item->transferWallet->wallet_type_name}}</td>
+                                    <td>{{ $item->transferWallet?->wallet_type_name ?? 'บัญชีถูกลบ' }}</td>
                                     <td>{{number_format($item->transfer_price,2)}}</td>
                                     <td>{{$item->created_by}}</td>
                                 </tr>
