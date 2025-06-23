@@ -136,7 +136,7 @@ class walletController extends Controller
             ->orderBy('max_event_case_id', 'DESC')
             ->paginate(10);
 
-            $transfers = transferModel::where('wallet_type_id',$walletModel->wallet_type_id)->latest()->limit(15)->get();
+            $transfers = transferModel::where('wallet_type_id',$walletModel->wallet_type_id)->orWhere('wallet_transfer',$walletModel->wallet_type_id)->latest()->limit(15)->get();
 
         
 
