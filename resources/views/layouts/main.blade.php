@@ -857,14 +857,14 @@
                             <span class="hide-menu">เมนูหลัก</span>
                         </li>
                        
-                        <li class="sidebar-item">
+                        {{-- <li class="sidebar-item">
                             <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
                                 aria-expanded="false"><i class="mdi mdi-av-timer"></i><span class="hide-menu">Home
                                 </span></a>
                             <ul aria-expanded="false" class="collapse first-level">
 
                             </ul>
-                        </li>
+                        </li> --}}
                     
 
                       
@@ -906,14 +906,14 @@
 
                      
 
-                        <li class="sidebar-item">
+                        {{-- <li class="sidebar-item">
                             <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
                                 aria-expanded="false"><i class="mdi mdi-clipboard-text"></i><span
                                     class="hide-menu">รายงาน</span></a>
                             <ul aria-expanded="false" class="collapse first-level">
 
                             </ul>
-                        </li>
+                        </li> --}}
 
                         {{-- @if (Auth::user()->isAdmin === 'isAdmin') --}}
                         <li class="sidebar-item">
