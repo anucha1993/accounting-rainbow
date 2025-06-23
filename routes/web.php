@@ -39,13 +39,8 @@ Route::middleware(['IsAdmin'])->group(function () {
 });
 
 
-//dashboards
-// Route::get('/', [dashbordController::class, 'index'])->name('dashboard.index');
-// Route::get('/home', [dashbordController::class, 'index'])->name('dashboard.index');
 
-//Customs
-
-Route::get('',[customersController::class,'index'])->name('customer.index');
+// Route::get('',[customersController::class,'index'])->name('customer.index');
 Route::get('customer/all',[customersController::class,'index'])->name('customer.index');
 Route::get('customer/table/content',[customersController::class,'tableIndex'])->name('customer.tableIndex');
 Route::get('customer/create',[customersController::class,'create'])->name('customer.create');
@@ -94,7 +89,7 @@ Route::middleware(['IsAdmin'])->group(function () {
 
 Route::middleware(['IsLoyal'])->group(function () {
        Route::get('jobs',[jobOrderController::class,'index'])->name('joborder.index'); 
-       Route::get('',[jobOrderController::class,'index'])->name('joborder.index'); 
+       // Route::get('',[jobOrderController::class,'index'])->name('joborder.index'); 
        
        Route::get('jobs/searchIndex',[jobOrderController::class,'searchIndex'])->name('joborder.searchIndex'); 
        
