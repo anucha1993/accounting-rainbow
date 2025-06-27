@@ -10,6 +10,10 @@ use Illuminate\Http\Request;
 class jobTransactionController extends Controller
 {
     //
+      public function __construct()
+     {
+         $this->middleware('auth');
+     }
     public function index()
     {
         $jobtrasactions = jobTrasactionModel::leftjoin('job_detail','job_detail.job_detail_id','job_trasaction.job_detail')

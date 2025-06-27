@@ -40,7 +40,7 @@
                              @endphp
 
                                 <label> Visa Type : </label>
-                                <label>{{  $visaTypeName->visa_type_name}}</label>
+                                <label>{{  $visaTypeName->visa_type_name?? 'NULL'}}</label>
                                
                                 <select style="display: none" name="customer_visa_type"  class="form-select visa-type" @if(Auth::user()->isAdmin != 'Admin') disabled @endif>
                                       <option value="" disabled selected>None</option>

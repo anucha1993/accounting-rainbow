@@ -16,17 +16,18 @@ use App\Http\Controllers\jobs\vue\jobOrderControllerVue;
 use App\Http\Controllers\jobs\transactionGroupController;
 use App\Http\Controllers\jobTransaction\jobTransactionController;
 use App\Http\Controllers\jobType\jobDetailController;
-use App\Models\transfer\transferModel;
+use App\Http\Controllers\Manual\ManualController;
 
 // Laravel auth
 Auth::routes();
 
 // ========== หน้าแรก (ย้ายเข้า IsLoyal) ==========
 Route::middleware(['IsLoyal'])->group(function () {
-    Route::get('/', function () {
-        return redirect()->route('joborder.index');
-    });
+    // Route::get('/', function () {
+    //     return redirect()->route('joborder.index');
+    // });
 
+    Route::get('/', [jobOrderController::class, 'index'])->name('joborder.index');
     Route::get('jobs', [jobOrderController::class, 'index'])->name('joborder.index');
     Route::get('jobs/searchIndex', [jobOrderController::class, 'searchIndex'])->name('joborder.searchIndex');
     Route::get('job/order/create', [jobOrderController::class, 'create'])->name('joborder.craete');
@@ -51,7 +52,11 @@ Route::middleware(['IsAdmin'])->group(function () {
     Route::post('auth/delete/{dataID}', [AuthNewController::class, 'delete'])->name('auth.delete');
 });
 
+
+
+
 // ========== Customers ==========
+Route::middleware(['IsAdmin'])->group(function () {
 Route::get('customer/all', [customersController::class, 'index'])->name('customer.index');
 Route::get('customer/table/content', [customersController::class, 'tableIndex'])->name('customer.tableIndex');
 Route::get('customer/create', [customersController::class, 'create'])->name('customer.create');
@@ -62,6 +67,8 @@ Route::get('customer/show/{cus}', [customersController::class, 'show'])->name('c
 Route::get('customer/type/form', [customersController::class, 'formType'])->name('customer.formType');
 Route::get('customer/type/edit/form', [customersController::class, 'formTypeEdit'])->name('customer.formTypeEdit');
 Route::get('customer/type/view/form', [customersController::class, 'formTypeView'])->name('customer.formTypeView');
+});
+
 
 Route::middleware(['IsAdmin'])->group(function () {
     Route::get('customer/delete/', [customersController::class, 'delete'])->name('customer.delete');
@@ -148,3 +155,16 @@ Route::middleware(['IsAdmin'])->group(function () {
 Route::middleware(['IsAdmin'])->group(function () {
     Route::post('transfer/{walletModel}', [walletController::class, 'transfer'])->name('wallet.transfer');
 });
+
+// ========== Manual/คู่มือการใช้งาน ==========
+
+    Route::get('manual', [ManualController::class, 'index'])->name('manual.index');
+    Route::get('manual/customer', [ManualController::class, 'customer'])->name('manual.customer');
+    Route::get('manual/job-order', [ManualController::class, 'jobOrder'])->name('manual.job-order');
+    Route::get('manual/transaction', [ManualController::class, 'transaction'])->name('manual.transaction');
+    Route::get('manual/wallet', [ManualController::class, 'wallet'])->name('manual.wallet');
+    Route::get('manual/general', [ManualController::class, 'general'])->name('manual.general');
+    Route::get('/manual/job-transaction', [\App\Http\Controllers\Manual\ManualController::class, 'jobTransaction'])->name('manual.job-transaction');
+    Route::get('/manual/visa-type', [\App\Http\Controllers\Manual\ManualController::class, 'visaType'])->name('manual.visa-type');
+    Route::get('/manual/job-detail', [\App\Http\Controllers\Manual\ManualController::class, 'jobDetail'])->name('manual.job-detail');
+

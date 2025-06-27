@@ -35,7 +35,7 @@
                         <br>
                         <div class="row">
                             <div class="col-md-3">
-                                <label> Visa Type</label>
+                                <label> Visa Type  </label>
                                 <select name="customer_visa_type"  class="form-select visa-type" @if(Auth::user()->isAdmin != 'Admin') disabled @endif>
                                       <option value="" disabled selected>None</option>
                                    @forelse ($visaType as $item)
