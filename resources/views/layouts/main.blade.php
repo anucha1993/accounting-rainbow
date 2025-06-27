@@ -920,6 +920,7 @@
                             <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
                                 aria-expanded="false"><i class="mdi mdi-buffer"></i><span class="hide-menu">Category
                                 </span></a>
+
                             <ul aria-expanded="false" class="collapse first-level">
 
                                 <li class="sidebar-item">
@@ -962,12 +963,12 @@
                                     class="hide-menu">คู่มือการใช้งาน</span></a>
                             <ul aria-expanded="false" class="collapse first-level">
 
-                                <li class="sidebar-item">
+                                {{-- <li class="sidebar-item">
                                     <a href="{{ route('manual.index') }}" class="sidebar-link">
                                         <i class="mdi mdi-view-dashboard"></i>
                                         <span class="hide-menu">ดัชนีคู่มือทั้งหมด</span>
                                     </a>
-                                </li>
+                                </li> --}}
 
                                 <li class="sidebar-item">
                                     <a href="{{ route('manual.customer') }}" class="sidebar-link">
@@ -975,6 +976,7 @@
                                         <span class="hide-menu">คู่มือระบบ Customer</span>
                                     </a>
                                 </li>
+                                
                                 
                                 <li class="sidebar-item">
                                     <a href="{{ route('manual.job-order') }}" class="sidebar-link" onclick="return confirm('คู่มือระบบ Job Order กำลังจัดทำ คุณต้องการดูหน้าตัวอย่างหรือไม่?')">
@@ -984,21 +986,6 @@
                                     </a>
                                 </li>
                                 
-                                <li class="sidebar-item">
-                                    <a href="{{ route('manual.transaction') }}" class="sidebar-link" onclick="return confirm('คู่มือระบบ Transaction กำลังจัดทำ คุณต้องการดูหน้าตัวอย่างหรือไม่?')">
-                                        <i class="mdi mdi-cash-multiple"></i>
-                                        <span class="hide-menu">คู่มือระบบ Transaction</span>
-                                        <span class="badge bg-success ms-auto">กำลังจัดทำ</span>
-                                    </a>
-                                </li>
-                                
-                                <li class="sidebar-item">
-                                    <a href="{{ route('manual.general') }}" class="sidebar-link" onclick="return confirm('คู่มือทั่วไป กำลังจัดทำ คุณต้องการดูหน้าตัวอย่างหรือไม่?')">
-                                        <i class="mdi mdi-help-circle"></i>
-                                        <span class="hide-menu">คู่มือทั่วไป</span>
-                                        <span class="badge bg-info ms-auto">กำลังจัดทำ</span>
-                                    </a>
-                                </li>
 
                                 <li class="sidebar-item">
                                     <a href="{{ route('manual.wallet') }}" class="sidebar-link" onclick="return confirm('คู่มือระบบ Wallet กำลังจัดทำ คุณต้องการดูหน้าตัวอย่างหรือไม่?')">
