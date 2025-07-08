@@ -91,14 +91,15 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="input-group mb-3">
-                                        <span class="input-group-text  bg-light-dark" id="basic-addon2">Source
-                                            Channel</span>
+                                        <span class="input-group-text  bg-light-dark" id="basic-addon2">Source Channel</span>
                                         <select name="job_order_source_channel" class="form-select">
                                             <option value="" selected disabled>none</option>
                                             <option value="Walk-in">Walk-In</option>
                                             <option value="FB">FB</option>
                                             <option value="GG">GG</option>
                                             <option value="Agent">Agent</option>
+                                            <option value="Member">Member</option>
+                                            <option value="Other">Other</option>
                                         </select>
                                     </div>
                                 </div>

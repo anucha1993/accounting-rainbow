@@ -123,6 +123,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="input-group mb-3">
+
                                         <span class="input-group-text  bg-light-dark" id="basic-addon2">Source
                                             Channel </span>
                                         <select name="job_order_source_channel" class="form-select"
@@ -134,8 +135,10 @@
                                             </option>
                                             <option @if ($jobOrder->job_order_source_channel === 'GG') selected @endif value="GG">GG
                                             </option>
-                                            <option @if ($jobOrder->job_order_source_channel === 'Agent') selected @endif value="Agent">Agent
-                                            </option>
+                                            <option @if ($jobOrder->job_order_source_channel === 'Agent') selected @endif value="Agent">Agent</option>
+                                            <option @if ($jobOrder->job_order_source_channel === 'Agent') selected @endif value="Agent">Agent</option>
+                                            <option @if ($jobOrder->job_order_source_channel === 'Member') selected @endif value="Member">Member</option>
+                                            <option @if ($jobOrder->job_order_source_channel === 'Other') selected @endif value="Other">Other</option>
                                         </select>
                                     </div>
                                 </div>
