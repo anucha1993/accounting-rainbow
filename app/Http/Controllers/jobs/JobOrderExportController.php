@@ -4,7 +4,7 @@ namespace App\Http\Controllers\jobs;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\jobs\jobOrderModel;
+use App\Models\jobs\JobOrderModel;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\JobOrderExport;
 

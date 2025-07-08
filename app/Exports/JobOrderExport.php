@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\Models\jobs\jobOrderModel;
+use App\Models\jobs\JobOrderModel;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
@@ -17,7 +17,7 @@ class JobOrderExport implements FromCollection, WithHeadings
 
     public function collection()
     {
-        $query = jobOrderModel::select([
+        $query = JobOrderModel::select([
             'job_order_id',
             'job_order_number',
             'job_order_customer',

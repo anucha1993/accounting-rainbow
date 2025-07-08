@@ -79,19 +79,19 @@ class walletController extends Controller
      * Display the specified resource.
      */
 
-    public function jobtransaction(JobOrderModel $jobOrderModel,walletModel $walletModel)
+    public function jobtransaction(JobOrderModel $JobOrderModel,walletModel $walletModel)
     {
         $eventCase1 = eventCaseModel::select('event_case.*','event_case.created_at as event_created_at','job_order.*','job_trasaction.*')->where('event_case.wallet_type_id', $walletModel->wallet_type_id)
         ->where('event_case.event_case_status', 'success')
         ->leftJoin('job_order', 'job_order.job_order_id', '=', 'event_case.job_order_id') // เข้าร่วมกับตาราง job_trasaction
         ->leftJoin('job_trasaction', 'job_trasaction.job_trasaction_id', '=', 'event_case.transaction_id')
         // ->leftJoin('transactions', 'transactions.transaction_group', '=', 'job_trasaction.job_trasaction_id')
-        ->where('event_case.job_order_id', $jobOrderModel->job_order_id);
+        ->where('event_case.job_order_id', $JobOrderModel->job_order_id);
         $eventCase1 = $eventCase1->orderBy('event_case.event_case_id','ASC')
         ->paginate(10);
 
-        $transactions = transactionModel::where('transaction_job', $jobOrderModel->job_order_id)->get();
-        return view('wallet.jobwallertransation', compact('eventCase1','walletModel','transactions') + ['jobOrderId' => $jobOrderModel->job_order_id]);
+        $transactions = transactionModel::where('transaction_job', $JobOrderModel->job_order_id)->get();
+        return view('wallet.jobwallertransation', compact('eventCase1','walletModel','transactions') + ['jobOrderId' => $JobOrderModel->job_order_id]);
     }
     public function wallettransaction(Request $request, walletModel $walletModel)
     {
