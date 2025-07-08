@@ -89,17 +89,6 @@ class ManualController extends Controller
     }
 
     /**
-     * แสดงหน้าคู่มือระบบ Job Detail
-     */
-    public function jobDetail()
-    {
-        return view('manual.job-detail', [
-            'title' => 'คู่มือการใช้งานระบบ Job Detail',
-            'description' => 'คู่มือฉบับสมบูรณ์สำหรับการจัดการรายละเอียดงาน (CRUD)'
-        ]);
-    }
-
-    /**
      * แสดงหน้าดัชนีคู่มือทั้งหมด
      */
     public function index()
@@ -160,14 +149,6 @@ class ManualController extends Controller
                 'route' => 'manual.visa-type',
                 'status' => 'available',
                 'color' => 'info'
-            ],
-            [
-                'title' => 'คู่มือระบบ Job Detail',
-                'description' => 'การจัดการรายละเอียดงาน (CRUD), เพิ่ม, แก้ไข, ลบ, ค้นหา',
-                'icon' => 'mdi-cogs',
-                'route' => 'manual.job-detail',
-                'status' => 'available',
-                'color' => 'primary'
             ]
         ];
 

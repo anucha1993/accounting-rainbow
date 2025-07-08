@@ -33,8 +33,16 @@
                     </form>
                     <hr>
                     <div class="form-group">
+                        <form id="exportForm" action="{{ route('wallet.job.export', [$jobOrderId, $walletModel->wallet_type_id]) }}" method="GET" target="_blank">
+                            <input type="hidden" name="page" value="{{ request()->get('page', 1) }}">
+                            <input type="hidden" name="per_page" value="{{ $eventCase1->perPage() }}">
+                            <input type="hidden" name="search" value="{{ request()->get('search', '') }}">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fa fa-file-excel-o"></i> Export Excel
+                            </button>
+                        </form>
 
-                         <table class="table stylish-table mt-4 no-wrap v-middle">
+                        <table class="table stylish-table mt-4 no-wrap v-middle">
                             <thead>
                                 <tr>
                                     <th class="border-0 text-muted font-weight-medium" style="width: 90px">
@@ -46,22 +54,22 @@
                                     <th class="border-0 text-muted font-weight-medium" style="width: 90px">
                                         Transaction Date
                                     </th>
-                                    <th class="border-0 text-muted font-weight-medium">
+                                    <th class="border-0 text-muted font-weight-medium" style="width: 250px">
                                         รายละเอียด
                                     </th>
-                                    <th class="border-0 text-muted font-weight-medium">
+                                    <th class="border-0 text-muted font-weight-medium" style="width: 90px">
                                         ยอด
                                     </th>
-                                    <th class="border-0 text-muted font-weight-medium">
+                                    <th class="border-0 text-muted font-weight-medium" style="width: 90px">
                                         ยอดคงเหลือ
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
-                               
+
                                 @forelse ($eventCase1 as $item1)
                                 @php
-                                
+
                                 $transaction = $transactions->Where('transaction_id',$item1->job_transaction_id)->first();
                                  @endphp
 
@@ -114,9 +122,9 @@
 
 
                             </tbody>
-                        </table> 
+                        </table>
 
-                    
+
                     </div>
                 </div>
             </div>

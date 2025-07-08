@@ -34,79 +34,16 @@
                     <hr>
                     <div class="form-group">
 
-                         {{-- <table class="table stylish-table mt-4 no-wrap v-middle">
-                            <thead>
-                                <tr>
-                                    <th class="border-0 text-muted font-weight-medium" style="width: 90px">
-                                        เลขที่ธุรกรรม
-                                    </th>
-                                    <th class="border-0 text-muted font-weight-medium" style="width: 90px">
-                                        ประเภท
-                                    </th>
-                                    <th class="border-0 text-muted font-weight-medium">
-                                        รายละเอียด
-                                    </th>
-                                    <th class="border-0 text-muted font-weight-medium">
-                                        ยอด
-                                    </th>
-                                    <th class="border-0 text-muted font-weight-medium">
-                                        ยอดคงเหลือ
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse ($eventCase1 as $item1)
-                                    <tr>
-                                        <td>
-                                            {{ $item1->event_case_number }} {{ $item1->event_case_id}}
-                                        </td>
-                                        <td>
-                                            <span
-                                                class="
-                                      @if ($item1->event_case_name === 'Credit') text-success        
-                                      @elseif ($item1->event_case_name === 'Debit')
-                                          text-danger        
-                                      @elseif ($item1->event_case_name === 'Refund')
-                                          text-warning @endif
-                                      ">{{ $item1->event_case_log }}</span>
-                                        </td>
-                                        <td>
 
-                                            <h6 class="mb-0 font-weight-medium">
-                                                <a href="javascript:void(0)" class="link">Job No :
-                                                    {{ $item1->job_order_number }} </a>
-                                            </h6>
-                                            <small class="text-muted">Product id :
-                                                {{ $item1->job_trasaction_name ?? 'N/A' }}</small><br>
-                                            <small class="text-muted">Wallet Name :
-                                                {{ $walletModel->wallet_type_name ?? 'N/A' }}</small>
-                                        </td>
-                                        <td>
-                                            <h5
-                                                class="  @if ($item1->event_case_name === 'Credit') text-success        
-                                      @elseif ($item1->event_case_name === 'Debit')
-                                          text-danger        
-                                      @elseif ($item1->event_case_name === 'Refund')
-                                          text-warning @endif">
-                                                {{ number_format($item1->grand_total, 2, '.', ',') }}</h5>
-                                            <!-- แก้ไขให้เป็นฟิลด์ที่ต้องการ -->
-                                        </td>
-                                        <td>
-                                            <h5>{{ number_format($item1->wallet_grand_total, 2, '.', ',') }}</h5>
-                                            <!-- แก้ไขให้เป็นฟิลด์ที่ต้องการ -->
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="4">No Found Data</td>
-                                        <!-- เพิ่ม colspan เพื่อให้ข้อมูลเต็มทุกคอลัมน์ -->
-                                    </tr>
-                                @endforelse
-
-
-
-                            </tbody>
-                        </table>  --}}
+                        <div class="d-flex justify-content-end mb-2">
+                            <form id="exportWalletForm" action="{{ route('wallet.export.transactions') }}" method="GET" target="_blank" class="d-flex justify-content-end mb-2" style="margin-bottom:0;">
+                                <input type="hidden" name="wallet_type_id" value="{{ $walletModel->wallet_type_id }}">
+                                <input type="hidden" name="search" id="exportWalletSearch">
+                                <button class="btn btn-success" type="submit">
+                                    <i class="fa fa-file-excel-o"></i> Export Excel (ธุรกรรมบัญชี)
+                                </button>
+                            </form>
+                        </div>
 
                         <table class="table stylish-table mt-4 no-wrap v-middle">
                             <thead>
@@ -224,4 +161,14 @@
     </div>
     
     </div>
+
+@endsection
+
+@section('scripts')
+<script>
+    // sync search value to export form before submit
+    document.getElementById('exportWalletForm').addEventListener('submit', function(e) {
+        document.getElementById('exportWalletSearch').value = document.querySelector('input[name=search]').value;
+    });
+</script>
 @endsection

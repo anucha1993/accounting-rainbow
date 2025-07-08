@@ -17,6 +17,8 @@ use App\Http\Controllers\jobs\transactionGroupController;
 use App\Http\Controllers\jobTransaction\jobTransactionController;
 use App\Http\Controllers\jobType\jobDetailController;
 use App\Http\Controllers\Manual\ManualController;
+use App\Http\Controllers\AnalysisExportController;
+use App\Http\Controllers\customers\CustomerExportController;
 
 // Laravel auth
 Auth::routes();
@@ -104,6 +106,8 @@ Route::middleware(['IsAdmin'])->group(function () {
     Route::post('/store-wallet', [walletController::class, 'store'])->name('wallet.store');
     Route::post('/delete-wallet', [walletController::class, 'delete'])->name('wallet.delete');
     Route::get('/money/{walletModel}', [walletController::class, 'money'])->name('wallet.money');
+    Route::get('wallet/export/transactions', [\App\Http\Controllers\wallets\WalletController::class, 'exportWalletTransactions'])->name('wallet.export.transactions');
+    Route::get('wallet/job/export/{jobOrderId}/{walletId}', [\App\Http\Controllers\wallets\WalletController::class, 'exportJobWalletTransactions'])->name('wallet.job.export');
 });
 
 // ========== Transaction Group ==========
@@ -167,4 +171,13 @@ Route::middleware(['IsAdmin'])->group(function () {
     Route::get('/manual/job-transaction', [\App\Http\Controllers\Manual\ManualController::class, 'jobTransaction'])->name('manual.job-transaction');
     Route::get('/manual/visa-type', [\App\Http\Controllers\Manual\ManualController::class, 'visaType'])->name('manual.visa-type');
     Route::get('/manual/job-detail', [\App\Http\Controllers\Manual\ManualController::class, 'jobDetail'])->name('manual.job-detail');
+    // Analysis Route
+    Route::middleware(['IsAdmin'])->group(function () {
+    Route::get('analysis', [\App\Http\Controllers\AnalysisController::class, 'index'])->name('analysis.index');
+    Route::get('analysis/export', [AnalysisExportController::class, 'exportJobOrderStatus'])->name('analysis.export');
+    Route::get('analysis/export-statement', [AnalysisExportController::class, 'exportStatementChart'])->name('analysis.export-statement');
+    Route::get('analysis/export-wallet', [AnalysisExportController::class, 'exportWalletAnalysis'])->name('analysis.export-wallet');
 
+});
+Route::get('job/order/export', [\App\Http\Controllers\jobs\JobOrderExportController::class, 'export'])->name('joborder.export');
+Route::get('customer/export', [CustomerExportController::class, 'export'])->name('customer.export');

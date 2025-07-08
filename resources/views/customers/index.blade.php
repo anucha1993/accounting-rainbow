@@ -106,10 +106,12 @@
         </div>
 
         <div class="card">
-            <div class="card-header">
+            <div class="card-header d-flex justify-content-between align-items-center">
                 <a href="{{ route('customer.create') }}" class="btn btn-outline-secondary float-start"> <i
                         class="fa fa-plus text-primary"></i> เพิ่มข้อมูล</a>
-
+                <button id="btnExportCustomerExcel" class="btn btn-success" type="button">
+                    <i class="fa fa-file-excel-o"></i> Export Excel
+                </button>
             </div>
             <div class="card-body">
 
@@ -286,6 +288,38 @@
                 $(this).val('');
             });
         });
+
+        // Export Excel ตาม filter
+    document.getElementById('btnExportCustomerExcel').addEventListener('click', function() {
+        var selectedFormType = $('.visa-type').find(':selected').data('form');
+        var visaType = $('#visaType').val();
+        var passportNumber = $('#passportNumber').val();
+        var name = $('#name').val();
+        var code = $('#code').val();
+        var rangDate = $('#rangDate').val();
+        var Nationality = $('#Nationality').val();
+        var startDate, endDate;
+        if (rangDate) {
+            var dates = rangDate.split(' - ');
+            startDate = formatDate(dates[0].trim());
+            endDate = formatDate(dates[1].trim());
+        }
+        function formatDate(dateString) {
+            var parts = dateString.split('/');
+            return parts[2] + '-' + parts[1] + '-' + parts[0];
+        }
+        var params = $.param({
+            selectedFormType: selectedFormType,
+            visaType: visaType,
+            passportNumber: passportNumber,
+            name: name,
+            code: code,
+            startDate: startDate,
+            endDate: endDate,
+            Nationality: Nationality
+        });
+        window.open(`{{ route('customer.export') }}?${params}`, '_blank');
+    });
     </script>
 
 

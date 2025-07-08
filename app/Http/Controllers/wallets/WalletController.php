@@ -10,6 +10,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Models\eventcases\eventCaseModel;
 use Illuminate\Support\Str; // สำหรับการใช้งาน UUID (ถ้าจำเป็น)
+use App\Exports\WalletTransactionExport;
+use App\Exports\JobWalletTransactionExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class WalletController extends Controller
 {
@@ -147,7 +150,7 @@ class WalletController extends Controller
             } elseif ($event->event_case_name == 'Debit') {
                 // Debit: คืนยอด โดยการเพิ่มยอดเงินในกระเป๋าเงิน
                 $refundAmount = abs($event->grand_total); // บันทึกยอด Refund เป็นบวก
-                $wallet->wallet_type_price += $refundAmount; // เพิ่มยอดเงินเข้าไปในกระเป๋า
+                $wallet->wallet_type_price += $refundAmount; // เพิ่มยอดเงินเข้าไปในกระเป๋าเงิน
                 $eventCaseLog = 'คืนยอด Debit';  // บันทึก log สำหรับ Debit
             }
 
@@ -188,10 +191,41 @@ class WalletController extends Controller
 
 }
 
-     
+    public function exportWalletTransactions(Request $request)
+    {
+        $filters = [
+            'wallet_type_id' => $request->wallet_type_id,
+            'search' => $request->search,
+        ];
+        return new WalletTransactionExport($filters);
+    }
 
-    
+    public function exportJobWalletTransactions(Request $request, $jobOrderId, $walletId)
+    {
+        $walletModel = \App\Models\jobs\walletModel::findOrFail($walletId);
+        $page = $request->get('page', 1);
+        $perPage = $request->get('per_page', 10);
+        $search = $request->get('search', '');
 
-
-
+        $query = \App\Models\eventcases\eventCaseModel::select('event_case.*', 'event_case.created_at as event_created_at', 'job_order.*', 'job_trasaction.*')
+            ->where('event_case.wallet_type_id', $walletId)
+            ->where('event_case.job_order_id', $jobOrderId)
+            ->where('event_case.event_case_status', 'success')
+            ->leftJoin('job_order', 'job_order.job_order_id', '=', 'event_case.job_order_id')
+            ->leftJoin('job_trasaction', 'job_trasaction.job_trasaction_id', '=', 'event_case.transaction_id');
+        if ($search) {
+            $query->where(function($q) use ($search) {
+                $q->where('event_case.event_case_number', 'like', "%$search%")
+                  ->orWhere('event_case.event_case_log', 'like', "%$search%")
+                  ->orWhere('job_order.job_order_number', 'like', "%$search%")
+                  ->orWhere('job_trasaction.job_trasaction_name', 'like', "%$search%");
+            });
+        }
+        $eventCases = $query->orderBy('event_case.event_case_id', 'asc')
+            ->skip(($page-1)*$perPage)
+            ->take($perPage)
+            ->get();
+        $transactions = \App\Models\jobs\transactionModel::whereIn('transaction_id', $eventCases->pluck('job_transaction_id')->unique()->toArray())->get();
+        return new \App\Exports\JobWalletTransactionExport($eventCases, $transactions, $walletModel);
+    }
 }

@@ -91,7 +91,7 @@ class walletController extends Controller
         ->paginate(10);
 
         $transactions = transactionModel::where('transaction_job', $jobOrderModel->job_order_id)->get();
-        return view('wallet.jobwallertransation', compact('eventCase1','walletModel','transactions'));
+        return view('wallet.jobwallertransation', compact('eventCase1','walletModel','transactions') + ['jobOrderId' => $jobOrderModel->job_order_id]);
     }
     public function wallettransaction(Request $request, walletModel $walletModel)
     {

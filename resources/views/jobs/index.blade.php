@@ -120,10 +120,16 @@
         </div>
 
         <div class="card">
-            <div class="card-header">
-                <a href="{{ route('joborder.craete') }}" class="btn btn-outline-secondary float-start"> <i
-                        class="fa fa-plus text-primary"></i> เพิ่ม job</a>
-
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <div>
+                    <a href="{{ route('joborder.craete') }}" class="btn btn-outline-secondary float-start"> <i
+                            class="fa fa-plus text-primary"></i> เพิ่ม job</a>
+                </div>
+                <div>
+                    <button id="btnExportExcel" class="btn btn-success" type="button">
+                        <i class="fa fa-file-excel-o"></i> Export Excel
+                    </button>
+                </div>
             </div>
 
             <div class="card-body">
@@ -208,6 +214,40 @@
                         console.log(xhr.responseText);
                     },
                 });
+            });
+            // Export Excel ตาม filter
+            document.getElementById('btnExportExcel').addEventListener('click', function() {
+                // ดึงค่าจากฟอร์ม
+                var rangDate = $("#rangDate").val();
+                var JobStatus = $("#job-status").val();
+                var Nationality = $("#Nationality").val();
+                var Name = $("#name").val();
+                var channel = $("#channel").val();
+                var passport = $("#passport").val();
+                var receipt = $("#receipt").val();
+                var startDate, endDate;
+                if (rangDate) {
+                    var dates = rangDate.split(" - ");
+                    startDate = formatDate(dates[0].trim());
+                    endDate = formatDate(dates[1].trim());
+                }
+                function formatDate(dateString) {
+                    var parts = dateString.split("/");
+                    return parts[2] + "-" + parts[1] + "-" + parts[0];
+                }
+                // สร้าง query string
+                var params = $.param({
+                    receipt: receipt,
+                    passport: passport,
+                    channel: channel,
+                    Nationality: Nationality,
+                    Name: Name,
+                    JobStatus: JobStatus,
+                    startDate: startDate,
+                    endDate: endDate,
+                });
+                // เปิดลิงก์ export พร้อม filter
+                window.open(`{{ route('joborder.export') }}?${params}`, '_blank');
             });
             // daterangepicker
             $(function() {

@@ -856,18 +856,14 @@
                             <i class="mdi mdi-dots-horizontal"></i>
                             <span class="hide-menu">เมนูหลัก</span>
                         </li>
+
+                        <li class="sidebar-item">
+                            <a href="{{ route('analysis.index') }}" class="sidebar-link">
+                                <i class="mdi mdi-chart-bar"></i>
+                                <span class="hide-menu"> Analysis Dashboard </span>
+                            </a>
+                        </li>
                        
-                        {{-- <li class="sidebar-item">
-                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
-                                aria-expanded="false"><i class="mdi mdi-av-timer"></i><span class="hide-menu">Home
-                                </span></a>
-                            <ul aria-expanded="false" class="collapse first-level">
-
-                            </ul>
-                        </li> --}}
-                    
-
-                      
                         <li class="sidebar-item">
                             <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
                                 aria-expanded="false"><i class="mdi mdi-av-timer"></i><span
@@ -1020,6 +1016,8 @@
                                 </li>
                             </ul>
                         </li>
+
+                        
 
                         <li class="sidebar-item">
                             <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
